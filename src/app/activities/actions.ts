@@ -10,6 +10,55 @@ export async function registerForActivity(activityId: string): Promise<ActionRes
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { success: false, message: 'Je moet ingelogd zijn om je in te schrijven.' }
 
+  // Stap 1: check bestaande inschrijving (ongeacht status)
+  const { data: existing } = await supabase
+    .from('registrations')
+    .select('id, status')
+    .eq('activity_id', activityId)
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (existing) {
+    // Stap 2a: al actief ingeschreven → error
+    if (existing.status === 'confirmed' || existing.status === 'pending') {
+      return { success: false, message: 'Je bent al ingeschreven voor deze activiteit.' }
+    }
+
+    // Stap 2b: eerder geannuleerd → check capaciteit en heractiveer
+    const [{ count }, { data: activity }] = await Promise.all([
+      supabase
+        .from('registrations')
+        .select('*', { count: 'exact', head: true })
+        .eq('activity_id', activityId)
+        .neq('status', 'cancelled'),
+      supabase
+        .from('activities')
+        .select('max_participants')
+        .eq('id', activityId)
+        .single(),
+    ])
+
+    if (
+      activity?.max_participants !== null &&
+      activity?.max_participants !== undefined &&
+      count !== null &&
+      count >= activity.max_participants
+    ) {
+      return { success: false, message: 'Deze activiteit is helaas vol.' }
+    }
+
+    const { error } = await supabase
+      .from('registrations')
+      .update({ status: 'confirmed', created_at: new Date().toISOString() })
+      .eq('id', existing.id)
+
+    if (error) return { success: false, message: 'Inschrijving mislukt. Probeer opnieuw.' }
+
+    revalidatePath('/activities')
+    return { success: true, message: 'Je bent succesvol ingeschreven!' }
+  }
+
+  // Stap 3: geen bestaande inschrijving → nieuw aanmaken
   const { error } = await supabase.from('registrations').insert({
     activity_id: activityId,
     user_id: user.id,
@@ -19,9 +68,6 @@ export async function registerForActivity(activityId: string): Promise<ActionRes
   if (error) {
     if (error.message.includes('volzet')) {
       return { success: false, message: 'Deze activiteit is helaas vol.' }
-    }
-    if (error.message.includes('duplicate') || error.code === '23505') {
-      return { success: false, message: 'Je bent al ingeschreven voor deze activiteit.' }
     }
     return { success: false, message: 'Inschrijving mislukt. Probeer opnieuw.' }
   }
