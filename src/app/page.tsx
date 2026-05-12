@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import { MapPin, Clock, Sparkles, LayoutDashboard, LogIn, UserPlus } from 'lucide-react'
+import { MapPin, Clock, LayoutDashboard, LogIn, UserPlus, CalendarDays } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
+import { Navbar } from '@/components/layout/Navbar'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -8,45 +9,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-secondary font-sans">
-      {/* Header */}
-      <header className="bg-dark text-secondary px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center shrink-0">
-            <Sparkles className="w-5 h-5 text-white" />
-          </div>
-          <span className="font-bold text-lg tracking-tight">vzw De Gemeenschap</span>
-        </div>
-
-        {/* Auth-knoppen in header */}
-        <div className="flex items-center gap-2">
-          {user ? (
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-1.5 bg-primary text-white text-sm font-semibold px-4 py-2 rounded-xl hover:bg-primary/90 transition-colors"
-            >
-              <LayoutDashboard className="w-4 h-4" />
-              Dashboard
-            </Link>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className="text-sm font-semibold text-secondary/70 hover:text-secondary transition-colors px-3 py-2 hidden sm:block"
-              >
-                Inloggen
-              </Link>
-              <Link
-                href="/register"
-                className="flex items-center gap-1.5 bg-primary text-white text-sm font-semibold px-4 py-2 rounded-xl hover:bg-primary/90 transition-colors"
-              >
-                <UserPlus className="w-4 h-4" />
-                <span className="hidden sm:inline">Registreren</span>
-                <span className="sm:hidden">Lid worden</span>
-              </Link>
-            </>
-          )}
-        </div>
-      </header>
+      <Navbar />
 
       {/* Hero */}
       <main className="flex-1 flex flex-col items-center justify-center px-6 py-16 text-center">
@@ -67,28 +30,36 @@ export default async function Home() {
 
           {/* CTA knoppen */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+            <Link
+              href="/activities"
+              className="inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all"
+            >
+              <CalendarDays className="w-5 h-5" />
+              Bekijk activiteiten
+            </Link>
+
             {user ? (
               <Link
                 href="/dashboard"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-white border border-dark/10 text-dark font-semibold px-6 py-3 rounded-xl hover:bg-dark/5 active:scale-[0.98] transition-all"
               >
                 <LayoutDashboard className="w-5 h-5" />
-                Ga naar dashboard
+                Mijn dashboard
               </Link>
             ) : (
               <>
                 <Link
                   href="/register"
-                  className="inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all"
+                  className="inline-flex items-center justify-center gap-2 bg-white border border-dark/10 text-dark font-semibold px-6 py-3 rounded-xl hover:bg-dark/5 active:scale-[0.98] transition-all"
                 >
                   <UserPlus className="w-5 h-5" />
                   Lid worden
                 </Link>
                 <Link
                   href="/login"
-                  className="inline-flex items-center justify-center gap-2 bg-white border border-dark/10 text-dark font-semibold px-6 py-3 rounded-xl hover:bg-dark/5 active:scale-[0.98] transition-all"
+                  className="inline-flex items-center justify-center gap-2 text-dark/50 font-semibold px-4 py-3 hover:text-dark transition-colors text-sm"
                 >
-                  <LogIn className="w-5 h-5" />
+                  <LogIn className="w-4 h-4" />
                   Inloggen
                 </Link>
               </>
@@ -111,7 +82,7 @@ export default async function Home() {
               Kom binnenkort terug voor het volledige platform.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
-              {['Workshops', 'Uitstappen', 'Evenementen'].map(tag => (
+              {['Workshops', 'Uitstappen', 'Evenementen'].map((tag) => (
                 <span
                   key={tag}
                   className="rounded-full bg-secondary border border-dark/10 px-3 py-1 text-xs font-medium text-dark/70"
