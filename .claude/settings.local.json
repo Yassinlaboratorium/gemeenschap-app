@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/yassin/projecten/**)",
+      "Bash(npx create-next-app@latest gemeenschap-app --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack)"
+    ]
+  }
+}
