@@ -7,12 +7,14 @@
 
 -- Maak automatisch een profiel aan bij registratie
 CREATE OR REPLACE FUNCTION handle_new_user()
-RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER AS $$
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
   INSERT INTO profiles (id, full_name)
   VALUES (
     NEW.id,
-    COALESCE(NEW.raw_user_meta_data->>'full_name', '')
+    COALESCE(NEW.raw_user_meta_data->>'full_name', 'Onbekend')
   );
   RETURN NEW;
 END;
@@ -76,7 +78,9 @@ ALTER TABLE registrations ENABLE ROW LEVEL SECURITY;
 
 -- Hulpfunctie: is de ingelogde gebruiker admin?
 CREATE OR REPLACE FUNCTION is_admin()
-RETURNS boolean LANGUAGE sql SECURITY DEFINER AS $$
+RETURNS boolean LANGUAGE sql SECURITY DEFINER
+SET search_path = public
+AS $$
   SELECT EXISTS (
     SELECT 1 FROM profiles WHERE id = auth.uid() AND is_admin = true
   );
@@ -89,7 +93,8 @@ CREATE POLICY "Gebruiker leest eigen profiel"
 
 CREATE POLICY "Gebruiker past eigen profiel aan"
   ON profiles FOR UPDATE
-  USING (id = auth.uid());
+  USING (id = auth.uid())
+  WITH CHECK (id = auth.uid() AND is_admin = false);
 
 CREATE POLICY "Admin beheert profielen"
   ON profiles FOR ALL

@@ -60,19 +60,28 @@ export default function RegisterPage() {
       return
     }
 
-    // 2. Als sessie beschikbaar (auto-confirm aan): update profiel met extra velden
+    // 2. Als sessie beschikbaar (auto-confirm aan): upsert profiel met alle velden
     if (data.session && data.user) {
-      await supabase.from('profiles').update({
+      const { error: profileError } = await supabase.from('profiles').upsert({
+        id: data.user.id,
+        full_name: form.name.trim(),
         birth_date: form.birthDate || null,
         phone: form.phone.trim() || null,
-      }).eq('id', data.user.id)
+      })
+
+      if (profileError) {
+        console.error('Profiel aanmaken mislukt:', profileError.message)
+        // Niet blokkeren — trigger heeft al een basisprofiel aangemaakt
+      }
 
       router.push('/dashboard')
       router.refresh()
       return
     }
 
-    // 3. E-mailbevestiging vereist
+    // 3. E-mailbevestiging vereist (Supabase standaard)
+    // De trigger heeft al een profiel aangemaakt met de naam.
+    // birth_date en telefoon kunnen later worden ingevuld via profiel-instellingen.
     setSuccess('Controleer je inbox — we hebben je een bevestigingslink gestuurd.')
     setLoading(false)
   }
