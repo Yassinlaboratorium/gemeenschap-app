@@ -1,23 +1,9 @@
 -- ============================================================
--- vzw De Gemeenschap – database schema
--- Plak dit in Supabase Dashboard > SQL Editor > New query
+-- vzw De Gemeenschap – deel 2: functies, triggers, views, RLS
+-- Voer dit uit ná 01_tables.sql
 -- ============================================================
 
--- ── Types ────────────────────────────────────────────────────
-
-CREATE TYPE activity_type AS ENUM ('workshop', 'uitstap', 'evenement');
-CREATE TYPE registration_status AS ENUM ('pending', 'confirmed', 'cancelled');
-
--- ── Profielen (verlengt auth.users) ─────────────────────────
-
-CREATE TABLE profiles (
-  id          uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  full_name   text NOT NULL,
-  birth_date  date,
-  phone       text,
-  is_admin    boolean NOT NULL DEFAULT false,
-  created_at  timestamptz NOT NULL DEFAULT now()
-);
+-- ── Functies & triggers ──────────────────────────────────────
 
 -- Maak automatisch een profiel aan bij registratie
 CREATE OR REPLACE FUNCTION handle_new_user()
@@ -35,45 +21,6 @@ $$;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
-
--- ── Activiteiten ─────────────────────────────────────────────
-
-CREATE TABLE activities (
-  id               uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  title            text NOT NULL,
-  description      text,
-  type             activity_type NOT NULL,
-  date             date NOT NULL,
-  start_time       time,
-  end_time         time,
-  location         text,
-  max_participants int CHECK (max_participants > 0),
-  price            numeric(6, 2) NOT NULL DEFAULT 0 CHECK (price >= 0),
-  image_url        text,
-  is_published     boolean NOT NULL DEFAULT false,
-  created_at       timestamptz NOT NULL DEFAULT now()
-);
-
--- Handige view: activiteiten met inschrijftelling
-CREATE VIEW activities_with_count AS
-SELECT
-  a.*,
-  COUNT(r.id) FILTER (WHERE r.status != 'cancelled') AS participants_count
-FROM activities a
-LEFT JOIN registrations r ON r.activity_id = a.id
-GROUP BY a.id;
-
--- ── Inschrijvingen ───────────────────────────────────────────
-
-CREATE TABLE registrations (
-  id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  activity_id uuid NOT NULL REFERENCES activities(id) ON DELETE CASCADE,
-  user_id     uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  status      registration_status NOT NULL DEFAULT 'pending',
-  notes       text,
-  created_at  timestamptz NOT NULL DEFAULT now(),
-  UNIQUE (activity_id, user_id)
-);
 
 -- Blokkeer inschrijving als activiteit vol zit
 CREATE OR REPLACE FUNCTION check_activity_capacity()
@@ -104,6 +51,16 @@ CREATE TRIGGER enforce_capacity
   BEFORE INSERT ON registrations
   FOR EACH ROW EXECUTE FUNCTION check_activity_capacity();
 
+-- ── Views ────────────────────────────────────────────────────
+
+CREATE VIEW activities_with_count AS
+SELECT
+  a.*,
+  COUNT(r.id) FILTER (WHERE r.status != 'cancelled') AS participants_count
+FROM activities a
+LEFT JOIN registrations r ON r.activity_id = a.id
+GROUP BY a.id;
+
 -- ── Indexen ──────────────────────────────────────────────────
 
 CREATE INDEX idx_activities_date        ON activities (date);
@@ -113,8 +70,8 @@ CREATE INDEX idx_registrations_activity ON registrations (activity_id);
 
 -- ── Row Level Security ───────────────────────────────────────
 
-ALTER TABLE profiles     ENABLE ROW LEVEL SECURITY;
-ALTER TABLE activities   ENABLE ROW LEVEL SECURITY;
+ALTER TABLE profiles      ENABLE ROW LEVEL SECURITY;
+ALTER TABLE activities    ENABLE ROW LEVEL SECURITY;
 ALTER TABLE registrations ENABLE ROW LEVEL SECURITY;
 
 -- Hulpfunctie: is de ingelogde gebruiker admin?
@@ -138,7 +95,7 @@ CREATE POLICY "Admin beheert profielen"
   ON profiles FOR ALL
   USING (is_admin());
 
--- activities: iedereen ziet gepubliceerde, admin beheert alles
+-- activities
 CREATE POLICY "Publiek ziet gepubliceerde activiteiten"
   ON activities FOR SELECT
   USING (is_published = true OR is_admin());
