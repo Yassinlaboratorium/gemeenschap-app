@@ -81,6 +81,20 @@ export async function cancelRegistration(registrationId: string): Promise<Action
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { success: false, message: 'Niet ingelogd.' }
 
+  const { data: reg } = await supabase
+    .from('registrations')
+    .select('payment_status')
+    .eq('id', registrationId)
+    .eq('user_id', user.id)
+    .single()
+
+  if (reg?.payment_status === 'paid') {
+    return {
+      success: false,
+      message: 'Betaalde inschrijvingen kunnen niet geannuleerd worden. Neem contact op via info@degemeenschap.be voor terugbetaling.',
+    }
+  }
+
   const { error } = await supabase
     .from('registrations')
     .update({ status: 'cancelled' })

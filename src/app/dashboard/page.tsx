@@ -1,9 +1,16 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { CalendarDays, Settings, Sparkles, User } from 'lucide-react'
+import {
+  CalendarDays, Settings, User,
+  CheckCircle2, Clock, ArrowRight,
+} from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { LogoutButton } from './LogoutButton'
-import type { Profile } from '@/types/database'
+import { YouthIllustration } from '@/components/illustrations/YouthIllustration'
+import { ChildrenSection } from '@/components/dashboard/ChildrenSection'
+import type { Profile, RegistrationWithActivity, Child } from '@/types/database'
+
+const MONTHS_SHORT = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec']
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -11,78 +18,202 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single<Profile>()
+  const [{ data: profile }, { data: registrations }, { data: children }] = await Promise.all([
+    supabase.from('profiles').select('*').eq('id', user.id).single<Profile>(),
+    supabase
+      .from('registrations')
+      .select('*, activities(*)')
+      .eq('user_id', user.id)
+      .neq('status', 'cancelled')
+      .order('created_at', { ascending: false })
+      .returns<RegistrationWithActivity[]>(),
+    supabase
+      .from('children')
+      .select('*')
+      .eq('parent_id', user.id)
+      .order('created_at', { ascending: true })
+      .returns<Child[]>(),
+  ])
 
   const firstName = profile?.full_name?.split(' ')[0] ?? 'daar'
+  const activeRegs = registrations ?? []
+  const upcoming = activeRegs.filter(
+    (r) => new Date(r.activities.date + 'T00:00:00') >= new Date(new Date().toDateString())
+  )
 
   return (
     <div className="min-h-screen bg-secondary flex flex-col">
       {/* Header */}
-      <header className="bg-dark text-secondary px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-white" />
+      <header className="bg-dark border-b border-[#2a2a2a] px-6 py-4 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+            <span className="text-white font-black text-xs">DG</span>
           </div>
-          <span className="font-bold">vzw De Gemeenschap</span>
+          <span className="font-black text-white tracking-tight">DE GEMEENSCHAP</span>
         </Link>
         <LogoutButton />
       </header>
 
-      <main className="flex-1 max-w-2xl mx-auto w-full px-6 py-12 space-y-8">
-        {/* Welkomstkaart */}
-        <div className="bg-white rounded-2xl border border-dark/5 shadow-sm p-8">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-              <User className="w-7 h-7 text-primary" />
-            </div>
-            <div>
-              <p className="text-sm text-dark/50 font-medium">Welkom terug</p>
-              <h1 className="text-2xl font-extrabold text-dark">Hey, {firstName}! 👋</h1>
-              <p className="text-sm text-dark/40 mt-0.5">{user.email}</p>
-            </div>
-          </div>
-        </div>
+      <main className="flex-1 max-w-2xl mx-auto w-full px-4 sm:px-6 py-10 sm:py-14 space-y-6">
 
-        {/* Activiteiten */}
-        <div className="bg-white rounded-2xl border border-dark/5 shadow-sm p-8 space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
-              <CalendarDays className="w-5 h-5 text-accent" />
-            </div>
-            <div>
-              <h2 className="font-bold text-dark">Mijn activiteiten</h2>
-              <p className="text-sm text-dark/40">Je inschrijvingen verschijnen hier</p>
-            </div>
+        {/* ── HERO WELCOME CARD ── */}
+        <div
+          className="rounded-2xl overflow-hidden relative min-h-[220px] sm:min-h-[240px]"
+          style={{ background: 'linear-gradient(135deg, #1a1a1a 55%, #222)' }}
+        >
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: 'radial-gradient(ellipse 55% 80% at 95% 15%, rgba(255,107,53,0.2), transparent)' }}
+          />
+          <div
+            className="absolute inset-0 pointer-events-none hidden sm:block"
+            style={{ background: 'linear-gradient(to right, #1a1a1a 35%, rgba(26,26,26,0.55) 58%, transparent 78%)' }}
+          />
+          <div className="absolute bottom-0 right-0 w-[300px] sm:w-[340px] pointer-events-none hidden sm:block animate-float">
+            <YouthIllustration className="w-full h-auto opacity-70" />
           </div>
-          <div className="rounded-xl border-2 border-dashed border-dark/10 py-8 text-center text-dark/40 text-sm">
-            Nog geen inschrijvingen
-          </div>
-        </div>
-
-        {/* Admin-link */}
-        {profile?.is_admin && (
-          <div className="bg-accent/5 border border-accent/20 rounded-2xl p-6 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
-                <Settings className="w-5 h-5 text-accent" />
+          <div className="relative z-10 p-7 sm:p-8 sm:pr-4">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-white/8 flex items-center justify-center shrink-0 border border-white/10">
+                <User className="w-7 h-7 text-white/50" />
               </div>
               <div>
-                <p className="font-bold text-dark text-sm">Beheerdersmodus</p>
-                <p className="text-xs text-dark/40">Activiteiten beheren en inschrijvingen bekijken</p>
+                <p className="text-white/40 text-sm font-medium">Welkom terug</p>
+                <h1 className="text-2xl font-extrabold text-white leading-tight">Hey, {firstName}!</h1>
+                <p className="text-white/25 text-sm mt-0.5 truncate max-w-[200px]">{user.email}</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3 max-w-[260px]">
+              <div className="bg-white/8 rounded-xl px-4 py-3 border border-white/10">
+                <p className="text-2xl font-extrabold text-white">{activeRegs.length}</p>
+                <p className="text-xs text-white/40 font-medium mt-0.5">Inschrijvingen</p>
+              </div>
+              <div className="bg-white/8 rounded-xl px-4 py-3 border border-white/10">
+                <p className="text-2xl font-extrabold text-white">{upcoming.length}</p>
+                <p className="text-xs text-white/40 font-medium mt-0.5">Komend</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── MIJN KINDEREN ── */}
+        <ChildrenSection initialChildren={children ?? []} />
+
+        {/* ── MY ACTIVITIES ── */}
+        <div className="bg-dark rounded-2xl border border-[#2a2a2a] overflow-hidden">
+          <div className="px-6 py-5 border-b border-[#2a2a2a] flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+              <CalendarDays className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="font-bold text-white">Mijn activiteiten</h2>
+              <p className="text-sm text-white/40">
+                {activeRegs.length === 0
+                  ? 'Nog geen inschrijvingen'
+                  : `${activeRegs.length} inschrijving${activeRegs.length !== 1 ? 'en' : ''}`}
+              </p>
+            </div>
+          </div>
+
+          {activeRegs.length === 0 ? (
+            <div className="py-12 text-center space-y-4 px-6">
+              <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mx-auto">
+                <CalendarDays className="w-6 h-6 text-white/20" />
+              </div>
+              <div>
+                <p className="text-white/40 font-medium">Nog geen inschrijvingen</p>
+                <p className="text-white/25 text-sm">Schrijf je in voor activiteiten en ze verschijnen hier.</p>
+              </div>
+              <Link
+                href="/activities"
+                className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-accent transition-colors text-sm"
+              >
+                Bekijk activiteiten
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          ) : (
+            <ul className="divide-y divide-[#2a2a2a]">
+              {activeRegs.map((reg) => {
+                const activity = reg.activities
+                const firstTag = activity.tags?.[0]
+                const [, month, day] = activity.date.split('-')
+                const monthShort = MONTHS_SHORT[parseInt(month, 10) - 1]
+                const startTime = activity.start_time?.slice(0, 5)
+                const isPast = new Date(activity.date + 'T00:00:00') < new Date(new Date().toDateString())
+
+                return (
+                  <li key={reg.id} className={`flex items-center gap-4 px-6 py-4 transition-colors hover:bg-white/[0.02] ${isPast ? 'opacity-40' : ''}`}>
+                    <div className="w-11 h-11 rounded-xl bg-white/5 flex flex-col items-center justify-center shrink-0 leading-none border border-white/10">
+                      <span className="text-base font-extrabold text-white">{day}</span>
+                      <span className="text-[9px] font-semibold text-white/30 uppercase tracking-wider">{monthShort}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-white text-sm truncate">{activity.title}</p>
+                      <div className="flex items-center gap-2 mt-0.5 text-xs text-white/30">
+                        {firstTag && (
+                          <span className="text-primary/70">{firstTag}</span>
+                        )}
+                        {startTime && (
+                          <>
+                            {firstTag && <span className="text-white/10">·</span>}
+                            <span className="flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              {startTime}
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    <div className="shrink-0">
+                      {isPast ? (
+                        <span className="text-xs font-medium text-white/25 bg-white/5 px-2.5 py-1 rounded-full">Voorbij</span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-400 bg-green-500/10 border border-green-500/20 px-2.5 py-1 rounded-full">
+                          <CheckCircle2 className="w-3 h-3" />
+                          Ingeschreven
+                        </span>
+                      )}
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+
+          {activeRegs.length > 0 && (
+            <div className="px-6 py-4 border-t border-[#2a2a2a]">
+              <Link
+                href="/activities"
+                className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all hover:text-accent"
+              >
+                Meer activiteiten bekijken <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {/* ── ADMIN LINK ── */}
+        {profile?.is_admin && (
+          <div className="bg-dark border border-primary/20 rounded-2xl p-6 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Settings className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <p className="font-bold text-white text-sm">Beheerdersmodus</p>
+                <p className="text-xs text-white/40">Activiteiten beheren en inschrijvingen bekijken</p>
               </div>
             </div>
             <Link
               href="/admin/activities"
-              className="bg-accent text-white text-sm font-semibold px-4 py-2 rounded-xl hover:bg-accent/90 transition-colors"
+              className="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-xl hover:bg-accent transition-colors"
             >
               Naar admin
             </Link>
           </div>
         )}
+
       </main>
     </div>
   )

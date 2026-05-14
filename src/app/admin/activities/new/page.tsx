@@ -9,14 +9,14 @@ export default function NewActivityPage() {
       <div>
         <Link
           href="/admin/activities"
-          className="inline-flex items-center gap-1.5 text-sm text-dark/40 hover:text-dark transition-colors mb-4"
+          className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors mb-4"
         >
           <ArrowLeft className="w-4 h-4" />
           Terug naar activiteiten
         </Link>
-        <h1 className="text-2xl font-extrabold text-dark">Nieuwe activiteit</h1>
+        <h1 className="text-2xl font-extrabold text-white">Nieuwe activiteit</h1>
       </div>
-      <div className="bg-white rounded-2xl border border-dark/5 shadow-sm p-6 sm:p-8">
+      <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-6 sm:p-8">
         <ActivityForm action={createActivity} />
       </div>
     </div>

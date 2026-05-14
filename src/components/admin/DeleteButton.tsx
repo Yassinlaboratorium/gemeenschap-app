@@ -15,7 +15,7 @@ export function DeleteButton({ id, title }: { id: string; title: string }) {
     >
       <button
         type="submit"
-        className="flex items-center gap-1.5 text-sm font-semibold text-dark/40 hover:text-red-500 px-3 py-2 rounded-xl hover:bg-red-50 transition-colors"
+        className="flex items-center gap-1.5 text-sm font-semibold text-white/30 hover:text-red-400 px-3 py-2 rounded-xl hover:bg-red-500/10 transition-colors"
       >
         <Trash2 className="w-4 h-4" />
         <span className="hidden sm:inline">Verwijderen</span>

@@ -1,4 +1,4 @@
-import { CalendarX } from 'lucide-react'
+import { CalendarX, CalendarDays } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { Navbar } from '@/components/layout/Navbar'
 import { ActivityCard } from '@/components/activities/ActivityCard'
@@ -30,29 +30,39 @@ export default async function ActivitiesPage() {
     (registrations ?? []).map((r) => [r.activity_id, r])
   )
 
+  const count = activities?.length ?? 0
+
   return (
     <div className="min-h-screen bg-secondary">
       <Navbar />
 
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-6">
-        {/* Header */}
-        <div className="space-y-1">
-          <h1 className="text-3xl font-extrabold text-dark">Activiteiten</h1>
-          <p className="text-dark/50">
-            Alle activiteiten van vzw De Gemeenschap in Sint-Niklaas
+      {/* Page header */}
+      <div className="bg-dark border-b border-[#2a2a2a]">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+          <div className="inline-flex items-center gap-2 bg-white/8 text-white/60 rounded-full px-4 py-1.5 text-sm font-medium mb-4 border border-white/10">
+            <CalendarDays className="w-4 h-4" />
+            {count} {count === 1 ? 'activiteit' : 'activiteiten'} gepland
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight">
+            Activiteiten
+          </h1>
+          <p className="text-[#a0a0a0] mt-2">
+            Alle activiteiten van DE GEMEENSCHAP in Sint-Niklaas
           </p>
         </div>
+      </div>
 
-        {/* Lege staat */}
-        {(!activities || activities.length === 0) && (
-          <div className="bg-white rounded-2xl border border-dark/5 shadow-sm py-20 text-center space-y-3">
-            <CalendarX className="w-10 h-10 text-dark/20 mx-auto" />
-            <p className="text-dark/40 font-medium">Geen activiteiten gepland</p>
-            <p className="text-dark/30 text-sm">Kom later terug voor nieuwe activiteiten.</p>
+      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-6">
+        {/* Empty state */}
+        {count === 0 && (
+          <div className="bg-dark rounded-2xl border border-[#2a2a2a] py-20 text-center space-y-3">
+            <CalendarX className="w-10 h-10 text-white/20 mx-auto" />
+            <p className="text-[#a0a0a0] font-medium">Geen activiteiten gepland</p>
+            <p className="text-white/20 text-sm">Kom later terug voor nieuwe activiteiten.</p>
           </div>
         )}
 
-        {/* Activiteitenkaarten */}
+        {/* Activity cards */}
         {activities?.map((activity) => (
           <ActivityCard
             key={activity.id}

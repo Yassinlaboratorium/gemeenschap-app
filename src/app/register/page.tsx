@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Mail, Lock, User, Calendar, Phone, UserPlus, AlertCircle, CheckCircle2, Sparkles } from 'lucide-react'
+import { Mail, Lock, User, Calendar, Phone, UserPlus, AlertCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { FormInput } from '@/components/ui/FormInput'
 
@@ -17,7 +17,6 @@ export default function RegisterPage() {
     phone: '',
   })
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
   function set(field: keyof typeof form) {
@@ -60,68 +59,38 @@ export default function RegisterPage() {
       return
     }
 
-    // 2. Als sessie beschikbaar (auto-confirm aan): upsert profiel met alle velden
-    if (data.session && data.user) {
-      const { error: profileError } = await supabase.from('profiles').upsert({
+    // Upsert profiel met alle velden (trigger heeft al basisprofiel aangemaakt)
+    if (data.user) {
+      await supabase.from('profiles').upsert({
         id: data.user.id,
         full_name: form.name.trim(),
         birth_date: form.birthDate || null,
         phone: form.phone.trim() || null,
       })
-
-      if (profileError) {
-        console.error('Profiel aanmaken mislukt:', profileError.message)
-        // Niet blokkeren — trigger heeft al een basisprofiel aangemaakt
-      }
-
-      router.push('/dashboard')
-      router.refresh()
-      return
     }
 
-    // 3. E-mailbevestiging vereist (Supabase standaard)
-    // De trigger heeft al een profiel aangemaakt met de naam.
-    // birth_date en telefoon kunnen later worden ingevuld via profiel-instellingen.
-    setSuccess('Controleer je inbox — we hebben je een bevestigingslink gestuurd.')
-    setLoading(false)
-  }
-
-  if (success) {
-    return (
-      <div className="min-h-screen bg-secondary flex items-center justify-center px-4">
-        <div className="w-full max-w-md text-center space-y-4">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent mb-2">
-            <CheckCircle2 className="w-7 h-7 text-white" />
-          </div>
-          <h1 className="text-2xl font-extrabold text-dark">Bijna klaar!</h1>
-          <p className="text-dark/60">{success}</p>
-          <Link href="/login" className="inline-block text-primary font-semibold hover:underline text-sm">
-            Terug naar inloggen
-          </Link>
-        </div>
-      </div>
-    )
+    router.push('/login?registered=1')
   }
 
   return (
     <div className="min-h-screen bg-secondary flex flex-col items-center justify-center px-4 py-12">
       {/* Branding */}
-      <Link href="/" className="flex items-center gap-2 mb-8 group">
-        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-          <Sparkles className="w-4 h-4 text-white" />
+      <Link href="/" className="flex items-center gap-2.5 mb-8 group">
+        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+          <span className="text-white font-black text-xs">DG</span>
         </div>
-        <span className="font-bold text-dark group-hover:text-primary transition-colors">
-          vzw De Gemeenschap
+        <span className="font-black text-white group-hover:text-primary transition-colors tracking-tight">
+          DE GEMEENSCHAP
         </span>
       </Link>
 
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-extrabold text-dark">Account aanmaken</h1>
-          <p className="text-dark/50 mt-1 text-sm">Word lid en schrijf je in voor activiteiten</p>
+          <h1 className="text-2xl font-extrabold text-white">Account aanmaken</h1>
+          <p className="text-[#a0a0a0] mt-1 text-sm">Word lid en schrijf je in voor activiteiten</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-dark/5 p-8 space-y-5">
+        <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-8 space-y-5">
           {error && (
             <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
               <AlertCircle className="w-4 h-4 shrink-0" />
@@ -195,7 +164,7 @@ export default function RegisterPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-dark/50 pt-1">
+          <p className="text-center text-sm text-[#a0a0a0] pt-1">
             Al een account?{' '}
             <Link href="/login" className="text-primary font-semibold hover:underline">
               Log hier in
