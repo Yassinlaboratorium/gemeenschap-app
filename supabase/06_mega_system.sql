@@ -46,7 +46,7 @@ END $$;
 ALTER TABLE profiles
   ADD COLUMN IF NOT EXISTS account_type TEXT CHECK (account_type IN ('parent', 'youth')) DEFAULT 'youth',
   ADD COLUMN IF NOT EXISTS postal_code  TEXT,
-  ADD COLUMN IF NOT EXISTS municipality TEXT CHECK (municipality IN ('Sint-Niklaas','Beveren','Temse','Stekene','Kruibeke')),
+  ADD COLUMN IF NOT EXISTS municipality TEXT,
   ADD COLUMN IF NOT EXISTS neighborhood TEXT;
 
 -- ── E. Tabel: kinderen ───────────────────────────────────────
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS children (
   gender       text        CHECK (gender IN ('male','female','other','prefer_not_to_say')),
   school       text,
   postal_code  text,
-  municipality text        CHECK (municipality IN ('Sint-Niklaas','Beveren','Temse','Stekene','Kruibeke')),
+  municipality text,
   neighborhood text,
   created_at   timestamptz NOT NULL DEFAULT now()
 );
@@ -68,7 +68,7 @@ ALTER TABLE children
   ADD COLUMN IF NOT EXISTS gender       text CHECK (gender IN ('male','female','other','prefer_not_to_say')),
   ADD COLUMN IF NOT EXISTS school       text,
   ADD COLUMN IF NOT EXISTS postal_code  text,
-  ADD COLUMN IF NOT EXISTS municipality text CHECK (municipality IN ('Sint-Niklaas','Beveren','Temse','Stekene','Kruibeke')),
+  ADD COLUMN IF NOT EXISTS municipality text,
   ADD COLUMN IF NOT EXISTS neighborhood text;
 
 -- ── F. Tabel: activiteits-sessies ────────────────────────────

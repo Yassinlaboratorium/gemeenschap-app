@@ -3,7 +3,6 @@
 import { useState, useTransition } from 'react'
 import { Users, Plus, Pencil, Trash2, X, Check, AlertCircle, Baby, ChevronDown, ChevronUp } from 'lucide-react'
 import { addChild, updateChild, deleteChild } from '@/app/dashboard/children-actions'
-import { MUNICIPALITIES } from '@/types/database'
 import type { Child } from '@/types/database'
 
 const GENDER_LABELS: Record<string, string> = {
@@ -126,16 +125,13 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
             </div>
             <div>
               <label className="block text-xs font-semibold text-white/60 mb-1">Gemeente</label>
-              <select
+              <input
                 name="municipality"
+                type="text"
                 defaultValue={initial?.municipality ?? ''}
-                className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
-              >
-                <option value="">Kies...</option>
-                {MUNICIPALITIES.map(m => (
-                  <option key={m} value={m}>{m}</option>
-                ))}
-              </select>
+                placeholder="bv. Sint-Niklaas, Beveren, Temse..."
+                className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+              />
             </div>
           </div>
           <div>
@@ -144,7 +140,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
               name="neighborhood"
               type="text"
               defaultValue={initial?.neighborhood ?? ''}
-              placeholder="bv. Centrum, Nieuw-Sint-Jan, ..."
+              placeholder="bv. Belsele, Nieuwkerken, Centrum..."
               className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
             />
           </div>

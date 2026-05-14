@@ -78,10 +78,11 @@ export function ExportButtons({ data, dateFrom, dateTo }: Props) {
     if (!data) return
     setLoadingPdf(true)
     try {
-      const [{ jsPDF }, html2canvas] = await Promise.all([
+      const [jspdfMod, html2canvas] = await Promise.all([
         import('jspdf'),
         import('html2canvas'),
       ])
+      const jsPDF = jspdfMod.default
 
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
       const pageW = 210; const pageH = 297

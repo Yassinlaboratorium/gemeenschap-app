@@ -9,8 +9,9 @@ import {
 import { MetricCard, MetricCardSkeleton } from '@/components/analytics/MetricCard'
 import { Charts } from '@/components/analytics/Charts'
 import { ExportButtons } from '@/components/analytics/ExportButtons'
-import { MUNICIPALITIES } from '@/types/database'
 import type { AnalyticsData } from '@/types/database'
+
+const MUNICIPALITIES = ['Sint-Niklaas', 'Beveren', 'Temse', 'Stekene', 'Kruibeke']
 
 const today = new Date()
 const defaultFrom = new Date(today.getFullYear(), 0, 1).toISOString().slice(0, 10)

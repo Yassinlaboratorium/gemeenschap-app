@@ -2,11 +2,6 @@ export type RegistrationStatus = "pending" | "confirmed" | "cancelled";
 export type PaymentStatus = "pending" | "paid" | "failed" | "cancelled";
 export type AccountType = "parent" | "youth";
 export type Gender = "male" | "female" | "other" | "prefer_not_to_say";
-export type Municipality = "Sint-Niklaas" | "Beveren" | "Temse" | "Stekene" | "Kruibeke";
-
-export const MUNICIPALITIES: Municipality[] = [
-  "Sint-Niklaas", "Beveren", "Temse", "Stekene", "Kruibeke",
-];
 
 export interface Profile {
   id: string;
@@ -16,7 +11,7 @@ export interface Profile {
   is_admin: boolean;
   account_type: AccountType | null;
   postal_code: string | null;
-  municipality: Municipality | null;
+  municipality: string | null;
   neighborhood: string | null;
   created_at: string;
 }
@@ -68,7 +63,7 @@ export interface Child {
   gender: Gender | null;
   school: string | null;
   postal_code: string | null;
-  municipality: Municipality | null;
+  municipality: string | null;
   neighborhood: string | null;
   created_at: string;
 }

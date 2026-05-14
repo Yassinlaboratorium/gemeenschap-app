@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { Mail, Lock, User, Calendar, Phone, UserPlus, AlertCircle, MapPin, Users, Baby } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { FormInput } from '@/components/ui/FormInput'
-import { MUNICIPALITIES } from '@/types/database'
 import type { AccountType } from '@/types/database'
 
 export default function RegisterPage() {
@@ -169,16 +168,13 @@ export default function RegisterPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-white/60 mb-1">Gemeente</label>
-                  <select
+                  <input
+                    type="text"
                     value={form.municipality}
                     onChange={set('municipality')}
-                    className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-secondary text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors"
-                  >
-                    <option value="">Kies...</option>
-                    {MUNICIPALITIES.map(m => (
-                      <option key={m} value={m}>{m}</option>
-                    ))}
-                  </select>
+                    placeholder="bv. Sint-Niklaas, Beveren, Temse..."
+                    className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-secondary text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors"
+                  />
                 </div>
               </div>
               <div>
@@ -187,7 +183,7 @@ export default function RegisterPage() {
                   type="text"
                   value={form.neighborhood}
                   onChange={set('neighborhood')}
-                  placeholder="bv. Centrum, Nieuw-Sint-Jan, ..."
+                  placeholder="bv. Belsele, Nieuwkerken, Centrum..."
                   className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-secondary text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors"
                 />
               </div>
