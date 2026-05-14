@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
         })
         .eq('mollie_payment_id', paymentId)
         .eq('payment_status', 'pending')
-        .select('id', { count: 'exact', head: true })
+        .select('id')
 
       if (error) {
         console.error('[webhook] Supabase session update fout (paid):', error)
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
         })
         .eq('mollie_payment_id', paymentId)
         .eq('payment_status', 'pending')
-        .select('id', { count: 'exact', head: true })
+        .select('id')
 
       if (error) {
         console.error('[webhook] Supabase update fout (paid):', error)
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
         .update({ payment_status: 'failed' })
         .eq('mollie_payment_id', paymentId)
         .eq('payment_status', 'pending')
-        .select('id', { count: 'exact', head: true })
+        .select('id')
 
       if (error) {
         console.error('[webhook] Supabase session update fout (failed):', error)
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
         .update({ payment_status: 'failed', status: 'cancelled' })
         .eq('mollie_payment_id', paymentId)
         .eq('payment_status', 'pending')
-        .select('id', { count: 'exact', head: true })
+        .select('id')
 
       if (error) {
         console.error('[webhook] Supabase update fout (failed):', error)

@@ -8,23 +8,21 @@ export async function addChild(formData: FormData) {
   const birthDate = (formData.get('birth_date') as string) || null
 
   if (!firstName) return { error: 'Naam is verplicht.' }
+  if (!birthDate) return { error: 'Geboortedatum is verplicht.' }
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'Niet ingelogd.' }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('id', user.id)
-    .single()
-
-  if (!profile) return { error: 'Profiel niet gevonden.' }
-
   const { data: child, error } = await supabase.from('children').insert({
     parent_id: user.id,
     first_name: firstName,
     birth_date: birthDate,
+    gender: (formData.get('gender') as string) || null,
+    school: (formData.get('school') as string)?.trim() || null,
+    postal_code: (formData.get('postal_code') as string)?.trim() || null,
+    municipality: (formData.get('municipality') as string) || null,
+    neighborhood: (formData.get('neighborhood') as string)?.trim() || null,
   }).select().single()
 
   if (error) return { error: error.message }
@@ -45,7 +43,15 @@ export async function updateChild(id: string, formData: FormData) {
 
   const { error } = await supabase
     .from('children')
-    .update({ first_name: firstName, birth_date: birthDate })
+    .update({
+      first_name: firstName,
+      birth_date: birthDate,
+      gender: (formData.get('gender') as string) || null,
+      school: (formData.get('school') as string)?.trim() || null,
+      postal_code: (formData.get('postal_code') as string)?.trim() || null,
+      municipality: (formData.get('municipality') as string) || null,
+      neighborhood: (formData.get('neighborhood') as string)?.trim() || null,
+    })
     .eq('id', id)
     .eq('parent_id', user.id)
 

@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { CalendarDays, LayoutDashboard } from 'lucide-react'
+import { CalendarDays, LayoutDashboard, BarChart2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -33,6 +33,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           >
             <CalendarDays className="w-4 h-4" />
             <span className="hidden sm:inline">Activiteiten</span>
+          </Link>
+          <Link
+            href="/admin/analytics"
+            className="flex items-center gap-1.5 text-sm text-white/50 hover:text-white px-3 py-2 rounded-lg hover:bg-white/5 transition-colors"
+          >
+            <BarChart2 className="w-4 h-4" />
+            <span className="hidden sm:inline">Analytics</span>
           </Link>
           <Link
             href="/dashboard"
