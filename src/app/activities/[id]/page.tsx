@@ -1,10 +1,11 @@
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, MapPin, CalendarDays, Clock } from 'lucide-react'
+import { ArrowLeft, MapPin, CalendarDays, Clock, Euro } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { Navbar } from '@/components/layout/Navbar'
 import { SessionPicker } from './SessionPicker'
-import type { Activity, ActivitySession, Child } from '@/types/database'
+import { SimpleRegistration } from './SimpleRegistration'
+import type { Activity, ActivitySessionWithCount, Child, Profile, Registration } from '@/types/database'
 
 export default async function ActivityDetailPage({
   params,
@@ -24,34 +25,57 @@ export default async function ActivityDetailPage({
       .eq('is_published', true)
       .single<Activity>(),
     supabase
-      .from('activity_sessions')
+      .from('activity_sessions_with_count')
       .select('*')
       .eq('activity_id', id)
       .order('session_date', { ascending: true })
-      .returns<ActivitySession[]>(),
+      .returns<ActivitySessionWithCount[]>(),
   ])
 
   if (!activity) notFound()
-  if (!sessions || sessions.length === 0) redirect(`/activities`)
+
+  const hasSessions = (sessions ?? []).length > 0
 
   let children: Child[] = []
+  let accountType: string | null = null
+  let registration: Registration | undefined
+
   if (user) {
-    const { data } = await supabase
-      .from('children')
-      .select('*')
-      .eq('parent_id', user.id)
-      .order('created_at', { ascending: true })
-      .returns<Child[]>()
-    children = data ?? []
+    const [profileRes, childrenRes, regRes] = await Promise.all([
+      supabase
+        .from('profiles')
+        .select('account_type')
+        .eq('id', user.id)
+        .single<Pick<Profile, 'account_type'>>(),
+      supabase
+        .from('children')
+        .select('*')
+        .eq('parent_id', user.id)
+        .order('created_at', { ascending: true })
+        .returns<Child[]>(),
+      hasSessions
+        ? Promise.resolve({ data: null })
+        : supabase
+            .from('registrations')
+            .select('*')
+            .eq('activity_id', id)
+            .eq('user_id', user.id)
+            .maybeSingle<Registration>(),
+    ])
+
+    accountType = profileRes.data?.account_type ?? null
+    if (accountType !== 'youth') {
+      children = childrenRes.data ?? []
+    }
+    registration = regRes.data ?? undefined
   }
 
-  const firstTag = activity.tags?.[0] ?? ''
+  const price = Number(activity.price)
 
   return (
     <div className="min-h-screen bg-secondary flex flex-col">
       <Navbar />
 
-      {/* Page header */}
       <div className="bg-dark border-b border-[#2a2a2a]">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <Link
@@ -62,7 +86,6 @@ export default async function ActivityDetailPage({
             Terug naar activiteiten
           </Link>
 
-          {/* Tags */}
           {activity.tags?.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-3">
               {activity.tags.map(tag => (
@@ -81,7 +104,9 @@ export default async function ActivityDetailPage({
             <div className="flex items-center gap-2">
               <CalendarDays className="w-4 h-4 shrink-0 text-white/20" />
               <span>
-                {new Date(activity.date).toLocaleDateString('nl-BE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                {new Date(activity.date + 'T00:00:00').toLocaleDateString('nl-BE', {
+                  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+                })}
               </span>
             </div>
             {(activity.start_time || activity.end_time) && (
@@ -99,6 +124,12 @@ export default async function ActivityDetailPage({
                 <span>{activity.location}</span>
               </div>
             )}
+            {!hasSessions && price > 0 && (
+              <div className="flex items-center gap-2">
+                <Euro className="w-4 h-4 shrink-0 text-white/20" />
+                <span className="font-semibold text-white">€{price.toFixed(2)}</span>
+              </div>
+            )}
           </div>
 
           {activity.description && (
@@ -108,12 +139,21 @@ export default async function ActivityDetailPage({
       </div>
 
       <main className="max-w-2xl mx-auto w-full px-4 sm:px-6 py-8 sm:py-12">
-        <SessionPicker
-          activity={activity}
-          sessions={sessions}
-          children={children}
-          isLoggedIn={!!user}
-        />
+        {hasSessions ? (
+          <SessionPicker
+            activity={activity}
+            sessions={sessions!}
+            children={children}
+            isLoggedIn={!!user}
+            accountType={accountType}
+          />
+        ) : (
+          <SimpleRegistration
+            activity={activity}
+            registration={registration}
+            isLoggedIn={!!user}
+          />
+        )}
       </main>
     </div>
   )

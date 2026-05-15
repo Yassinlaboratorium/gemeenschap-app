@@ -26,6 +26,7 @@ function dbSessionToDraft(s: ActivitySession): SessionDraft {
     end_time: s.end_time?.slice(0, 5) ?? '',
     title: s.title ?? '',
     description: s.description ?? '',
+    location: s.location ?? '',
     max_participants: s.max_participants?.toString() ?? '',
     price_euros: sessionToEuros(s.price_cents),
   }
@@ -38,6 +39,7 @@ function emptySession(): SessionDraft {
     end_time: '',
     title: '',
     description: '',
+    location: '',
     max_participants: '',
     price_euros: '0.00',
   }
@@ -332,6 +334,18 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
                       className={SMALL_INPUT}
                     />
                   </div>
+                </div>
+
+                {/* Locatie */}
+                <div>
+                  <label className="text-xs font-semibold text-white/60 mb-1 block">Locatie</label>
+                  <input
+                    type="text"
+                    value={s.location}
+                    onChange={e => updateSession(idx, 'location', e.target.value)}
+                    placeholder="bv. Sporthal Beveren (leeg = zelfde als activiteit)"
+                    className={SMALL_INPUT}
+                  />
                 </div>
 
                 {/* Beschrijving */}

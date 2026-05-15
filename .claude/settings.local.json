@@ -18,7 +18,8 @@
       "Bash(xclip -selection clipboard)",
       "Bash(xsel --clipboard --input)",
       "Bash(xargs cat)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(npx supabase *)"
     ]
   }
 }

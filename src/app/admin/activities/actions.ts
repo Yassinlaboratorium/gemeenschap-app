@@ -13,6 +13,7 @@ export type SessionDraft = {
   end_time: string
   title: string
   description: string
+  location: string
   max_participants: string
   price_euros: string
 }
@@ -81,6 +82,7 @@ async function saveSessions(
       end_time: s.end_time || null,
       title: s.title.trim() || null,
       description: s.description.trim() || null,
+      location: s.location?.trim() || null,
       max_participants: s.max_participants ? Number(s.max_participants) : null,
       price_cents: isNaN(priceCents) ? 0 : priceCents,
     }

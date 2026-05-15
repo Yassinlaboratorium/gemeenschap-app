@@ -7,7 +7,7 @@ import { mollieClient } from '@/lib/mollie'
 import { Navbar } from '@/components/layout/Navbar'
 import type { ActivitySession, Child, SessionRegistration, Activity } from '@/types/database'
 
-type SessionRegWithChild = SessionRegistration & { children: Child }
+type SessionRegWithChild = SessionRegistration & { children: Child | null }
 
 export default async function SessionSuccessPage({
   searchParams,
@@ -183,11 +183,11 @@ export default async function SessionSuccessPage({
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                       <span className="text-primary font-bold text-sm">
-                        {reg.children.first_name[0].toUpperCase()}
+                        {reg.children ? reg.children.first_name[0].toUpperCase() : 'J'}
                       </span>
                     </div>
                     <div>
-                      <p className="font-bold text-white">{reg.children.first_name}</p>
+                      <p className="font-bold text-white">{reg.children ? reg.children.first_name : 'Jij'}</p>
                       <p className="text-xs text-white/40">€{(reg.total_price_cents / 100).toFixed(2)}</p>
                     </div>
                   </div>
