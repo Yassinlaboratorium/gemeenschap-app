@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Plus, Pencil, Calendar, MapPin, Users, CheckCircle2, AlertCircle, LayoutGrid, UserCheck, CalendarClock, List } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { DeleteButton } from '@/components/admin/DeleteButton'
+import { SendPushButton } from '@/components/admin/SendPushButton'
 import type { ActivityWithCount } from '@/types/database'
 
 const SUCCESS_MSG = {
@@ -60,14 +61,17 @@ export default async function ActivitiesPage({
           <h1 className="text-2xl font-extrabold text-white">Activiteiten</h1>
           <p className="text-white/40 text-sm mt-0.5">Beheer alle activiteiten</p>
         </div>
-        <Link
-          href="/admin/activities/new"
-          className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold px-4 py-2.5 rounded-xl hover:opacity-90 transition-all text-sm shrink-0"
-        >
-          <Plus className="w-4 h-4" />
-          <span className="hidden sm:inline">Nieuwe activiteit</span>
-          <span className="sm:hidden">Nieuw</span>
-        </Link>
+        <div className="flex items-center gap-2 shrink-0">
+          <SendPushButton />
+          <Link
+            href="/admin/activities/new"
+            className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold px-4 py-2.5 rounded-xl hover:opacity-90 transition-all text-sm"
+          >
+            <Plus className="w-4 h-4" />
+            <span className="hidden sm:inline">Nieuwe activiteit</span>
+            <span className="sm:hidden">Nieuw</span>
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-3 sm:gap-5">
