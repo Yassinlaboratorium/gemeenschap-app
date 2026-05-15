@@ -8,9 +8,15 @@ import { createClient } from '@/lib/supabase/server'
 import { LogoutButton } from './LogoutButton'
 import { YouthIllustration } from '@/components/illustrations/YouthIllustration'
 import { ChildrenSection } from '@/components/dashboard/ChildrenSection'
-import type { Profile, RegistrationWithActivity, Child } from '@/types/database'
+import { SessionRegistrationsSection } from '@/components/dashboard/SessionRegistrationsSection'
+import type {
+  Profile, RegistrationWithActivity, Child,
+  ActivitySession, SessionRegistrationWithDetails,
+} from '@/types/database'
 
 const MONTHS_SHORT = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec']
+
+type RawSessionReg = Omit<SessionRegistrationWithDetails, 'sessions'>
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -18,7 +24,12 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: profile }, { data: registrations }, { data: children }] = await Promise.all([
+  const [
+    { data: profile },
+    { data: registrations },
+    { data: children },
+    { data: sessionRegsRaw },
+  ] = await Promise.all([
     supabase.from('profiles').select('*').eq('id', user.id).single<Profile>(),
     supabase
       .from('registrations')
@@ -33,13 +44,36 @@ export default async function DashboardPage() {
       .eq('parent_id', user.id)
       .order('created_at', { ascending: true })
       .returns<Child[]>(),
+    supabase
+      .from('session_registrations')
+      .select('*, activities(id, title, tags), children(id, first_name, birth_date)')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .returns<RawSessionReg[]>(),
   ])
+
+  // Haal sessie-details op voor alle session_ids die in de inschrijvingen staan
+  const allSessionIds = (sessionRegsRaw ?? []).flatMap(r => r.session_ids)
+  let enrichedSessionRegs: SessionRegistrationWithDetails[] = []
+
+  if (allSessionIds.length > 0) {
+    const { data: sessions } = await supabase
+      .from('activity_sessions')
+      .select('*')
+      .in('id', allSessionIds)
+      .returns<ActivitySession[]>()
+
+    const sessionMap = new Map((sessions ?? []).map(s => [s.id, s]))
+    enrichedSessionRegs = (sessionRegsRaw ?? []).map(r => ({
+      ...r,
+      sessions: r.session_ids.map(id => sessionMap.get(id)).filter(Boolean) as ActivitySession[],
+    }))
+  }
 
   const firstName = profile?.full_name?.split(' ')[0] ?? 'daar'
   const activeRegs = registrations ?? []
-  const upcoming = activeRegs.filter(
-    (r) => new Date(r.activities.date + 'T00:00:00') >= new Date(new Date().toDateString())
-  )
+  const today = new Date().toISOString().slice(0, 10)
+  const upcoming = activeRegs.filter(r => r.activities.date >= today)
 
   return (
     <div className="min-h-screen bg-secondary flex flex-col">
@@ -96,10 +130,18 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/* ── MIJN KINDEREN ── */}
-        <ChildrenSection initialChildren={children ?? []} />
+        {/* ── MIJN KINDEREN — alleen voor ouders ── */}
+        {profile?.account_type === 'parent' && (
+          <ChildrenSection initialChildren={children ?? []} />
+        )}
 
-        {/* ── MY ACTIVITIES ── */}
+        {/* ── SESSIE-INSCHRIJVINGEN ── */}
+        <SessionRegistrationsSection
+          sessionRegistrations={enrichedSessionRegs}
+          accountType={profile?.account_type ?? null}
+        />
+
+        {/* ── MIJN ACTIVITEITEN (klassiek) ── */}
         <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden">
           <div className="px-6 py-5 border-b border-white/5 flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -140,7 +182,7 @@ export default async function DashboardPage() {
                 const [, month, day] = activity.date.split('-')
                 const monthShort = MONTHS_SHORT[parseInt(month, 10) - 1]
                 const startTime = activity.start_time?.slice(0, 5)
-                const isPast = new Date(activity.date + 'T00:00:00') < new Date(new Date().toDateString())
+                const isPast = activity.date < today
 
                 return (
                   <li key={reg.id} className={`flex items-center gap-4 px-6 py-4 transition-colors hover:bg-white/[0.02] ${isPast ? 'opacity-40' : ''}`}>

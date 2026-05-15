@@ -256,15 +256,15 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
 
             ) : isRegistered ? (
               registration?.payment_status === 'paid' ? (
-                <span className="inline-flex items-center gap-2 bg-white/5 text-white/40 font-semibold px-5 py-2.5 rounded-xl text-sm border border-white/10 cursor-default">
-                  <CheckCircle2 className="w-4 h-4 text-green-400/60" />
+                <span className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 font-semibold px-5 py-2.5 rounded-xl text-sm border border-green-500/20 cursor-default">
+                  <CheckCircle2 className="w-4 h-4" />
                   Betaald – contact ons voor annulering
                 </span>
               ) : (
                 <button
                   onClick={handleCancel}
                   disabled={isLoading}
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold px-5 py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 text-sm"
+                  className="inline-flex items-center gap-2 bg-white/10 border border-white/10 text-white/70 font-semibold px-5 py-2.5 rounded-xl hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 active:scale-[0.98] transition-all disabled:opacity-50 text-sm"
                 >
                   {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                   Annuleren

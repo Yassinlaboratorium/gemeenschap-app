@@ -97,6 +97,12 @@ export interface RegistrationWithActivity extends Registration {
   activities: Activity;
 }
 
+export interface SessionRegistrationWithDetails extends SessionRegistration {
+  activities: Pick<Activity, 'id' | 'title' | 'tags'>
+  children: Pick<Child, 'id' | 'first_name' | 'birth_date'> | null
+  sessions: ActivitySession[]
+}
+
 // Analytics types
 export interface AnalyticsData {
   metrics: {
