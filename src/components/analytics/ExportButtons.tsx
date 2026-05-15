@@ -96,9 +96,9 @@ export function ExportButtons({ data, dateFrom, dateTo }: Props) {
       }
 
       // Pagina 1: Titel
-      pdf.setFillColor(10, 10, 10)
+      pdf.setFillColor(11, 16, 32)
       pdf.rect(0, 0, pageW, pageH, 'F')
-      pdf.setFillColor(255, 107, 53)
+      pdf.setFillColor(37, 99, 235)
       pdf.rect(0, 0, 6, pageH, 'F')
       pdf.setFontSize(28)
       pdf.setTextColor(255, 255, 255)
@@ -114,9 +114,9 @@ export function ExportButtons({ data, dateFrom, dateTo }: Props) {
 
       // Pagina 2: Key metrics
       pdf.addPage()
-      pdf.setFillColor(10, 10, 10)
+      pdf.setFillColor(11, 16, 32)
       pdf.rect(0, 0, pageW, pageH, 'F')
-      pdf.setFillColor(255, 107, 53)
+      pdf.setFillColor(37, 99, 235)
       pdf.rect(0, 0, 6, pageH, 'F')
       pdf.setFontSize(14)
       pdf.setTextColor(255, 255, 255)
@@ -134,10 +134,10 @@ export function ExportButtons({ data, dateFrom, dateTo }: Props) {
       metrics.forEach(([label, val], i) => {
         const col = i % 2; const row = Math.floor(i / 2)
         const x = 20 + col * 95; const y = 55 + row * 55
-        pdf.setFillColor(26, 26, 26)
+        pdf.setFillColor(19, 28, 49)
         pdf.roundedRect(x, y, 85, 45, 4, 4, 'F')
         pdf.setFontSize(22)
-        pdf.setTextColor(255, 107, 53)
+        pdf.setTextColor(37, 99, 235)
         pdf.setFont('helvetica', 'bold')
         pdf.text(val, x + 8, y + 22)
         pdf.setFontSize(9)
@@ -151,15 +151,15 @@ export function ExportButtons({ data, dateFrom, dateTo }: Props) {
       const chartIds = ['chart-overtime', 'chart-municipality', 'chart-age', 'chart-tags']
       for (let i = 0; i < chartIds.length; i += 2) {
         pdf.addPage()
-        pdf.setFillColor(10, 10, 10)
+        pdf.setFillColor(11, 16, 32)
         pdf.rect(0, 0, pageW, pageH, 'F')
-        pdf.setFillColor(255, 107, 53)
+        pdf.setFillColor(37, 99, 235)
         pdf.rect(0, 0, 6, pageH, 'F')
 
         for (let j = 0; j < 2 && i + j < chartIds.length; j++) {
           const el = document.getElementById(chartIds[i + j])
           if (!el) continue
-          const canvas = await html2canvas.default(el, { backgroundColor: '#1a1a1a', scale: 1.5 })
+          const canvas = await html2canvas.default(el, { backgroundColor: '#131C31', scale: 1.5 })
           const imgData = canvas.toDataURL('image/png')
           const imgY = 20 + j * 130
           pdf.addImage(imgData, 'PNG', 15, imgY, 180, 120)
@@ -188,20 +188,20 @@ export function ExportButtons({ data, dateFrom, dateTo }: Props) {
       pptx.layout = 'LAYOUT_WIDE'
       pptx.theme = { headFontFace: 'Arial', bodyFontFace: 'Arial' }
 
-      const BG = '0a0a0a'; const ORANGE = 'ff6b35'; const WHITE = 'ffffff'; const GRAY = 'a0a0a0'
+      const BG = '0B1020'; const PRIMARY = '2563EB'; const WHITE = 'ffffff'; const GRAY = '8098b8'
 
       // Slide 1: Titel
       const s1 = pptx.addSlide()
       s1.background = { color: BG }
-      s1.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.12, h: 7.5, fill: { color: ORANGE } })
+      s1.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.12, h: 7.5, fill: { color: PRIMARY } })
       s1.addText('Impact Analyse', { x: 0.5, y: 2.2, w: 12, h: 1, fontSize: 40, bold: true, color: WHITE })
       s1.addText(`Periode: ${dateFrom.slice(0, 10)} — ${dateTo.slice(0, 10)}`, { x: 0.5, y: 3.4, w: 12, h: 0.5, fontSize: 18, color: GRAY })
-      s1.addText('DE GEMEENSCHAP vzw', { x: 0.5, y: 4.2, w: 12, h: 0.4, fontSize: 14, color: ORANGE })
+      s1.addText('DE GEMEENSCHAP vzw', { x: 0.5, y: 4.2, w: 12, h: 0.4, fontSize: 14, color: PRIMARY })
 
       // Slide 2: Key metrics
       const s2 = pptx.addSlide()
       s2.background = { color: BG }
-      s2.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.12, h: 7.5, fill: { color: ORANGE } })
+      s2.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.12, h: 7.5, fill: { color: PRIMARY } })
       s2.addText('Key Metrics', { x: 0.5, y: 0.3, w: 12, h: 0.6, fontSize: 22, bold: true, color: WHITE })
 
       const metricsSlide = [
@@ -214,7 +214,7 @@ export function ExportButtons({ data, dateFrom, dateTo }: Props) {
         const col = i % 2; const row = Math.floor(i / 2)
         const x = 0.5 + col * 6.3; const y = 1.3 + row * 2.5
         s2.addShape(pptx.ShapeType.roundRect, { x, y, w: 5.8, h: 2, fill: { color: '131C31' }, line: { color: '1e3048', width: 1 }, rectRadius: 0.1 })
-        s2.addText(m.val, { x: x + 0.3, y: y + 0.3, w: 5.2, h: 0.9, fontSize: 32, bold: true, color: ORANGE })
+        s2.addText(m.val, { x: x + 0.3, y: y + 0.3, w: 5.2, h: 0.9, fontSize: 32, bold: true, color: PRIMARY })
         s2.addText(m.label.toUpperCase(), { x: x + 0.3, y: y + 1.3, w: 5.2, h: 0.4, fontSize: 11, color: GRAY })
       })
 
@@ -229,12 +229,12 @@ export function ExportButtons({ data, dateFrom, dateTo }: Props) {
       for (const { id, title } of chartIds) {
         const el = document.getElementById(id)
         if (!el) continue
-        const canvas = await html2canvas.default(el, { backgroundColor: '#1a1a1a', scale: 1.5 })
+        const canvas = await html2canvas.default(el, { backgroundColor: '#131C31', scale: 1.5 })
         const imgData = canvas.toDataURL('image/png')
 
         const slide = pptx.addSlide()
         slide.background = { color: BG }
-        slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.12, h: 7.5, fill: { color: ORANGE } })
+        slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.12, h: 7.5, fill: { color: PRIMARY } })
         slide.addText(title, { x: 0.5, y: 0.3, w: 12, h: 0.6, fontSize: 20, bold: true, color: WHITE })
         slide.addImage({ data: imgData, x: 0.5, y: 1.1, w: 12, h: 6 })
       }
@@ -242,7 +242,7 @@ export function ExportButtons({ data, dateFrom, dateTo }: Props) {
       // Slide: Conclusies
       const conclusie = pptx.addSlide()
       conclusie.background = { color: BG }
-      conclusie.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.12, h: 7.5, fill: { color: ORANGE } })
+      conclusie.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.12, h: 7.5, fill: { color: PRIMARY } })
       conclusie.addText('Conclusies', { x: 0.5, y: 0.3, w: 12, h: 0.6, fontSize: 22, bold: true, color: WHITE })
 
       const bullets = [
