@@ -45,7 +45,7 @@ export default async function EditActivityPage({
         <h1 className="text-2xl font-extrabold text-white">Bewerken</h1>
         <p className="text-white/40 text-sm mt-0.5">{activity.title}</p>
       </div>
-      <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-6 sm:p-8">
+      <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-6 sm:p-8">
         <ActivityForm action={action} activity={activity} initialSessions={sessions ?? []} />
       </div>
     </div>

@@ -213,7 +213,7 @@ export function ExportButtons({ data, dateFrom, dateTo }: Props) {
       metricsSlide.forEach((m, i) => {
         const col = i % 2; const row = Math.floor(i / 2)
         const x = 0.5 + col * 6.3; const y = 1.3 + row * 2.5
-        s2.addShape(pptx.ShapeType.roundRect, { x, y, w: 5.8, h: 2, fill: { color: '1a1a1a' }, line: { color: '2a2a2a', width: 1 }, rectRadius: 0.1 })
+        s2.addShape(pptx.ShapeType.roundRect, { x, y, w: 5.8, h: 2, fill: { color: '131C31' }, line: { color: '1e3048', width: 1 }, rectRadius: 0.1 })
         s2.addText(m.val, { x: x + 0.3, y: y + 0.3, w: 5.2, h: 0.9, fontSize: 32, bold: true, color: ORANGE })
         s2.addText(m.label.toUpperCase(), { x: x + 0.3, y: y + 1.3, w: 5.2, h: 0.4, fontSize: 11, color: GRAY })
       })

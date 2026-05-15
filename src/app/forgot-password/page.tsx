@@ -60,7 +60,7 @@ export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen bg-secondary flex flex-col items-center justify-center px-4 py-12">
       <Link href="/" className="flex items-center gap-2.5 mb-8 group">
-        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
           <span className="text-white font-black text-xs">DG</span>
         </div>
         <span className="font-black text-white group-hover:text-primary transition-colors tracking-tight">
@@ -76,7 +76,7 @@ export default function ForgotPasswordPage() {
           </p>
         </div>
 
-        <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-8 space-y-5">
+        <div className="bg-[#131C31] rounded-[32px] border border-white/5 p-8 space-y-5">
           {error && (
             <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-4 py-3 text-sm">
               <AlertCircle className="w-4 h-4 shrink-0" />
@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary text-white font-semibold py-2.5 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-gradient-to-r from-primary to-accent text-white font-semibold py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
             >
               <Send className="w-4 h-4" />
               {loading ? 'Bezig...' : 'Stuur reset-link'}

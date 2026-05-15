@@ -36,7 +36,7 @@ export default async function ActivitiesPage() {
     <div className="min-h-screen bg-secondary">
       <Navbar />
 
-      <div className="bg-dark border-b border-[#2a2a2a]">
+      <div className="bg-[#131C31] border-b border-white/5">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
           <div className="inline-flex items-center gap-2 bg-white/8 text-white/60 rounded-full px-4 py-1.5 text-sm font-medium mb-4 border border-white/10">
             <CalendarDays className="w-4 h-4" />

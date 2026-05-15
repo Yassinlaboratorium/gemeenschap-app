@@ -106,7 +106,7 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
   const isLoading = isPending || isRedirecting
 
   return (
-    <div className="group bg-dark rounded-2xl border border-[#2a2a2a] overflow-hidden hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/20 transition-all duration-300">
+    <div className="group bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/20 transition-all duration-300">
       <div className={`h-1.5 w-full ${config.bar}`} />
 
       <div className="p-5 sm:p-7 space-y-5">
@@ -214,7 +214,7 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
         ) : null}
 
         {/* Actierij */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-[#2a2a2a]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-white/[0.04]">
           {message && !hasSessions ? (
             <div className={`flex items-center gap-2 text-sm rounded-xl px-4 py-2.5 flex-1 ${
               message.type === 'success'
@@ -240,7 +240,7 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
             {hasSessions ? (
               <Link
                 href={`/activities/${activity.id}`}
-                className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-accent active:scale-[0.98] transition-all text-sm"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold px-5 py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all text-sm"
               >
                 Bekijk & inschrijven
                 <ArrowRight className="w-4 h-4" />
@@ -264,7 +264,7 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
                 <button
                   onClick={handleCancel}
                   disabled={isLoading}
-                  className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-50 text-sm"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold px-5 py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 text-sm"
                 >
                   {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                   Annuleren

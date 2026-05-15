@@ -62,7 +62,7 @@ export default async function ActivitiesPage({
         </div>
         <Link
           href="/admin/activities/new"
-          className="flex items-center gap-2 bg-primary text-white font-semibold px-4 py-2.5 rounded-xl hover:bg-accent transition-colors text-sm shrink-0"
+          className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold px-4 py-2.5 rounded-xl hover:opacity-90 transition-all text-sm shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span className="hidden sm:inline">Nieuwe activiteit</span>
@@ -72,7 +72,7 @@ export default async function ActivitiesPage({
 
       <div className="grid grid-cols-3 gap-3 sm:gap-5">
         {STATS.map(({ icon: Icon, label, value, color }) => (
-          <div key={label} className="bg-dark rounded-2xl border border-[#2a2a2a] p-4 sm:p-5">
+          <div key={label} className="bg-[#131C31] rounded-[28px] border border-white/5 p-4 sm:p-5">
             <div className={`w-9 h-9 rounded-xl ${color} flex items-center justify-center mb-3`}>
               <Icon className="w-4 h-4" />
             </div>
@@ -96,7 +96,7 @@ export default async function ActivitiesPage({
       )}
 
       {(!activities || activities.length === 0) && (
-        <div className="bg-dark rounded-2xl border border-[#2a2a2a] py-16 text-center space-y-3">
+        <div className="bg-[#131C31] rounded-[28px] border border-white/5 py-16 text-center space-y-3">
           <Calendar className="w-10 h-10 text-white/20 mx-auto" />
           <p className="text-white/40 font-medium">Nog geen activiteiten</p>
           <Link href="/admin/activities/new" className="inline-block text-primary font-semibold text-sm hover:underline">
@@ -110,7 +110,7 @@ export default async function ActivitiesPage({
           {activities.map((activity) => (
             <div
               key={activity.id}
-              className="bg-dark rounded-2xl border border-[#2a2a2a] p-5 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5 transition-all"
+              className="bg-[#131C31] rounded-[28px] border border-white/5 p-5 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/10 transition-all"
             >
               <div className="flex items-start gap-3">
                 <div className="flex-1 min-w-0 space-y-2">

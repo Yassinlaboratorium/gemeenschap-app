@@ -76,7 +76,7 @@ export default async function ActivityDetailPage({
     <div className="min-h-screen bg-secondary flex flex-col">
       <Navbar />
 
-      <div className="bg-dark border-b border-[#2a2a2a]">
+      <div className="bg-[#131C31] border-b border-white/5">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <Link
             href="/activities"

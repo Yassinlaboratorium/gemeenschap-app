@@ -149,7 +149,7 @@ export default async function RegistrationsPage({
             { icon: Clock, iconBg: 'bg-yellow-500/10', iconColor: 'text-yellow-400', value: sessionPendingCount, label: 'Onbetaald' },
             { icon: Euro, iconBg: 'bg-primary/10', iconColor: 'text-primary', value: `€${(sessionTotalRevenue / 100).toFixed(2)}`, label: 'Ontvangen' },
           ].map(({ icon: Icon, iconBg, iconColor, value, label }) => (
-            <div key={label} className="bg-dark rounded-2xl border border-[#2a2a2a] p-4">
+            <div key={label} className="bg-[#131C31] rounded-[24px] border border-white/5 p-4">
               <div className={`w-8 h-8 rounded-lg ${iconBg} flex items-center justify-center mb-2`}>
                 <Icon className={`w-4 h-4 ${iconColor}`} />
               </div>
@@ -166,7 +166,7 @@ export default async function RegistrationsPage({
             { icon: Clock, iconBg: 'bg-yellow-500/10', iconColor: 'text-yellow-400', value: pendingCount, label: 'Onbetaald', show: isPaid },
             { icon: AlertCircle, iconBg: 'bg-red-500/10', iconColor: 'text-red-400', value: cancelledCount, label: 'Geannuleerd', show: !isPaid },
           ].filter(s => s.show).map(({ icon: Icon, iconBg, iconColor, value, label }) => (
-            <div key={label} className="bg-dark rounded-2xl border border-[#2a2a2a] p-4">
+            <div key={label} className="bg-[#131C31] rounded-[24px] border border-white/5 p-4">
               <div className={`w-8 h-8 rounded-lg ${iconBg} flex items-center justify-center mb-2`}>
                 <Icon className={`w-4 h-4 ${iconColor}`} />
               </div>
@@ -190,8 +190,8 @@ export default async function RegistrationsPage({
             href={`/admin/activities/${id}/registrations?filter=${key}`}
             className={`text-sm font-semibold px-4 py-2 rounded-xl border transition-colors ${
               (filter ?? 'all') === key
-                ? 'bg-primary text-white border-primary'
-                : 'bg-dark text-white/50 border-[#2a2a2a] hover:border-white/20 hover:text-white'
+                ? 'bg-gradient-to-r from-primary to-accent text-white border-primary'
+                : 'bg-[#131C31] text-white/50 border-white/5 hover:border-white/20 hover:text-white'
             }`}
           >
             {label}
@@ -204,10 +204,10 @@ export default async function RegistrationsPage({
         filteredSessionRegs.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="bg-dark rounded-2xl border border-[#2a2a2a] overflow-x-auto">
+          <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-x-auto">
             <table className="w-full text-sm min-w-[700px]">
               <thead>
-                <tr className="border-b border-[#2a2a2a] text-xs text-white/30 font-semibold uppercase tracking-wide">
+                <tr className="border-b border-white/5 text-xs text-white/30 font-semibold uppercase tracking-wide">
                   <th className="text-left px-5 py-3">Kind</th>
                   <th className="text-left px-5 py-3">Ouder</th>
                   <th className="text-left px-5 py-3">Gemeente</th>
@@ -217,7 +217,7 @@ export default async function RegistrationsPage({
                   <th className="text-left px-5 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#2a2a2a]">
+              <tbody className="divide-y divide-white/5">
                 {filteredSessionRegs.map(reg => {
                   const paymentCfg = reg.payment_status ? PAYMENT_CONFIG[reg.payment_status] : null
                   const PayIcon = paymentCfg?.icon
@@ -278,10 +278,10 @@ export default async function RegistrationsPage({
         filteredRegs.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="bg-dark rounded-2xl border border-[#2a2a2a] overflow-x-auto">
+          <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#2a2a2a] text-xs text-white/30 font-semibold uppercase tracking-wide">
+                <tr className="border-b border-white/5 text-xs text-white/30 font-semibold uppercase tracking-wide">
                   <th className="text-left px-5 py-3">Naam</th>
                   <th className="text-left px-5 py-3">Gemeente</th>
                   <th className="text-left px-5 py-3">Datum</th>
@@ -289,7 +289,7 @@ export default async function RegistrationsPage({
                   <th className="text-left px-5 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#2a2a2a]">
+              <tbody className="divide-y divide-white/5">
                 {filteredRegs.map(reg => {
                   const paymentCfg = reg.payment_status ? PAYMENT_CONFIG[reg.payment_status] : null
                   const PayIcon = paymentCfg?.icon
@@ -336,7 +336,7 @@ export default async function RegistrationsPage({
 
 function EmptyState() {
   return (
-    <div className="bg-dark rounded-2xl border border-[#2a2a2a] py-14 text-center space-y-2">
+    <div className="bg-[#131C31] rounded-[28px] border border-white/5 py-14 text-center space-y-2">
       <Users className="w-8 h-8 text-white/20 mx-auto" />
       <p className="text-white/40 font-medium text-sm">Geen inschrijvingen gevonden</p>
     </div>

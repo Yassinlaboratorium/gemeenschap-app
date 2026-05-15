@@ -96,7 +96,7 @@ export function ActivitiesClient({ activities, registrations, isLoggedIn, allTag
     selectedTags.length > 0 || gemeente || dateFrom || dateTo || quick !== 'all'
 
   const INPUT =
-    'w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-secondary text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors'
+    'w-full px-3 py-2 rounded-xl border border-white/10 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors'
 
   const filterPanel = (
     <div className="space-y-5">
@@ -200,7 +200,7 @@ export function ActivitiesClient({ activities, registrations, isLoggedIn, allTag
           className={`flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-xl border transition-colors ${
             hasFilters
               ? 'bg-primary/10 border-primary text-primary'
-              : 'bg-dark border-[#2a2a2a] text-white/60 hover:text-white hover:border-white/25'
+              : 'bg-[#131C31] border-white/5 text-white/60 hover:text-white hover:border-white/25'
           }`}
         >
           <SlidersHorizontal className="w-4 h-4" />
@@ -215,7 +215,7 @@ export function ActivitiesClient({ activities, registrations, isLoggedIn, allTag
 
       {/* Mobile filter panel */}
       {open && (
-        <div className="lg:hidden bg-dark rounded-2xl border border-[#2a2a2a] p-5 mb-6">
+        <div className="lg:hidden bg-[#131C31] rounded-[28px] border border-white/5 p-5 mb-6">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-bold text-white">Filters</p>
             <button onClick={() => setOpen(false)} className="text-white/30 hover:text-white transition-colors">
@@ -230,7 +230,7 @@ export function ActivitiesClient({ activities, registrations, isLoggedIn, allTag
 
         {/* Desktop sidebar */}
         <div className="hidden lg:block">
-          <div className="sticky top-6 bg-dark rounded-2xl border border-[#2a2a2a] p-5">
+          <div className="sticky top-6 bg-[#131C31] rounded-[28px] border border-white/5 p-5">
             <div className="flex items-center justify-between mb-5">
               <p className="text-sm font-bold text-white flex items-center gap-2">
                 <SlidersHorizontal className="w-4 h-4 text-primary" />
@@ -265,7 +265,7 @@ export function ActivitiesClient({ activities, registrations, isLoggedIn, allTag
           </div>
 
           {filtered.length === 0 ? (
-            <div className="bg-dark rounded-2xl border border-[#2a2a2a] py-20 text-center space-y-3">
+            <div className="bg-[#131C31] rounded-[28px] border border-white/5 py-20 text-center space-y-3">
               <CalendarX className="w-10 h-10 text-white/20 mx-auto" />
               <p className="text-[#a0a0a0] font-medium">Geen activiteiten gevonden</p>
               {hasFilters && (

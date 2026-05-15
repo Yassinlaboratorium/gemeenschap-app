@@ -108,7 +108,7 @@ export default async function PaymentSuccessPage({
               ? 'bg-green-500/10 border-green-500/20'
               : isFailed
                 ? 'bg-red-500/10 border-red-500/20'
-                : 'bg-dark border-[#2a2a2a]'
+                : 'bg-[#131C31] border-white/5'
           }`}>
             <div className="flex justify-center">
               {isPaid && <CheckCircle2 className="w-16 h-16 text-green-400" />}

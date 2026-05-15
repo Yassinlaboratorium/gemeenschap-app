@@ -10,7 +10,7 @@ interface MetricCardProps {
 
 export function MetricCard({ label, value, sub, icon: Icon, color = 'text-primary' }: MetricCardProps) {
   return (
-    <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-5 space-y-3">
+    <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-5 space-y-3">
       <div className="flex items-center justify-between">
         <p className="text-xs font-semibold text-white/40 uppercase tracking-wider">{label}</p>
         <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
@@ -25,7 +25,7 @@ export function MetricCard({ label, value, sub, icon: Icon, color = 'text-primar
 
 export function MetricCardSkeleton() {
   return (
-    <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-5 space-y-3 animate-pulse">
+    <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-5 space-y-3 animate-pulse">
       <div className="h-3 bg-white/10 rounded w-24" />
       <div className="h-8 bg-white/10 rounded w-16" />
       <div className="h-3 bg-white/10 rounded w-20" />

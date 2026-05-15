@@ -44,9 +44,9 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen bg-secondary flex flex-col">
       {/* Header */}
-      <header className="bg-dark border-b border-[#2a2a2a] px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-50 bg-[#0B1020]/90 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
             <span className="text-white font-black text-xs">DG</span>
           </div>
           <span className="font-black text-white tracking-tight">DE GEMEENSCHAP</span>
@@ -59,15 +59,15 @@ export default async function DashboardPage() {
         {/* ── HERO WELCOME CARD ── */}
         <div
           className="rounded-2xl overflow-hidden relative min-h-[220px] sm:min-h-[240px]"
-          style={{ background: 'linear-gradient(135deg, #1a1a1a 55%, #222)' }}
+          style={{ background: 'linear-gradient(135deg, #0d1827 0%, #131C31 100%)' }}
         >
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{ background: 'radial-gradient(ellipse 55% 80% at 95% 15%, rgba(255,107,53,0.2), transparent)' }}
+            style={{ background: 'radial-gradient(ellipse 55% 80% at 95% 15%, rgba(37,99,235,0.20), transparent)' }}
           />
           <div
             className="absolute inset-0 pointer-events-none hidden sm:block"
-            style={{ background: 'linear-gradient(to right, #1a1a1a 35%, rgba(26,26,26,0.55) 58%, transparent 78%)' }}
+            style={{ background: 'linear-gradient(to right, #0d1827 35%, rgba(13,24,39,0.55) 58%, transparent 78%)' }}
           />
           <div className="absolute bottom-0 right-0 w-[300px] sm:w-[340px] pointer-events-none hidden sm:block animate-float">
             <YouthIllustration className="w-full h-auto opacity-70" />
@@ -100,8 +100,8 @@ export default async function DashboardPage() {
         <ChildrenSection initialChildren={children ?? []} />
 
         {/* ── MY ACTIVITIES ── */}
-        <div className="bg-dark rounded-2xl border border-[#2a2a2a] overflow-hidden">
-          <div className="px-6 py-5 border-b border-[#2a2a2a] flex items-center gap-3">
+        <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden">
+          <div className="px-6 py-5 border-b border-white/5 flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
               <CalendarDays className="w-5 h-5 text-primary" />
             </div>
@@ -126,14 +126,14 @@ export default async function DashboardPage() {
               </div>
               <Link
                 href="/activities"
-                className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-accent transition-colors text-sm"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold px-5 py-2.5 rounded-xl hover:opacity-90 transition-all text-sm"
               >
                 Bekijk activiteiten
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           ) : (
-            <ul className="divide-y divide-[#2a2a2a]">
+            <ul className="divide-y divide-white/5">
               {activeRegs.map((reg) => {
                 const activity = reg.activities
                 const firstTag = activity.tags?.[0]
@@ -182,7 +182,7 @@ export default async function DashboardPage() {
           )}
 
           {activeRegs.length > 0 && (
-            <div className="px-6 py-4 border-t border-[#2a2a2a]">
+            <div className="px-6 py-4 border-t border-white/5">
               <Link
                 href="/activities"
                 className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all hover:text-accent"
@@ -195,7 +195,7 @@ export default async function DashboardPage() {
 
         {/* ── ADMIN LINK ── */}
         {profile?.is_admin && (
-          <div className="bg-dark border border-primary/20 rounded-2xl p-6 flex items-center justify-between">
+          <div className="bg-[#131C31] border border-primary/20 rounded-[28px] p-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                 <Settings className="w-5 h-5 text-primary" />
@@ -207,7 +207,7 @@ export default async function DashboardPage() {
             </div>
             <Link
               href="/admin/activities"
-              className="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-xl hover:bg-accent transition-colors"
+              className="bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold px-4 py-2 rounded-xl hover:opacity-90 transition-all"
             >
               Naar admin
             </Link>

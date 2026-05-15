@@ -60,7 +60,7 @@ export function ExportButton({ data, filename }: Props) {
       <button
         onClick={handleCsv}
         disabled={data.length === 0}
-        className="flex items-center gap-2 text-sm font-semibold text-white/40 hover:text-white px-3 py-2 rounded-xl hover:bg-white/5 transition-colors disabled:opacity-30 border border-[#2a2a2a] hover:border-white/10"
+        className="flex items-center gap-2 text-sm font-semibold text-white/40 hover:text-white px-3 py-2 rounded-xl hover:bg-white/5 transition-colors disabled:opacity-30 border border-white/5 hover:border-white/10"
         title="Exporteer als CSV"
       >
         <Download className="w-4 h-4" />

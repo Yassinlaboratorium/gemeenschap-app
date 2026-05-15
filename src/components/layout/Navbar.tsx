@@ -7,9 +7,9 @@ export async function Navbar() {
   const { data: { user } } = await supabase.auth.getUser()
 
   return (
-    <header className="bg-dark border-b border-[#2a2a2a] px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 bg-[#0B1020]/90 backdrop-blur-xl border-b border-white/5 px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
       <Link href="/" className="flex items-center gap-2.5 shrink-0">
-        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
           <span className="text-white font-black text-xs">DG</span>
         </div>
         <span className="font-black text-white tracking-tight hidden sm:block">DE GEMEENSCHAP</span>
@@ -27,7 +27,7 @@ export async function Navbar() {
         {user ? (
           <Link
             href="/dashboard"
-            className="flex items-center gap-1.5 text-sm bg-primary text-white font-semibold px-4 py-2 rounded-xl hover:bg-accent transition-colors ml-1"
+            className="flex items-center gap-1.5 text-sm bg-gradient-to-r from-primary to-accent text-white font-semibold px-4 py-2 rounded-xl hover:opacity-90 transition-all ml-1"
           >
             <LayoutDashboard className="w-4 h-4" />
             <span className="hidden sm:inline">Dashboard</span>
@@ -43,7 +43,7 @@ export async function Navbar() {
             </Link>
             <Link
               href="/register"
-              className="flex items-center gap-1.5 text-sm bg-primary text-white font-semibold px-4 py-2 rounded-xl hover:bg-accent transition-colors ml-1"
+              className="flex items-center gap-1.5 text-sm bg-gradient-to-r from-primary to-accent text-white font-semibold px-4 py-2 rounded-xl hover:opacity-90 transition-all ml-1"
             >
               <UserPlus className="w-4 h-4" />
               <span className="hidden sm:inline">Registreren</span>

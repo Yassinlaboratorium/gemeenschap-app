@@ -44,7 +44,7 @@ export default async function SessionSuccessPage({
             <div className="flex flex-col gap-3">
               <Link
                 href="/activities"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold px-6 py-3.5 rounded-2xl hover:bg-accent transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-bold px-6 py-3.5 rounded-2xl hover:opacity-90 transition-all"
               >
                 Alle activiteiten <ArrowRight className="w-4 h-4" />
               </Link>
@@ -158,7 +158,7 @@ export default async function SessionSuccessPage({
 
           {/* Status card */}
           <div className={`rounded-2xl p-8 text-center space-y-3 border ${
-            isPaid ? 'bg-green-500/10 border-green-500/20' : isFailed ? 'bg-red-500/10 border-red-500/20' : 'bg-dark border-[#2a2a2a]'
+            isPaid ? 'bg-green-500/10 border-green-500/20' : isFailed ? 'bg-red-500/10 border-red-500/20' : 'bg-[#131C31] border-white/5'
           }`}>
             {isPaid && <CheckCircle2 className="w-16 h-16 text-green-400 mx-auto" />}
             {isFailed && <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center mx-auto text-3xl">✕</div>}
@@ -179,7 +179,7 @@ export default async function SessionSuccessPage({
           {isPaid && (
             <div className="space-y-3">
               {regs.map(reg => (
-                <div key={reg.id} className="bg-dark rounded-2xl border border-[#2a2a2a] p-5">
+                <div key={reg.id} className="bg-[#131C31] rounded-[28px] border border-white/5 p-5">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                       <span className="text-primary font-bold text-sm">
@@ -215,7 +215,7 @@ export default async function SessionSuccessPage({
           <div className="flex flex-col gap-3">
             <Link
               href="/activities"
-              className="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold px-6 py-3.5 rounded-2xl hover:bg-accent transition-all"
+              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-bold px-6 py-3.5 rounded-2xl hover:opacity-90 transition-all"
             >
               Alle activiteiten <ArrowRight className="w-4 h-4" />
             </Link>

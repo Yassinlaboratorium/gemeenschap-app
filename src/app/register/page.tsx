@@ -8,6 +8,8 @@ import { createClient } from '@/lib/supabase/client'
 import { FormInput } from '@/components/ui/FormInput'
 import type { AccountType } from '@/types/database'
 
+const INPUT = 'w-full px-3 py-2 rounded-xl border border-white/10 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors'
+
 export default function RegisterPage() {
   const router = useRouter()
   const [form, setForm] = useState({
@@ -84,7 +86,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-secondary flex flex-col items-center justify-center px-4 py-12">
       <Link href="/" className="flex items-center gap-2.5 mb-8 group">
-        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
           <span className="text-white font-black text-xs">DG</span>
         </div>
         <span className="font-black text-white group-hover:text-primary transition-colors tracking-tight">
@@ -95,10 +97,10 @@ export default function RegisterPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-extrabold text-white">Account aanmaken</h1>
-          <p className="text-[#a0a0a0] mt-1 text-sm">Word lid en schrijf je in voor activiteiten</p>
+          <p className="text-white/40 mt-1 text-sm">Word lid en schrijf je in voor activiteiten</p>
         </div>
 
-        <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-8 space-y-5">
+        <div className="bg-[#131C31] rounded-[32px] border border-white/5 p-8 space-y-5">
           {error && (
             <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-4 py-3 text-sm">
               <AlertCircle className="w-4 h-4 shrink-0" />
@@ -107,7 +109,6 @@ export default function RegisterPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Naam + email + wachtwoord */}
             <FormInput label="Volledige naam" icon={User} type="text" required value={form.name} onChange={set('name')} placeholder="Jana Vermeersch" autoComplete="name" />
             <FormInput label="E-mailadres" icon={Mail} type="email" required value={form.email} onChange={set('email')} placeholder="jij@voorbeeld.be" autoComplete="email" />
             <FormInput label="Wachtwoord" icon={Lock} type="password" required minLength={6} value={form.password} onChange={set('password')} placeholder="Minimaal 6 tekens" autoComplete="new-password" />
@@ -117,7 +118,6 @@ export default function RegisterPage() {
               <FormInput label="Telefoon" icon={Phone} type="tel" optional value={form.phone} onChange={set('phone')} placeholder="0470 00 00 00" autoComplete="tel" />
             </div>
 
-            {/* Account type */}
             <div>
               <label className="block text-sm font-semibold text-white mb-2">
                 Wat voor account? <span className="text-red-400">*</span>
@@ -134,7 +134,7 @@ export default function RegisterPage() {
                     className={`flex flex-col items-center gap-2 px-4 py-4 rounded-xl border text-center transition-all ${
                       form.accountType === opt.value
                         ? 'bg-primary/10 border-primary text-white'
-                        : 'bg-secondary border-[#2a2a2a] text-white/50 hover:border-white/20'
+                        : 'bg-[#1a2942] border-white/10 text-white/50 hover:border-white/20'
                     }`}
                   >
                     <opt.icon className={`w-5 h-5 ${form.accountType === opt.value ? 'text-primary' : ''}`} />
@@ -147,7 +147,6 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Locatie */}
             <div className="space-y-3">
               <p className="text-sm font-semibold text-white flex items-center gap-1.5">
                 <MapPin className="w-4 h-4 text-primary" />
@@ -156,50 +155,30 @@ export default function RegisterPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-white/60 mb-1">Postcode</label>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={4}
-                    value={form.postalCode}
-                    onChange={set('postalCode')}
-                    placeholder="9100"
-                    className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-secondary text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors"
-                  />
+                  <input type="text" inputMode="numeric" maxLength={4} value={form.postalCode} onChange={set('postalCode')} placeholder="9100" className={INPUT} />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-white/60 mb-1">Gemeente</label>
-                  <input
-                    type="text"
-                    value={form.municipality}
-                    onChange={set('municipality')}
-                    placeholder="bv. Sint-Niklaas, Beveren, Temse..."
-                    className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-secondary text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors"
-                  />
+                  <input type="text" value={form.municipality} onChange={set('municipality')} placeholder="bv. Sint-Niklaas, Beveren, Temse..." className={INPUT} />
                 </div>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-white/60 mb-1">Wijk / buurt</label>
-                <input
-                  type="text"
-                  value={form.neighborhood}
-                  onChange={set('neighborhood')}
-                  placeholder="bv. Belsele, Nieuwkerken, Centrum..."
-                  className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-secondary text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors"
-                />
+                <input type="text" value={form.neighborhood} onChange={set('neighborhood')} placeholder="bv. Belsele, Nieuwkerken, Centrum..." className={INPUT} />
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary text-white font-semibold py-2.5 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-gradient-to-r from-primary to-accent text-white font-semibold py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
             >
               <UserPlus className="w-4 h-4" />
               {loading ? 'Bezig...' : 'Account aanmaken'}
             </button>
           </form>
 
-          <p className="text-center text-sm text-[#a0a0a0] pt-1">
+          <p className="text-center text-sm text-white/40 pt-1">
             Al een account?{' '}
             <Link href="/login" className="text-primary font-semibold hover:underline">
               Log hier in

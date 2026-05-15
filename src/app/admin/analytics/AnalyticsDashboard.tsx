@@ -60,12 +60,12 @@ export function AnalyticsDashboard() {
     <div className="min-h-screen bg-secondary">
 
       {/* Header */}
-      <header className="bg-dark border-b border-[#2a2a2a] px-6 py-4 flex items-center justify-between sticky top-0 z-40">
+      <header className="bg-[#0B1020]/90 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-3">
           <Link href="/admin/activities" className="text-white/40 hover:text-white transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
             <BarChart2 className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -79,7 +79,7 @@ export function AnalyticsDashboard() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
 
         {/* Filters */}
-        <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-5 space-y-4">
+        <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-5 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="font-bold text-white text-sm flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-primary" />
@@ -102,7 +102,7 @@ export function AnalyticsDashboard() {
                 type="date"
                 value={dateFrom}
                 onChange={e => setDateFrom(e.target.value)}
-                className="px-3 py-2 rounded-xl border border-[#2a2a2a] bg-secondary text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+                className="px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
               />
             </div>
             {/* Datum tot */}
@@ -112,7 +112,7 @@ export function AnalyticsDashboard() {
                 type="date"
                 value={dateTo}
                 onChange={e => setDateTo(e.target.value)}
-                className="px-3 py-2 rounded-xl border border-[#2a2a2a] bg-secondary text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+                className="px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
               />
             </div>
             {/* Gemeenten */}

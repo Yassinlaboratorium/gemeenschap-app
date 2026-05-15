@@ -42,7 +42,7 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="bg-dark border-t border-[#2a2a2a] mt-auto">
+    <footer className="bg-[#0B1020] border-t border-white/5 mt-auto">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12">
           {/* Brand */}
@@ -65,7 +65,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 rounded-xl bg-white/5 border border-[#2a2a2a] flex items-center justify-center text-[#a0a0a0] hover:text-primary hover:border-primary/30 hover:bg-primary/10 transition-all"
+                  className="w-9 h-9 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-[#a0a0a0] hover:text-primary hover:border-primary/30 hover:bg-primary/10 transition-all"
                 >
                   <Icon />
                 </a>
@@ -99,7 +99,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-[#2a2a2a] mt-10 pt-6 text-center">
+        <div className="border-t border-white/5 mt-10 pt-6 text-center">
           <p className="text-xs text-white/20">© {new Date().getFullYear()} DE GEMEENSCHAP vzw — Sint-Niklaas</p>
         </div>
       </div>

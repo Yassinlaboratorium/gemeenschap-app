@@ -16,7 +16,7 @@ export default function NewActivityPage() {
         </Link>
         <h1 className="text-2xl font-extrabold text-white">Nieuwe activiteit</h1>
       </div>
-      <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-6 sm:p-8">
+      <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-6 sm:p-8">
         <ActivityForm action={createActivity} />
       </div>
     </div>

@@ -18,9 +18,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="min-h-screen bg-secondary">
-      <header className="bg-dark border-b border-[#2a2a2a] px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-50 bg-[#0B1020]/90 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0">
             <span className="text-white font-black text-xs">DG</span>
           </div>
           <span className="font-black text-white tracking-tight">DE GEMEENSCHAP</span>

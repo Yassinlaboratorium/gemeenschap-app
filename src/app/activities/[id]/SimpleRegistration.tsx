@@ -66,7 +66,7 @@ export function SimpleRegistration({ activity, registration, isLoggedIn }: Props
   }
 
   return (
-    <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-6 space-y-4">
+    <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-6 space-y-4">
       {msg && (
         <div className={`flex items-center gap-2 text-sm rounded-xl px-4 py-3 ${
           msg.type === 'success'
@@ -92,7 +92,7 @@ export function SimpleRegistration({ activity, registration, isLoggedIn }: Props
           {!isLoggedIn ? (
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-accent transition-all text-sm"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 transition-all text-sm"
             >
               Log in om in te schrijven
             </Link>
@@ -132,7 +132,7 @@ export function SimpleRegistration({ activity, registration, isLoggedIn }: Props
             <button
               onClick={handlePayment}
               disabled={isRedirecting}
-              className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-accent transition-all text-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 transition-all text-sm disabled:opacity-50"
             >
               {isRedirecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
               Inschrijven + betaal €{price.toFixed(2)}
@@ -142,7 +142,7 @@ export function SimpleRegistration({ activity, registration, isLoggedIn }: Props
             <button
               onClick={handleFree}
               disabled={isPending}
-              className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-accent transition-all text-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 transition-all text-sm disabled:opacity-50"
             >
               {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
               Schrijf in (gratis)

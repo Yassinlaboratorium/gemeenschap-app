@@ -102,7 +102,7 @@ export default function ResetPasswordPage() {
     return (
       <div className="min-h-screen bg-secondary flex flex-col items-center justify-center px-4">
         <div className="text-center space-y-4">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] mb-2">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#131C31] border border-white/5 mb-2">
             <ShieldCheck className={`w-7 h-7 text-primary ${timedOut ? '' : 'animate-pulse'}`} />
           </div>
           {timedOut ? (
@@ -113,7 +113,7 @@ export default function ResetPasswordPage() {
               </p>
               <Link
                 href="/forgot-password"
-                className="inline-block bg-primary text-white font-semibold px-6 py-2.5 rounded-xl hover:bg-primary/90 transition-colors text-sm"
+                className="inline-block bg-gradient-to-r from-primary to-accent text-white font-semibold px-6 py-2.5 rounded-xl hover:opacity-90 transition-all text-sm"
               >
                 Nieuwe reset-link aanvragen
               </Link>
@@ -137,7 +137,7 @@ export default function ResetPasswordPage() {
   return (
     <div className="min-h-screen bg-secondary flex flex-col items-center justify-center px-4 py-12">
       <Link href="/" className="flex items-center gap-2.5 mb-8 group">
-        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
           <span className="text-white font-black text-xs">DG</span>
         </div>
         <span className="font-black text-white group-hover:text-primary transition-colors tracking-tight">
@@ -151,7 +151,7 @@ export default function ResetPasswordPage() {
           <p className="text-[#a0a0a0] mt-1 text-sm">Kies een sterk wachtwoord voor je account.</p>
         </div>
 
-        <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-8 space-y-5">
+        <div className="bg-[#131C31] rounded-[32px] border border-white/5 p-8 space-y-5">
           {error && (
             <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-4 py-3 text-sm">
               <AlertCircle className="w-4 h-4 shrink-0" />
@@ -175,7 +175,7 @@ export default function ResetPasswordPage() {
                   onChange={e => setPassword(e.target.value)}
                   placeholder="Minimaal 6 tekens"
                   autoComplete="new-password"
-                  className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-[#2a2a2a] bg-secondary text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors"
+                  className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors"
                 />
                 <button
                   type="button"
@@ -203,12 +203,12 @@ export default function ResetPasswordPage() {
                   onChange={e => setConfirm(e.target.value)}
                   placeholder="Herhaal je wachtwoord"
                   autoComplete="new-password"
-                  className={`w-full pl-10 pr-10 py-2.5 rounded-xl border bg-secondary text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm transition-colors ${
+                  className={`w-full pl-10 pr-10 py-2.5 rounded-xl border bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm transition-colors ${
                     confirm && confirm !== password
                       ? 'border-red-500/50 focus:border-red-500'
                       : confirm && confirm === password
                         ? 'border-green-500/50 focus:border-green-500'
-                        : 'border-[#2a2a2a] focus:border-primary'
+                        : 'border-white/5 focus:border-primary'
                   }`}
                 />
                 <button
@@ -230,7 +230,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary text-white font-semibold py-2.5 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-gradient-to-r from-primary to-accent text-white font-semibold py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
             >
               <ShieldCheck className="w-4 h-4" />
               {loading ? 'Bezig...' : 'Wachtwoord wijzigen'}

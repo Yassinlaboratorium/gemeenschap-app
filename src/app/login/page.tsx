@@ -43,7 +43,7 @@ function LoginForm() {
   }
 
   return (
-    <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-8 space-y-5">
+    <div className="bg-[#131C31] rounded-[32px] border border-white/5 p-8 space-y-5">
       {successMessage && (
         <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-xl px-4 py-3 text-sm">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
@@ -94,14 +94,14 @@ function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-primary text-white font-semibold py-2.5 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
+          className="w-full bg-gradient-to-r from-primary to-accent text-white font-semibold py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
         >
           <LogIn className="w-4 h-4" />
           {loading ? 'Bezig...' : 'Inloggen'}
         </button>
       </form>
 
-      <p className="text-center text-sm text-[#a0a0a0] pt-1">
+      <p className="text-center text-sm text-white/40 pt-1">
         Nog geen account?{' '}
         <Link href="/register" className="text-primary font-semibold hover:underline">
           Registreer je hier
@@ -115,7 +115,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-secondary flex flex-col items-center justify-center px-4 py-12">
       <Link href="/" className="flex items-center gap-2.5 mb-8 group">
-        <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
           <span className="text-white font-black text-xs">DG</span>
         </div>
         <span className="font-black text-white group-hover:text-primary transition-colors tracking-tight">
@@ -126,10 +126,10 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-extrabold text-white">Welkom terug</h1>
-          <p className="text-[#a0a0a0] mt-1 text-sm">Log in op je account</p>
+          <p className="text-white/40 mt-1 text-sm">Log in op je account</p>
         </div>
 
-        <Suspense fallback={<div className="bg-dark rounded-2xl border border-[#2a2a2a] p-8 h-64 animate-pulse" />}>
+        <Suspense fallback={<div className="bg-[#131C31] rounded-[32px] border border-white/5 p-8 h-64 animate-pulse" />}>
           <LoginForm />
         </Suspense>
       </div>

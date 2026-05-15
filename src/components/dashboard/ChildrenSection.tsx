@@ -58,7 +58,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
             required
             defaultValue={initial?.first_name ?? ''}
             placeholder="bv. Yassin"
-            className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+            className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
           />
         </div>
         <div>
@@ -68,7 +68,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
             type="date"
             required
             defaultValue={initial?.birth_date ?? ''}
-            className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+            className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
           />
         </div>
       </div>
@@ -78,7 +78,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
         <select
           name="gender"
           defaultValue={initial?.gender ?? ''}
-          className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+          className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
         >
           <option value="">Kies (optioneel)</option>
           <option value="male">Jongen</option>
@@ -99,7 +99,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
       </button>
 
       {showExtra && (
-        <div className="space-y-3 border-t border-[#2a2a2a] pt-3">
+        <div className="space-y-3 border-t border-white/5 pt-3">
           <div>
             <label className="block text-xs font-semibold text-white/60 mb-1">School</label>
             <input
@@ -107,7 +107,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
               type="text"
               defaultValue={initial?.school ?? ''}
               placeholder="bv. Basisschool De Wijs"
-              className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+              className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -120,7 +120,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
                 maxLength={4}
                 defaultValue={initial?.postal_code ?? ''}
                 placeholder="9100"
-                className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+                className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
               />
             </div>
             <div>
@@ -130,7 +130,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
                 type="text"
                 defaultValue={initial?.municipality ?? ''}
                 placeholder="bv. Sint-Niklaas, Beveren, Temse..."
-                className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+                className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
               />
             </div>
           </div>
@@ -141,7 +141,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
               type="text"
               defaultValue={initial?.neighborhood ?? ''}
               placeholder="bv. Belsele, Nieuwkerken, Centrum..."
-              className="w-full px-3 py-2 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+              className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
             />
           </div>
         </div>
@@ -159,7 +159,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
         <button
           type="submit"
           disabled={saving}
-          className="flex items-center gap-1.5 text-sm font-semibold bg-primary text-white px-4 py-1.5 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-60"
+          className="flex items-center gap-1.5 text-sm font-semibold bg-gradient-to-r from-primary to-accent text-white px-4 py-1.5 rounded-lg hover:opacity-90 transition-all disabled:opacity-60"
         >
           <Check className="w-4 h-4" />
           {saving ? 'Bezig…' : initial ? 'Opslaan' : 'Toevoegen'}
@@ -224,8 +224,8 @@ export function ChildrenSection({ initialChildren }: Props) {
   }
 
   return (
-    <div className="bg-dark rounded-2xl border border-[#2a2a2a] overflow-hidden">
-      <div className="px-6 py-5 border-b border-[#2a2a2a] flex items-center justify-between gap-3">
+    <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden">
+      <div className="px-6 py-5 border-b border-white/5 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
             <Users className="w-5 h-5 text-primary" />
@@ -264,7 +264,7 @@ export function ChildrenSection({ initialChildren }: Props) {
         {children.map(child => (
           <div key={child.id}>
             {mode === 'list' || (typeof mode === 'object' && mode.edit.id !== child.id) ? (
-              <div className="flex items-center gap-3 bg-secondary rounded-xl border border-[#2a2a2a] px-4 py-3">
+              <div className="flex items-center gap-3 bg-[#1a2942] rounded-xl border border-white/10 px-4 py-3">
                 <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                   <span className="text-primary font-bold text-sm">{child.first_name[0].toUpperCase()}</span>
                 </div>
@@ -309,7 +309,7 @@ export function ChildrenSection({ initialChildren }: Props) {
                 </div>
               </div>
             ) : typeof mode === 'object' && mode.edit.id === child.id ? (
-              <div className="bg-secondary rounded-xl border border-primary/20 px-4 py-4">
+              <div className="bg-[#1a2942] rounded-xl border border-primary/20 px-4 py-4">
                 <p className="text-xs font-semibold text-white/40 mb-3 uppercase tracking-wide">{child.first_name} bewerken</p>
                 <ChildForm
                   initial={child}
@@ -324,7 +324,7 @@ export function ChildrenSection({ initialChildren }: Props) {
         ))}
 
         {mode === 'add' && (
-          <div className="bg-secondary rounded-xl border border-primary/20 px-4 py-4">
+          <div className="bg-[#1a2942] rounded-xl border border-primary/20 px-4 py-4">
             <p className="text-xs font-semibold text-white/40 mb-3 uppercase tracking-wide">Nieuw kind toevoegen</p>
             <ChildForm
               onSave={handleAdd}

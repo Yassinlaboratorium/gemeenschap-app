@@ -124,14 +124,14 @@ function SessionRow({
 // ── Niet ingelogd ────────────────────────────────────────────
 function NotLoggedIn({ sessions }: { sessions: ActivitySessionWithCount[] }) {
   return (
-    <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-8 text-center space-y-4">
+    <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-8 text-center space-y-4">
       <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mx-auto">
         <Users className="w-7 h-7 text-white/20" />
       </div>
       <h2 className="text-xl font-extrabold text-white">Sessies bekijken</h2>
       <div className="space-y-3 text-left max-w-sm mx-auto">
         {sessions.map(s => (
-          <div key={s.id} className="flex items-center justify-between bg-secondary rounded-xl border border-[#2a2a2a] px-4 py-3">
+          <div key={s.id} className="flex items-center justify-between bg-[#1a2942] rounded-xl border border-white/10 px-4 py-3">
             <div>
               <p className="text-sm font-semibold text-white">{s.title ?? formatDate(s.session_date)}</p>
               <p className="text-xs text-white/40">
@@ -146,7 +146,7 @@ function NotLoggedIn({ sessions }: { sessions: ActivitySessionWithCount[] }) {
       </div>
       <Link
         href="/login"
-        className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-2.5 rounded-xl hover:bg-accent transition-all text-sm"
+        className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold hover:opacity-90 transition-all text-sm"
       >
         Log in om in te schrijven
       </Link>
@@ -171,7 +171,7 @@ function CheckoutBar({
   children?: React.ReactNode
 }) {
   return (
-    <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-5 space-y-4">
+    <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-5 space-y-4">
       {error && (
         <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-4 py-3 text-sm">
           <AlertCircle className="w-4 h-4 shrink-0" />
@@ -179,7 +179,7 @@ function CheckoutBar({
         </div>
       )}
       {summary}
-      <div className="flex items-center justify-between border-t border-[#2a2a2a] pt-3">
+      <div className="flex items-center justify-between border-t border-white/5 pt-3">
         <div>
           <p className="text-sm text-white/40">Totaal</p>
           <p className="text-2xl font-extrabold text-white">
@@ -189,7 +189,7 @@ function CheckoutBar({
         <button
           onClick={onSubmit}
           disabled={!hasSelection || loading}
-          className="flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-xl hover:bg-accent active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
         >
           {loading ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -272,7 +272,7 @@ function YouthPicker({
         <p className="text-white/40 text-sm mt-1">Selecteer welke sessies je wil bijwonen.</p>
       </div>
 
-      <div className="bg-dark rounded-2xl border border-[#2a2a2a] overflow-hidden divide-y divide-[#1a1a1a]">
+      <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden divide-y divide-[#1a1a1a]">
         {sessions.map(s => (
           <SessionRow
             key={s.id}
@@ -321,7 +321,7 @@ function ParentPicker({
   // Geen kinderen
   if (children.length === 0) {
     return (
-      <div className="bg-dark rounded-2xl border border-[#2a2a2a] p-8 text-center space-y-4">
+      <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-8 text-center space-y-4">
         <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
           <Baby className="w-7 h-7 text-primary" />
         </div>
@@ -331,7 +331,7 @@ function ParentPicker({
         </p>
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-2.5 rounded-xl hover:bg-accent transition-all text-sm"
+          className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold hover:opacity-90 transition-all text-sm"
         >
           Ga naar dashboard
         </Link>
@@ -397,7 +397,7 @@ function ParentPicker({
         const count = selection[child.id]?.size ?? 0
 
         return (
-          <div key={child.id} className="bg-dark rounded-2xl border border-[#2a2a2a] overflow-hidden">
+          <div key={child.id} className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden">
             <button
               type="button"
               onClick={() => setExpanded(prev => ({ ...prev, [child.id]: !prev[child.id] }))}
@@ -417,7 +417,7 @@ function ParentPicker({
             </button>
 
             {isOpen && (
-              <div className="border-t border-[#2a2a2a] divide-y divide-[#1a1a1a]">
+              <div className="border-t border-white/5 divide-y divide-[#1a1a1a]">
                 {sessions.map(session => (
                   <SessionRow
                     key={session.id}
