@@ -77,21 +77,21 @@ export function PushPermission() {
 
   return (
     <div className="fixed bottom-20 inset-x-4 sm:bottom-6 sm:inset-x-auto sm:right-6 sm:max-w-sm z-50 animate-in slide-in-from-bottom-4">
-      <div className="bg-[#131C31] border border-white/10 rounded-[20px] p-4 shadow-2xl shadow-black/40">
+      <div className="bg-white border border-[#D9D9D9] rounded-[20px] p-4 shadow-lg">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-            <Bell className="w-5 h-5 text-primary" />
+          <div className="w-10 h-10 rounded-xl bg-[#9FB139]/10 flex items-center justify-center shrink-0 mt-0.5">
+            <Bell className="w-5 h-5 text-[#9FB139]" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-bold text-white text-sm">Blijf op de hoogte</p>
-            <p className="text-xs text-white/40 mt-0.5 leading-relaxed">
+            <p className="font-bold text-[#414141] text-sm">Blijf op de hoogte</p>
+            <p className="text-xs text-[#414141]/50 mt-0.5 leading-relaxed">
               Ontvang een melding bij nieuwe activiteiten en updates.
             </p>
             <div className="flex items-center gap-2 mt-3">
               <button
                 onClick={requestPermission}
                 disabled={state === 'loading'}
-                className="flex items-center gap-1.5 bg-gradient-to-r from-primary to-accent text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg hover:opacity-90 transition-all disabled:opacity-60"
+                className="flex items-center gap-1.5 bg-[#9FB139] text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg hover:bg-[#8fa030] transition-all disabled:opacity-60 shadow-sm"
               >
                 {state === 'loading' ? (
                   <span className="animate-pulse">Bezig…</span>
@@ -104,7 +104,7 @@ export function PushPermission() {
               </button>
               <button
                 onClick={dismiss}
-                className="text-xs font-semibold text-white/30 hover:text-white/60 transition-colors px-2 py-1.5"
+                className="text-xs font-semibold text-[#414141]/40 hover:text-[#414141]/70 transition-colors px-2 py-1.5"
               >
                 Niet nu
               </button>
@@ -112,7 +112,7 @@ export function PushPermission() {
           </div>
           <button
             onClick={dismiss}
-            className="text-white/20 hover:text-white/50 transition-colors shrink-0"
+            className="text-[#414141]/25 hover:text-[#414141]/55 transition-colors shrink-0"
           >
             <X className="w-4 h-4" />
           </button>
@@ -155,11 +155,11 @@ export function PushToggle() {
   return (
     <button
       onClick={toggle}
-      className="flex items-center gap-2 text-sm font-semibold text-white/40 hover:text-white transition-colors"
+      className="flex items-center gap-2 text-sm font-semibold text-[#414141]/45 hover:text-[#414141] transition-colors"
       title={state === 'granted' ? 'Meldingen uitschakelen' : 'Meldingen inschakelen'}
     >
       {state === 'granted'
-        ? <Bell className="w-4 h-4 text-primary" />
+        ? <Bell className="w-4 h-4 text-[#9FB139]" />
         : <BellOff className="w-4 h-4" />}
     </button>
   )

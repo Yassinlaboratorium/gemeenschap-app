@@ -75,8 +75,8 @@ function SessionRow({
         disabled
           ? 'opacity-50 cursor-not-allowed'
           : checked
-          ? 'bg-primary/5 cursor-pointer'
-          : 'hover:bg-white/[0.02] cursor-pointer'
+          ? 'bg-[#9FB139]/5 cursor-pointer'
+          : 'hover:bg-[#F8F8F8] cursor-pointer'
       }`}
     >
       <input
@@ -84,13 +84,13 @@ function SessionRow({
         checked={checked}
         disabled={disabled}
         onChange={onChange}
-        className="w-4 h-4 accent-primary shrink-0"
+        className="w-4 h-4 accent-[#9FB139] shrink-0"
       />
       <div className="flex-1 min-w-0">
-        <p className={`text-sm font-semibold ${checked ? 'text-white' : 'text-white/60'}`}>
+        <p className={`text-sm font-semibold ${checked ? 'text-[#414141]' : 'text-[#414141]/60'}`}>
           {session.title ?? formatDate(session.session_date)}
         </p>
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-white/30 mt-0.5">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-[#414141]/45 mt-0.5">
           <span className="flex items-center gap-1">
             <CalendarDays className="w-3 h-3" />
             {formatDate(session.session_date)}
@@ -108,13 +108,13 @@ function SessionRow({
             </span>
           )}
           {spots && (
-            <span className={full ? 'text-red-400 font-semibold' : ''}>
+            <span className={full ? 'text-red-500 font-semibold' : ''}>
               {spots}
             </span>
           )}
         </div>
       </div>
-      <span className={`text-sm font-bold shrink-0 ${checked ? 'text-primary' : 'text-white/30'}`}>
+      <span className={`text-sm font-bold shrink-0 ${checked ? 'text-[#9FB139]' : 'text-[#414141]/40'}`}>
         {formatPrice(session.price_cents)}
       </span>
     </label>
@@ -124,29 +124,29 @@ function SessionRow({
 // ── Niet ingelogd ────────────────────────────────────────────
 function NotLoggedIn({ sessions }: { sessions: ActivitySessionWithCount[] }) {
   return (
-    <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-8 text-center space-y-4">
-      <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mx-auto">
-        <Users className="w-7 h-7 text-white/20" />
+    <div className="bg-white rounded-2xl border border-[#D9D9D9] p-8 text-center space-y-4 shadow-sm">
+      <div className="w-14 h-14 rounded-2xl bg-[#1B9193]/8 flex items-center justify-center mx-auto">
+        <Users className="w-7 h-7 text-[#1B9193]/40" />
       </div>
-      <h2 className="text-xl font-extrabold text-white">Sessies bekijken</h2>
+      <h2 className="text-xl font-extrabold text-[#1B9193]" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>Sessies bekijken</h2>
       <div className="space-y-3 text-left max-w-sm mx-auto">
         {sessions.map(s => (
-          <div key={s.id} className="flex items-center justify-between bg-[#1a2942] rounded-xl border border-white/10 px-4 py-3">
+          <div key={s.id} className="flex items-center justify-between bg-[#F8F8F8] rounded-xl border border-[#D9D9D9] px-4 py-3">
             <div>
-              <p className="text-sm font-semibold text-white">{s.title ?? formatDate(s.session_date)}</p>
-              <p className="text-xs text-white/40">
+              <p className="text-sm font-semibold text-[#414141]">{s.title ?? formatDate(s.session_date)}</p>
+              <p className="text-xs text-[#414141]/45">
                 {formatDate(s.session_date)}
                 {s.start_time && ` · ${s.start_time.slice(0, 5)}`}
                 {s.location && ` · ${s.location}`}
               </p>
             </div>
-            <span className="text-sm font-bold text-primary">{formatPrice(s.price_cents)}</span>
+            <span className="text-sm font-bold text-[#9FB139]">{formatPrice(s.price_cents)}</span>
           </div>
         ))}
       </div>
       <Link
         href="/login"
-        className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold hover:opacity-90 transition-all text-sm"
+        className="inline-flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-6 py-2.5 rounded-[30px] hover:bg-[#8fa030] transition-all text-sm shadow-sm"
       >
         Log in om in te schrijven
       </Link>
@@ -171,25 +171,25 @@ function CheckoutBar({
   children?: React.ReactNode
 }) {
   return (
-    <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-5 space-y-4">
+    <div className="bg-white rounded-2xl border border-[#D9D9D9] p-5 space-y-4 shadow-sm">
       {error && (
-        <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-4 py-3 text-sm">
+        <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 rounded-xl px-4 py-3 text-sm">
           <AlertCircle className="w-4 h-4 shrink-0" />
           {error}
         </div>
       )}
       {summary}
-      <div className="flex items-center justify-between border-t border-white/5 pt-3">
+      <div className="flex items-center justify-between border-t border-[#D9D9D9] pt-3">
         <div>
-          <p className="text-sm text-white/40">Totaal</p>
-          <p className="text-2xl font-extrabold text-white">
+          <p className="text-sm text-[#414141]/45">Totaal</p>
+          <p className="text-2xl font-extrabold text-[#414141]">
             {total === 0 ? 'Gratis' : `€${(total / 100).toFixed(2)}`}
           </p>
         </div>
         <button
           onClick={onSubmit}
           disabled={!hasSelection || loading}
-          className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          className="flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-5 py-2.5 rounded-[30px] hover:bg-[#8fa030] transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-sm"
         >
           {loading ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -268,11 +268,11 @@ function YouthPicker({
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-xl font-extrabold text-white">Kies je sessies</h2>
-        <p className="text-white/40 text-sm mt-1">Selecteer welke sessies je wil bijwonen.</p>
+        <h2 className="text-xl font-extrabold text-[#1B9193]" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>Kies je sessies</h2>
+        <p className="text-[#414141]/45 text-sm mt-1">Selecteer welke sessies je wil bijwonen.</p>
       </div>
 
-      <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden divide-y divide-[#1a1a1a]">
+      <div className="bg-white rounded-2xl border border-[#D9D9D9] overflow-hidden divide-y divide-[#D9D9D9] shadow-sm">
         {sessions.map(s => (
           <SessionRow
             key={s.id}
@@ -321,17 +321,17 @@ function ParentPicker({
   // Geen kinderen
   if (children.length === 0) {
     return (
-      <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-8 text-center space-y-4">
-        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
-          <Baby className="w-7 h-7 text-primary" />
+      <div className="bg-white rounded-2xl border border-[#D9D9D9] p-8 text-center space-y-4 shadow-sm">
+        <div className="w-14 h-14 rounded-2xl bg-[#9FB139]/10 flex items-center justify-center mx-auto">
+          <Baby className="w-7 h-7 text-[#9FB139]" />
         </div>
-        <h2 className="text-xl font-extrabold text-white">Kind toevoegen vereist</h2>
-        <p className="text-[#a0a0a0] text-sm max-w-xs mx-auto">
+        <h2 className="text-xl font-extrabold text-[#1B9193]" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>Kind toevoegen vereist</h2>
+        <p className="text-[#414141]/60 text-sm max-w-xs mx-auto">
           Voeg eerst een kind toe in je dashboard om je in te schrijven voor activiteiten.
         </p>
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold hover:opacity-90 transition-all text-sm"
+          className="inline-flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-6 py-2.5 rounded-[30px] hover:bg-[#8fa030] transition-all text-sm shadow-sm"
         >
           Ga naar dashboard
         </Link>
@@ -387,8 +387,8 @@ function ParentPicker({
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-xl font-extrabold text-white">Inschrijven</h2>
-        <p className="text-white/40 text-sm mt-1">Selecteer per kind welke sessies ze bijwonen.</p>
+        <h2 className="text-xl font-extrabold text-[#1B9193]" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>Inschrijven</h2>
+        <p className="text-[#414141]/45 text-sm mt-1">Selecteer per kind welke sessies ze bijwonen.</p>
       </div>
 
       {children.map(child => {
@@ -397,27 +397,27 @@ function ParentPicker({
         const count = selection[child.id]?.size ?? 0
 
         return (
-          <div key={child.id} className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden">
+          <div key={child.id} className="bg-white rounded-2xl border border-[#D9D9D9] overflow-hidden shadow-sm">
             <button
               type="button"
               onClick={() => setExpanded(prev => ({ ...prev, [child.id]: !prev[child.id] }))}
-              className="w-full flex items-center gap-3 px-5 py-4 hover:bg-white/[0.02] transition-colors text-left"
+              className="w-full flex items-center gap-3 px-5 py-4 hover:bg-[#F8F8F8] transition-colors text-left"
             >
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                <span className="text-primary font-bold">{child.first_name[0].toUpperCase()}</span>
+              <div className="w-10 h-10 rounded-xl bg-[#9FB139]/10 flex items-center justify-center shrink-0">
+                <span className="text-[#9FB139] font-bold">{child.first_name[0].toUpperCase()}</span>
               </div>
               <div className="flex-1">
-                <p className="font-bold text-white">{child.first_name}</p>
-                {child.birth_date && <p className="text-xs text-white/40">{getAge(child.birth_date)}</p>}
+                <p className="font-bold text-[#414141]">{child.first_name}</p>
+                {child.birth_date && <p className="text-xs text-[#414141]/45">{getAge(child.birth_date)}</p>}
               </div>
               <div className="text-right shrink-0">
-                {count > 0 && <p className="text-sm font-bold text-primary">€{(total / 100).toFixed(2)}</p>}
-                <p className="text-xs text-white/30">{count} sessie{count !== 1 ? 's' : ''} geselecteerd</p>
+                {count > 0 && <p className="text-sm font-bold text-[#9FB139]">€{(total / 100).toFixed(2)}</p>}
+                <p className="text-xs text-[#414141]/35">{count} sessie{count !== 1 ? 's' : ''} geselecteerd</p>
               </div>
             </button>
 
             {isOpen && (
-              <div className="border-t border-white/5 divide-y divide-[#1a1a1a]">
+              <div className="border-t border-[#D9D9D9] divide-y divide-[#D9D9D9]">
                 {sessions.map(session => (
                   <SessionRow
                     key={session.id}
@@ -447,10 +447,10 @@ function ParentPicker({
             if (count === 0) return null
             return (
               <div key={child.id} className="flex items-center justify-between text-sm">
-                <span className="text-white/60">
+                <span className="text-[#414141]/60">
                   {child.first_name} ({count} sessie{count !== 1 ? 's' : ''})
                 </span>
-                <span className="text-white font-semibold">€{(total / 100).toFixed(2)}</span>
+                <span className="text-[#414141] font-semibold">€{(total / 100).toFixed(2)}</span>
               </div>
             )
           })}

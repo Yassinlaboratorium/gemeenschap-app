@@ -66,12 +66,12 @@ export function SimpleRegistration({ activity, registration, isLoggedIn }: Props
   }
 
   return (
-    <div className="bg-[#131C31] rounded-[28px] border border-white/5 p-6 space-y-4">
+    <div className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-4 shadow-sm">
       {msg && (
         <div className={`flex items-center gap-2 text-sm rounded-xl px-4 py-3 ${
           msg.type === 'success'
-            ? 'bg-green-500/10 border border-green-500/20 text-green-400'
-            : 'bg-red-500/10 border border-red-500/20 text-red-400'
+            ? 'bg-green-50 border border-green-200 text-green-700'
+            : 'bg-red-50 border border-red-200 text-red-600'
         }`}>
           {msg.type === 'success'
             ? <CheckCircle2 className="w-4 h-4 shrink-0" />
@@ -82,8 +82,8 @@ export function SimpleRegistration({ activity, registration, isLoggedIn }: Props
 
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <p className="text-xs text-white/40 font-semibold uppercase tracking-wide mb-1">Prijs</p>
-          <p className="text-3xl font-extrabold text-white">
+          <p className="text-xs text-[#414141]/45 font-semibold uppercase tracking-wide mb-1">Prijs</p>
+          <p className="text-3xl font-extrabold text-[#414141]" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>
             {price === 0 ? 'Gratis' : `€${price.toFixed(2)}`}
           </p>
         </div>
@@ -92,26 +92,26 @@ export function SimpleRegistration({ activity, registration, isLoggedIn }: Props
           {!isLoggedIn ? (
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 transition-all text-sm"
+              className="inline-flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-6 py-3 rounded-[30px] hover:bg-[#8fa030] transition-all text-sm shadow-sm"
             >
               Log in om in te schrijven
             </Link>
 
           ) : isRegistered ? (
             registration?.payment_status === 'paid' ? (
-              <span className="inline-flex items-center gap-2 bg-white/5 text-white/40 font-semibold px-5 py-2.5 rounded-xl text-sm border border-white/10 cursor-default">
-                <CheckCircle2 className="w-4 h-4 text-green-400/60" />
+              <span className="inline-flex items-center gap-2 bg-[#F8F8F8] text-[#414141]/55 font-semibold px-5 py-2.5 rounded-[30px] text-sm border border-[#D9D9D9] cursor-default">
+                <CheckCircle2 className="w-4 h-4 text-green-500" />
                 Betaald – contact ons voor annulering
               </span>
             ) : (
               <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-green-400">
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-green-600">
                   <CheckCircle2 className="w-4 h-4" /> Ingeschreven
                 </span>
                 <button
                   onClick={handleCancel}
                   disabled={isPending}
-                  className="text-sm font-semibold text-white/40 hover:text-red-400 transition-colors disabled:opacity-50"
+                  className="text-sm font-semibold text-[#414141]/40 hover:text-red-500 transition-colors disabled:opacity-50"
                 >
                   {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Annuleren'}
                 </button>
@@ -122,7 +122,7 @@ export function SimpleRegistration({ activity, registration, isLoggedIn }: Props
             <button
               onClick={handlePayment}
               disabled={isRedirecting}
-              className="inline-flex items-center gap-2 bg-yellow-500 text-white font-semibold px-6 py-3 rounded-xl hover:bg-yellow-600 transition-all text-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 bg-yellow-500 text-white font-semibold px-6 py-3 rounded-[30px] hover:bg-yellow-600 transition-all text-sm disabled:opacity-50 shadow-sm"
             >
               {isRedirecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
               Betaling afronden
@@ -132,7 +132,7 @@ export function SimpleRegistration({ activity, registration, isLoggedIn }: Props
             <button
               onClick={handlePayment}
               disabled={isRedirecting}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 transition-all text-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-6 py-3 rounded-[30px] hover:bg-[#8fa030] transition-all text-sm disabled:opacity-50 shadow-sm"
             >
               {isRedirecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
               Inschrijven + betaal €{price.toFixed(2)}
@@ -142,7 +142,7 @@ export function SimpleRegistration({ activity, registration, isLoggedIn }: Props
             <button
               onClick={handleFree}
               disabled={isPending}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 transition-all text-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-6 py-3 rounded-[30px] hover:bg-[#8fa030] transition-all text-sm disabled:opacity-50 shadow-sm"
             >
               {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
               Schrijf in (gratis)

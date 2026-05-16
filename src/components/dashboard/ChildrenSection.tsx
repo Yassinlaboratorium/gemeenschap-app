@@ -42,7 +42,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
       className="space-y-3"
     >
       {error && (
-        <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-3 py-2 text-sm">
+        <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 rounded-xl px-3 py-2 text-sm">
           <AlertCircle className="w-4 h-4 shrink-0" />
           {error}
         </div>
@@ -51,34 +51,34 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
       {/* Basisvelden */}
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-xs font-semibold text-white/60 mb-1">Voornaam <span className="text-red-400">*</span></label>
+          <label className="block text-xs font-semibold text-[#414141]/60 mb-1">Voornaam <span className="text-red-500">*</span></label>
           <input
             name="first_name"
             type="text"
             required
             defaultValue={initial?.first_name ?? ''}
             placeholder="bv. Yassin"
-            className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+            className="w-full px-3 py-2 rounded-xl border border-[#D9D9D9] bg-white text-[#414141] placeholder:text-[#414141]/30 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors"
           />
         </div>
         <div>
-          <label className="block text-xs font-semibold text-white/60 mb-1">Geboortedatum <span className="text-red-400">*</span></label>
+          <label className="block text-xs font-semibold text-[#414141]/60 mb-1">Geboortedatum <span className="text-red-500">*</span></label>
           <input
             name="birth_date"
             type="date"
             required
             defaultValue={initial?.birth_date ?? ''}
-            className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+            className="w-full px-3 py-2 rounded-xl border border-[#D9D9D9] bg-white text-[#414141] focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-white/60 mb-1">Gender</label>
+        <label className="block text-xs font-semibold text-[#414141]/60 mb-1">Gender</label>
         <select
           name="gender"
           defaultValue={initial?.gender ?? ''}
-          className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+          className="w-full px-3 py-2 rounded-xl border border-[#D9D9D9] bg-white text-[#414141] focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors"
         >
           <option value="">Kies (optioneel)</option>
           <option value="male">Jongen</option>
@@ -92,27 +92,27 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
       <button
         type="button"
         onClick={() => setShowExtra(v => !v)}
-        className="flex items-center gap-1.5 text-xs font-semibold text-white/40 hover:text-white/70 transition-colors"
+        className="flex items-center gap-1.5 text-xs font-semibold text-[#414141]/40 hover:text-[#414141]/70 transition-colors"
       >
         {showExtra ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
         {showExtra ? 'Minder info' : 'Extra info (school, locatie)'}
       </button>
 
       {showExtra && (
-        <div className="space-y-3 border-t border-white/5 pt-3">
+        <div className="space-y-3 border-t border-[#D9D9D9] pt-3">
           <div>
-            <label className="block text-xs font-semibold text-white/60 mb-1">School</label>
+            <label className="block text-xs font-semibold text-[#414141]/60 mb-1">School</label>
             <input
               name="school"
               type="text"
               defaultValue={initial?.school ?? ''}
               placeholder="bv. Basisschool De Wijs"
-              className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+              className="w-full px-3 py-2 rounded-xl border border-[#D9D9D9] bg-white text-[#414141] placeholder:text-[#414141]/30 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-white/60 mb-1">Postcode</label>
+              <label className="block text-xs font-semibold text-[#414141]/60 mb-1">Postcode</label>
               <input
                 name="postal_code"
                 type="text"
@@ -120,28 +120,28 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
                 maxLength={4}
                 defaultValue={initial?.postal_code ?? ''}
                 placeholder="9100"
-                className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+                className="w-full px-3 py-2 rounded-xl border border-[#D9D9D9] bg-white text-[#414141] placeholder:text-[#414141]/30 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-white/60 mb-1">Gemeente</label>
+              <label className="block text-xs font-semibold text-[#414141]/60 mb-1">Gemeente</label>
               <input
                 name="municipality"
                 type="text"
                 defaultValue={initial?.municipality ?? ''}
                 placeholder="bv. Sint-Niklaas, Beveren, Temse..."
-                className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+                className="w-full px-3 py-2 rounded-xl border border-[#D9D9D9] bg-white text-[#414141] placeholder:text-[#414141]/30 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-white/60 mb-1">Wijk / buurt</label>
+            <label className="block text-xs font-semibold text-[#414141]/60 mb-1">Wijk / buurt</label>
             <input
               name="neighborhood"
               type="text"
               defaultValue={initial?.neighborhood ?? ''}
               placeholder="bv. Belsele, Nieuwkerken, Centrum..."
-              className="w-full px-3 py-2 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm"
+              className="w-full px-3 py-2 rounded-xl border border-[#D9D9D9] bg-white text-[#414141] placeholder:text-[#414141]/30 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors"
             />
           </div>
         </div>
@@ -151,7 +151,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
         <button
           type="button"
           onClick={onCancel}
-          className="flex items-center gap-1.5 text-sm font-semibold text-white/40 hover:text-white px-3 py-1.5 rounded-lg transition-colors"
+          className="flex items-center gap-1.5 text-sm font-semibold text-[#414141]/40 hover:text-[#414141] px-3 py-1.5 rounded-lg transition-colors"
         >
           <X className="w-4 h-4" />
           Annuleren
@@ -159,7 +159,7 @@ function ChildForm({ initial, onSave, onCancel, saving, error }: ChildFormProps)
         <button
           type="submit"
           disabled={saving}
-          className="flex items-center gap-1.5 text-sm font-semibold bg-gradient-to-r from-primary to-accent text-white px-4 py-1.5 rounded-lg hover:opacity-90 transition-all disabled:opacity-60"
+          className="flex items-center gap-1.5 text-sm font-semibold bg-[#9FB139] text-white px-4 py-1.5 rounded-lg hover:bg-[#8fa030] transition-all disabled:opacity-60 shadow-sm"
         >
           <Check className="w-4 h-4" />
           {saving ? 'Bezig…' : initial ? 'Opslaan' : 'Toevoegen'}
@@ -224,15 +224,15 @@ export function ChildrenSection({ initialChildren }: Props) {
   }
 
   return (
-    <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden">
-      <div className="px-6 py-5 border-b border-white/5 flex items-center justify-between gap-3">
+    <div className="bg-white rounded-2xl border border-[#D9D9D9] overflow-hidden shadow-sm">
+      <div className="px-6 py-5 border-b border-[#D9D9D9] flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Users className="w-5 h-5 text-primary" />
+          <div className="w-9 h-9 rounded-xl bg-[#9FB139]/10 flex items-center justify-center">
+            <Users className="w-5 h-5 text-[#9FB139]" />
           </div>
           <div>
-            <h2 className="font-bold text-white">Mijn kinderen</h2>
-            <p className="text-sm text-white/40">
+            <h2 className="font-bold text-[#414141]">Mijn kinderen</h2>
+            <p className="text-sm text-[#414141]/45">
               {children.length === 0 ? 'Nog geen kinderen toegevoegd' : `${children.length} kind${children.length !== 1 ? 'eren' : ''}`}
             </p>
           </div>
@@ -240,7 +240,7 @@ export function ChildrenSection({ initialChildren }: Props) {
         {mode === 'list' && (
           <button
             onClick={() => { setMode('add'); setError(null) }}
-            className="flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
+            className="flex items-center gap-1.5 text-sm font-semibold text-[#9FB139] hover:text-[#8fa030] transition-colors"
           >
             <Plus className="w-4 h-4" />
             Kind toevoegen
@@ -251,12 +251,12 @@ export function ChildrenSection({ initialChildren }: Props) {
       <div className="p-6 space-y-4">
         {children.length === 0 && mode === 'list' && (
           <div className="text-center py-6 space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mx-auto">
-              <Baby className="w-6 h-6 text-white/20" />
+            <div className="w-12 h-12 rounded-2xl bg-[#1B9193]/8 flex items-center justify-center mx-auto">
+              <Baby className="w-6 h-6 text-[#1B9193]/35" />
             </div>
             <div>
-              <p className="text-white/40 font-medium text-sm">Nog geen kinderen</p>
-              <p className="text-white/25 text-xs mt-0.5">Voeg een kind toe om in te schrijven voor activiteiten.</p>
+              <p className="text-[#414141]/45 font-medium text-sm">Nog geen kinderen</p>
+              <p className="text-[#414141]/30 text-xs mt-0.5">Voeg een kind toe om in te schrijven voor activiteiten.</p>
             </div>
           </div>
         )}
@@ -264,13 +264,13 @@ export function ChildrenSection({ initialChildren }: Props) {
         {children.map(child => (
           <div key={child.id}>
             {mode === 'list' || (typeof mode === 'object' && mode.edit.id !== child.id) ? (
-              <div className="flex items-center gap-3 bg-[#1a2942] rounded-xl border border-white/10 px-4 py-3">
-                <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                  <span className="text-primary font-bold text-sm">{child.first_name[0].toUpperCase()}</span>
+              <div className="flex items-center gap-3 bg-[#F8F8F8] rounded-xl border border-[#D9D9D9] px-4 py-3">
+                <div className="w-9 h-9 rounded-xl bg-[#9FB139]/10 flex items-center justify-center shrink-0">
+                  <span className="text-[#9FB139] font-bold text-sm">{child.first_name[0].toUpperCase()}</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-white text-sm">{child.first_name}</p>
-                  <p className="text-xs text-white/40">
+                  <p className="font-semibold text-[#414141] text-sm">{child.first_name}</p>
+                  <p className="text-xs text-[#414141]/45">
                     {child.birth_date ? getAge(child.birth_date) : ''}
                     {child.gender ? ` · ${GENDER_LABELS[child.gender] ?? child.gender}` : ''}
                     {child.school ? ` · ${child.school}` : ''}
@@ -281,18 +281,18 @@ export function ChildrenSection({ initialChildren }: Props) {
                   <button
                     onClick={() => { setMode({ edit: child }); setError(null) }}
                     disabled={isPending}
-                    className="p-1.5 text-white/30 hover:text-white/60 transition-colors rounded-lg hover:bg-white/5"
+                    className="p-1.5 text-[#414141]/35 hover:text-[#414141]/65 transition-colors rounded-lg hover:bg-[#F8F8F8]"
                     title="Bewerken"
                   >
                     <Pencil className="w-4 h-4" />
                   </button>
                   {confirmDelete === child.id ? (
                     <div className="flex items-center gap-1.5 ml-1">
-                      <span className="text-xs text-white/40">Verwijderen?</span>
-                      <button onClick={() => handleDelete(child.id)} disabled={isPending} className="text-xs font-semibold text-red-400 hover:text-red-300 px-2 py-1 rounded-lg hover:bg-red-500/10 transition-colors">
+                      <span className="text-xs text-[#414141]/45">Verwijderen?</span>
+                      <button onClick={() => handleDelete(child.id)} disabled={isPending} className="text-xs font-semibold text-red-500 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50 transition-colors">
                         Ja
                       </button>
-                      <button onClick={() => setConfirmDelete(null)} className="text-xs font-semibold text-white/40 hover:text-white px-2 py-1 rounded-lg hover:bg-white/5 transition-colors">
+                      <button onClick={() => setConfirmDelete(null)} className="text-xs font-semibold text-[#414141]/40 hover:text-[#414141] px-2 py-1 rounded-lg hover:bg-[#F8F8F8] transition-colors">
                         Nee
                       </button>
                     </div>
@@ -300,7 +300,7 @@ export function ChildrenSection({ initialChildren }: Props) {
                     <button
                       onClick={() => setConfirmDelete(child.id)}
                       disabled={isPending}
-                      className="p-1.5 text-white/30 hover:text-red-400 transition-colors rounded-lg hover:bg-red-500/5"
+                      className="p-1.5 text-[#414141]/35 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50"
                       title="Verwijderen"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -309,8 +309,8 @@ export function ChildrenSection({ initialChildren }: Props) {
                 </div>
               </div>
             ) : typeof mode === 'object' && mode.edit.id === child.id ? (
-              <div className="bg-[#1a2942] rounded-xl border border-primary/20 px-4 py-4">
-                <p className="text-xs font-semibold text-white/40 mb-3 uppercase tracking-wide">{child.first_name} bewerken</p>
+              <div className="bg-[#F8F8F8] rounded-xl border border-[#9FB139]/20 px-4 py-4">
+                <p className="text-xs font-semibold text-[#414141]/45 mb-3 uppercase tracking-wide">{child.first_name} bewerken</p>
                 <ChildForm
                   initial={child}
                   onSave={fd => handleEdit(child, fd)}
@@ -324,8 +324,8 @@ export function ChildrenSection({ initialChildren }: Props) {
         ))}
 
         {mode === 'add' && (
-          <div className="bg-[#1a2942] rounded-xl border border-primary/20 px-4 py-4">
-            <p className="text-xs font-semibold text-white/40 mb-3 uppercase tracking-wide">Nieuw kind toevoegen</p>
+          <div className="bg-[#F8F8F8] rounded-xl border border-[#9FB139]/20 px-4 py-4">
+            <p className="text-xs font-semibold text-[#414141]/45 mb-3 uppercase tracking-wide">Nieuw kind toevoegen</p>
             <ChildForm
               onSave={handleAdd}
               onCancel={() => { setMode('list'); setError(null) }}
