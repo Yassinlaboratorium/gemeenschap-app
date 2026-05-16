@@ -17,9 +17,11 @@ body {
   font-family: var(--font-open-sans, 'Open Sans', sans-serif);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-poppins, Poppins, sans-serif);
-  color: #1B9193;
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-poppins, Poppins, sans-serif);
+    color: #1B9193;
+  }
 }
 
 @keyframes float {
