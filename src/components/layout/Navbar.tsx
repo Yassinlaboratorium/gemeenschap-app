@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { CalendarDays, LayoutDashboard, LogIn, UserPlus } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
@@ -8,11 +9,15 @@ export async function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-[#0B1020]/90 backdrop-blur-xl border-b border-white/5 px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
-      <Link href="/" className="flex items-center gap-2.5 shrink-0">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-          <span className="text-white font-black text-xs">DG</span>
-        </div>
-        <span className="font-black text-white tracking-tight hidden sm:block">DE GEMEENSCHAP</span>
+      <Link href="/" className="shrink-0">
+        <Image
+          src="/logo.png"
+          alt="DE GEMEENSCHAP"
+          width={130}
+          height={28}
+          className="h-7 w-auto"
+          priority
+        />
       </Link>
 
       <nav className="flex items-center gap-1">

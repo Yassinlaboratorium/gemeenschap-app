@@ -2,6 +2,9 @@ import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
 
+const LOGO_URL =
+  'https://degemeenschap.be/wp-content/uploads/2024/06/LogoTransp-e1719229309956.png'
+
 export function GET() {
   return new ImageResponse(
     (
@@ -12,21 +15,12 @@ export function GET() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #2563EB 0%, #22C55E 100%)',
-          borderRadius: '18%',
+          background: '#0B1020',
+          padding: '72px',
         }}
       >
-        <span
-          style={{
-            fontSize: 210,
-            fontWeight: 900,
-            color: 'white',
-            fontFamily: 'system-ui, Arial, sans-serif',
-            letterSpacing: '-10px',
-          }}
-        >
-          DG
-        </span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={LOGO_URL} style={{ width: '100%', objectFit: 'contain' }} alt="" />
       </div>
     ),
     { width: 512, height: 512 }
