@@ -9,14 +9,14 @@ import type { AnalyticsData } from '@/types/database'
 const COLORS = ['#2563EB', '#22C55E', '#8B5CF6', '#EC4899', '#F59E0B', '#06B6D4', '#EF4444']
 const GENDER_COLORS = { male: '#3B82F6', female: '#EC4899', other: '#6B7280' }
 const TOOLTIP_STYLE = {
-  background: '#0d1827',
-  border: '1px solid rgba(255,255,255,0.08)',
+  background: '#ffffff',
+  border: '1px solid #D9D9D9',
   borderRadius: 12,
-  color: '#fff',
+  color: '#414141',
   fontSize: 12,
 }
-const AXIS_TICK = { fill: 'rgba(255,255,255,0.3)', fontSize: 11 }
-const GRID_STROKE = 'rgba(255,255,255,0.05)'
+const AXIS_TICK = { fill: 'rgba(65,65,65,0.45)', fontSize: 11 }
+const GRID_STROKE = 'rgba(65,65,65,0.08)'
 
 interface ChartCardProps {
   title: string
@@ -27,10 +27,10 @@ interface ChartCardProps {
 
 function ChartCard({ title, subtitle, children, id }: ChartCardProps) {
   return (
-    <div id={id} className="bg-[#131C31] rounded-[28px] border border-white/5 p-6 space-y-5">
+    <div id={id} className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-5 shadow-sm">
       <div>
-        <h3 className="font-bold text-white text-sm">{title}</h3>
-        {subtitle && <p className="text-xs text-white/30 mt-0.5">{subtitle}</p>}
+        <h3 className="font-bold text-[#414141] text-sm" style={{ color: '#414141' }}>{title}</h3>
+        {subtitle && <p className="text-xs text-[#414141]/45 mt-0.5">{subtitle}</p>}
       </div>
       {children}
     </div>
@@ -38,7 +38,7 @@ function ChartCard({ title, subtitle, children, id }: ChartCardProps) {
 }
 
 function ChartSkeleton() {
-  return <div className="h-60 bg-white/5 rounded-xl animate-pulse" />
+  return <div className="h-60 bg-[#F8F8F8] rounded-xl animate-pulse" />
 }
 
 interface Props {
@@ -51,8 +51,8 @@ export function Charts({ data, loading }: Props) {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="bg-[#131C31] rounded-[28px] border border-white/5 p-6 space-y-4">
-            <div className="h-4 bg-white/10 rounded w-40 animate-pulse" />
+          <div key={i} className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-4 shadow-sm">
+            <div className="h-4 bg-[#D9D9D9] rounded w-40 animate-pulse" />
             <ChartSkeleton />
           </div>
         ))}
@@ -75,9 +75,9 @@ export function Charts({ data, loading }: Props) {
             <XAxis dataKey="month" tick={AXIS_TICK} axisLine={false} tickLine={false} />
             <YAxis tick={AXIS_TICK} axisLine={false} tickLine={false} />
             <Tooltip contentStyle={TOOLTIP_STYLE} />
-            <Legend wrapperStyle={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }} />
+            <Legend wrapperStyle={{ color: 'rgba(65,65,65,0.6)', fontSize: 12 }} />
             <Line type="monotone" dataKey="thisYear" name="Dit jaar" stroke="#2563EB" strokeWidth={2.5} dot={false} />
-            <Line type="monotone" dataKey="lastYear" name="Vorig jaar" stroke="rgba(255,255,255,0.2)" strokeWidth={1.5} dot={false} strokeDasharray="4 3" />
+            <Line type="monotone" dataKey="lastYear" name="Vorig jaar" stroke="rgba(65,65,65,0.25)" strokeWidth={1.5} dot={false} strokeDasharray="4 3" />
           </LineChart>
         </ResponsiveContainer>
       </ChartCard>
@@ -88,7 +88,7 @@ export function Charts({ data, loading }: Props) {
           <BarChart layout="vertical" data={data.byMunicipality} barCategoryGap="30%">
             <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} horizontal={false} />
             <XAxis type="number" tick={AXIS_TICK} axisLine={false} tickLine={false} />
-            <YAxis dataKey="municipality" type="category" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 11 }} width={100} axisLine={false} tickLine={false} />
+            <YAxis dataKey="municipality" type="category" tick={{ fill: 'rgba(65,65,65,0.6)', fontSize: 11 }} width={100} axisLine={false} tickLine={false} />
             <Tooltip
               contentStyle={TOOLTIP_STYLE}
               formatter={(v, _, props) => [`${v} (${(props as { payload?: { pct?: number } }).payload?.pct ?? 0}%)`, 'Deelnemers']}
@@ -105,7 +105,7 @@ export function Charts({ data, loading }: Props) {
             <BarChart layout="vertical" data={data.byNeighborhood} barCategoryGap="30%">
               <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} horizontal={false} />
               <XAxis type="number" tick={AXIS_TICK} axisLine={false} tickLine={false} />
-              <YAxis dataKey="neighborhood" type="category" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 11 }} width={120} axisLine={false} tickLine={false} />
+              <YAxis dataKey="neighborhood" type="category" tick={{ fill: 'rgba(65,65,65,0.6)', fontSize: 11 }} width={120} axisLine={false} tickLine={false} />
               <Tooltip contentStyle={TOOLTIP_STYLE} />
               <Bar dataKey="count" fill="#8B5CF6" radius={[0, 6, 6, 0]} />
             </BarChart>
@@ -121,7 +121,7 @@ export function Charts({ data, loading }: Props) {
             <XAxis dataKey="group" tick={AXIS_TICK} axisLine={false} tickLine={false} />
             <YAxis tick={AXIS_TICK} axisLine={false} tickLine={false} />
             <Tooltip contentStyle={TOOLTIP_STYLE} />
-            <Legend wrapperStyle={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }} />
+            <Legend wrapperStyle={{ color: 'rgba(65,65,65,0.6)', fontSize: 12 }} />
             <Bar dataKey="male" name="Jongens" stackId="a" fill={GENDER_COLORS.male} />
             <Bar dataKey="female" name="Meisjes" stackId="a" fill={GENDER_COLORS.female} />
             <Bar dataKey="other" name="Anders/onbekend" stackId="a" fill={GENDER_COLORS.other} radius={[4, 4, 0, 0]} />
@@ -141,7 +141,7 @@ export function Charts({ data, loading }: Props) {
               cy="50%"
               outerRadius={85}
               label={(props: unknown) => { const p = props as { tag: string; pct: number }; return `${p.tag} ${p.pct}%` }}
-              labelLine={{ stroke: 'rgba(255,255,255,0.2)' }}
+              labelLine={{ stroke: 'rgba(65,65,65,0.3)' }}
             >
               {data.byTag.map((_, i) => (
                 <Cell key={i} fill={COLORS[i % COLORS.length]} />
@@ -165,7 +165,7 @@ export function Charts({ data, loading }: Props) {
               innerRadius={55}
               outerRadius={85}
               label={(props: unknown) => { const p = props as { type: string; count: number }; return `${p.type}: ${p.count}` }}
-              labelLine={{ stroke: 'rgba(255,255,255,0.2)' }}
+              labelLine={{ stroke: 'rgba(65,65,65,0.3)' }}
             >
               <Cell fill="#2563EB" />
               <Cell fill="#22C55E" />
@@ -182,7 +182,7 @@ export function Charts({ data, loading }: Props) {
             <BarChart layout="vertical" data={data.topSchools} barCategoryGap="30%">
               <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} horizontal={false} />
               <XAxis type="number" tick={AXIS_TICK} axisLine={false} tickLine={false} />
-              <YAxis dataKey="school" type="category" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 10 }} width={140} axisLine={false} tickLine={false} />
+              <YAxis dataKey="school" type="category" tick={{ fill: 'rgba(65,65,65,0.6)', fontSize: 10 }} width={140} axisLine={false} tickLine={false} />
               <Tooltip contentStyle={TOOLTIP_STYLE} />
               <Bar dataKey="count" fill="#22C55E" radius={[0, 6, 6, 0]} />
             </BarChart>
@@ -198,7 +198,7 @@ export function Charts({ data, loading }: Props) {
             <XAxis dataKey="month" tick={AXIS_TICK} axisLine={false} tickLine={false} />
             <YAxis tick={AXIS_TICK} axisLine={false} tickLine={false} />
             <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`€${v}`, '']} />
-            <Legend wrapperStyle={{ color: 'rgba(255,255,255,0.4)', fontSize: 12 }} />
+            <Legend wrapperStyle={{ color: 'rgba(65,65,65,0.6)', fontSize: 12 }} />
             {tagKeys.map((tag, i) => (
               <Bar key={tag} dataKey={tag} stackId="rev" fill={COLORS[i % COLORS.length]} radius={i === tagKeys.length - 1 ? [4, 4, 0, 0] : undefined} />
             ))}

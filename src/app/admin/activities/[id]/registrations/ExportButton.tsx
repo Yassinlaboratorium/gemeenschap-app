@@ -51,7 +51,7 @@ export function ExportButton({ data, filename }: Props) {
       <button
         onClick={handleExcel}
         disabled={data.length === 0 || loadingXlsx}
-        className="flex items-center gap-2 bg-green-600/10 text-green-400 border border-green-600/20 font-semibold px-3 py-2 rounded-xl hover:bg-green-600/20 transition-colors disabled:opacity-40 text-sm"
+        className="flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 font-semibold px-3 py-2 rounded-xl hover:bg-green-100 transition-colors disabled:opacity-40 text-sm"
         title="Exporteer als Excel (.xlsx)"
       >
         {loadingXlsx ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileSpreadsheet className="w-4 h-4" />}
@@ -60,7 +60,7 @@ export function ExportButton({ data, filename }: Props) {
       <button
         onClick={handleCsv}
         disabled={data.length === 0}
-        className="flex items-center gap-2 text-sm font-semibold text-white/40 hover:text-white px-3 py-2 rounded-xl hover:bg-white/5 transition-colors disabled:opacity-30 border border-white/5 hover:border-white/10"
+        className="flex items-center gap-2 text-sm font-semibold text-[#414141]/45 hover:text-[#414141] px-3 py-2 rounded-xl hover:bg-[#F8F8F8] transition-colors disabled:opacity-30 border border-[#D9D9D9] hover:border-[#9FB139]/40"
         title="Exporteer als CSV"
       >
         <Download className="w-4 h-4" />
