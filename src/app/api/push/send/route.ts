@@ -16,11 +16,25 @@ interface PushSubscriptionRow {
 }
 
 export async function POST(req: Request) {
-  webpush.setVapidDetails(
-    process.env.VAPID_EMAIL!,
-    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-    process.env.VAPID_PRIVATE_KEY!
-  )
+  const vapidEmail = process.env.VAPID_EMAIL ?? ''
+  const vapidPublic = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ?? ''
+  const vapidPrivate = process.env.VAPID_PRIVATE_KEY ?? ''
+
+  // web-push requires a mailto: or https: subject
+  const subject = vapidEmail.startsWith('mailto:') || vapidEmail.startsWith('https:')
+    ? vapidEmail
+    : `mailto:${vapidEmail}`
+
+  if (!vapidPublic || !vapidPrivate || !vapidEmail) {
+    console.error('[push/send] VAPID env vars ontbreken:', {
+      email: !!vapidEmail,
+      public: !!vapidPublic,
+      private: !!vapidPrivate,
+    })
+    return NextResponse.json({ error: 'VAPID configuratie ontbreekt op server' }, { status: 500 })
+  }
+
+  webpush.setVapidDetails(subject, vapidPublic, vapidPrivate)
 
   // Alleen admins mogen pushes sturen
   const supabase = await createClient()
@@ -44,14 +58,22 @@ export async function POST(req: Request) {
 
   // Haal alle subscriptions op via admin client (bypasses RLS)
   const adminSupabase = createAdminClient()
-  const { data: subscriptions } = await adminSupabase
+  const { data: subscriptions, error: dbError } = await adminSupabase
     .from('push_subscriptions')
     .select('endpoint, p256dh, auth')
     .returns<PushSubscriptionRow[]>()
 
+  if (dbError) {
+    console.error('[push/send] Database fout:', dbError)
+    return NextResponse.json({ error: dbError.message }, { status: 500 })
+  }
+
   if (!subscriptions?.length) {
+    console.log('[push/send] Geen subscribers in database')
     return NextResponse.json({ sent: 0, message: 'Geen subscribers' })
   }
+
+  console.log(`[push/send] ${subscriptions.length} subscriber(s) gevonden`)
 
   const results = await Promise.allSettled(
     subscriptions.map(sub =>
@@ -65,22 +87,26 @@ export async function POST(req: Request) {
   const sent = results.filter(r => r.status === 'fulfilled').length
   const failed = results.length - sent
 
-  // Verwijder verlopen subscriptions (410 Gone)
-  const expiredEndpoints = results
-    .map((r, i) =>
-      r.status === 'rejected' &&
-      (r.reason as { statusCode?: number })?.statusCode === 410
-        ? subscriptions[i].endpoint
-        : null
-    )
-    .filter(Boolean) as string[]
+  // Log fouten zodat ze zichtbaar zijn in Vercel Function logs
+  const errors: string[] = []
+  const expiredEndpoints: string[] = []
+  results.forEach((r, i) => {
+    if (r.status === 'rejected') {
+      const err = r.reason as { statusCode?: number; body?: string; message?: string }
+      const detail = `endpoint[${i}] statusCode=${err.statusCode} body=${err.body ?? err.message}`
+      console.error('[push/send] sendNotification fout:', detail)
+      errors.push(detail)
+      if (err.statusCode === 410) expiredEndpoints.push(subscriptions[i].endpoint)
+    }
+  })
 
   if (expiredEndpoints.length > 0) {
     await adminSupabase
       .from('push_subscriptions')
       .delete()
       .in('endpoint', expiredEndpoints)
+    console.log(`[push/send] ${expiredEndpoints.length} verlopen subscription(s) verwijderd`)
   }
 
-  return NextResponse.json({ sent, failed })
+  return NextResponse.json({ sent, failed, errors: errors.length ? errors : undefined })
 }
