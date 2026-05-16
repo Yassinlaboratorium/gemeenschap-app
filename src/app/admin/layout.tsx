@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { CalendarDays, LayoutDashboard, BarChart2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
@@ -20,10 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <div className="min-h-screen bg-secondary">
       <header className="sticky top-0 z-50 bg-[#0B1020]/90 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0">
-            <span className="text-white font-black text-xs">DG</span>
-          </div>
-          <span className="font-black text-white tracking-tight">DE GEMEENSCHAP</span>
+          <Image src="/logo.png" alt="DE GEMEENSCHAP" width={130} height={28} className="h-7 w-auto" />
           <span className="text-xs bg-primary/15 text-primary px-2 py-0.5 rounded-full font-semibold ml-1">Admin</span>
         </Link>
         <nav className="flex items-center gap-1">

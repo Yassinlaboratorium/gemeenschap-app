@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { MapPin, Mail, Phone } from 'lucide-react'
 
 function FacebookIcon() {
@@ -47,11 +48,8 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shrink-0">
-                <span className="text-white font-black text-xs">DG</span>
-              </div>
-              <span className="font-black text-white tracking-tight text-lg">DE GEMEENSCHAP</span>
+            <div>
+              <Image src="/logo.png" alt="DE GEMEENSCHAP" width={160} height={34} className="h-8 w-auto" />
             </div>
             <p className="text-[#a0a0a0] text-sm leading-relaxed max-w-xs">
               for a collective future — jeugdhuis voor jongeren van Sint-Niklaas en omgeving.

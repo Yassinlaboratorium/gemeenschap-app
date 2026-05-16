@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Mail, Lock, User, Calendar, Phone, UserPlus, AlertCircle, MapPin, Users, Baby } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { FormInput } from '@/components/ui/FormInput'
@@ -85,13 +86,8 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-secondary flex flex-col items-center justify-center px-4 py-12">
-      <Link href="/" className="flex items-center gap-2.5 mb-8 group">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-          <span className="text-white font-black text-xs">DG</span>
-        </div>
-        <span className="font-black text-white group-hover:text-primary transition-colors tracking-tight">
-          DE GEMEENSCHAP
-        </span>
+      <Link href="/" className="mb-8 block">
+        <Image src="/logo.png" alt="DE GEMEENSCHAP" width={160} height={34} className="h-8 w-auto" />
       </Link>
 
       <div className="w-full max-w-md">

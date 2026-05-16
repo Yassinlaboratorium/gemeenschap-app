@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Download, Share, X, Smartphone } from 'lucide-react'
+import Image from 'next/image'
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>
@@ -62,8 +63,8 @@ export function InstallPrompt() {
       <div className="fixed bottom-4 inset-x-4 sm:inset-x-auto sm:right-6 sm:max-w-sm z-50 animate-in slide-in-from-bottom-4">
         <div className="bg-[#131C31] border border-white/10 rounded-[20px] p-4 shadow-2xl shadow-black/40">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 mt-0.5">
-              <span className="text-white font-black text-xs">DG</span>
+            <div className="w-10 h-10 rounded-xl bg-[#0B1020] border border-white/10 flex items-center justify-center shrink-0 mt-0.5 p-1.5">
+              <Image src="/logo.png" alt="" width={40} height={9} className="w-full h-auto object-contain" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-bold text-white text-sm">Installeer de app</p>
