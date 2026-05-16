@@ -9,8 +9,9 @@ export function SendPushButton() {
   const [body, setBody] = useState('')
   const [url, setUrl] = useState('/activities')
   const [loading, setLoading] = useState(false)
-  const [result, setResult] = useState<{ sent: number; failed: number } | null>(null)
+  const [result, setResult] = useState<{ sent: number; failed: number; errors?: string[] } | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [clearing, setClearing] = useState(false)
 
   const INPUT = 'w-full px-3 py-2 rounded-xl border border-white/10 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors'
 
@@ -25,15 +26,30 @@ export function SendPushButton() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: title.trim(), body: body.trim(), url }),
       })
-      const data = await res.json() as { sent?: number; failed?: number; error?: string }
+      const data = await res.json() as { sent?: number; failed?: number; error?: string; errors?: string[] }
       if (!res.ok) throw new Error(data.error ?? 'Onbekende fout')
-      setResult({ sent: data.sent ?? 0, failed: data.failed ?? 0 })
+      setResult({ sent: data.sent ?? 0, failed: data.failed ?? 0, errors: data.errors })
       setTitle('')
       setBody('')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Fout')
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function clearSubscriptions() {
+    if (!confirm('Alle push subscriptions verwijderen? Gebruikers moeten opnieuw toestemming geven.')) return
+    setClearing(true)
+    try {
+      const res = await fetch('/api/push/clear', { method: 'DELETE' })
+      const data = await res.json() as { deleted?: number; error?: string }
+      if (!res.ok) throw new Error(data.error ?? 'Fout')
+      alert(`${data.deleted ?? 0} subscription(s) verwijderd. Gebruikers kunnen nu opnieuw subscriben.`)
+    } catch (e) {
+      alert(e instanceof Error ? e.message : 'Fout bij verwijderen')
+    } finally {
+      setClearing(false)
     }
   }
 
@@ -72,10 +88,15 @@ export function SendPushButton() {
                 </div>
               )}
               {result && (
-                <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-xl px-4 py-3 text-sm">
-                  <CheckCircle2 className="w-4 h-4 shrink-0" />
-                  Verzonden naar {result.sent} subscriber{result.sent !== 1 ? 's' : ''}
-                  {result.failed > 0 && ` (${result.failed} mislukt)`}
+                <div className={`rounded-xl px-4 py-3 text-sm border ${result.failed > 0 && result.sent === 0 ? 'bg-red-500/10 border-red-500/20 text-red-400' : 'bg-green-500/10 border-green-500/20 text-green-400'}`}>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                    Verzonden naar {result.sent} subscriber{result.sent !== 1 ? 's' : ''}
+                    {result.failed > 0 && ` (${result.failed} mislukt)`}
+                  </div>
+                  {result.errors?.map((e, i) => (
+                    <p key={i} className="mt-1 text-xs opacity-70 font-mono break-all">{e}</p>
+                  ))}
                 </div>
               )}
 
@@ -121,6 +142,14 @@ export function SendPushButton() {
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 {loading ? 'Verzenden…' : 'Verzenden naar alle subscribers'}
+              </button>
+
+              <button
+                onClick={clearSubscriptions}
+                disabled={clearing}
+                className="w-full text-xs text-white/20 hover:text-red-400 transition-colors py-1"
+              >
+                {clearing ? 'Verwijderen…' : 'Reset alle subscriptions (na VAPID key wissel)'}
               </button>
             </div>
           </div>
