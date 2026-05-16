@@ -19,12 +19,26 @@ export default function ForgotPasswordPage() {
     setError(null)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'}/reset-password`,
-    })
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL
+    const options = appUrl
+      ? { redirectTo: `${appUrl}/reset-password` }
+      : {}
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, options)
 
     if (error) {
-      setError('Er ging iets mis. Probeer het opnieuw.')
+      console.error('[forgot-password] Supabase error:', error.message, error)
+      // Vertaal bekende Supabase-fouten naar duidelijke meldingen
+      const msg = error.message.toLowerCase()
+      if (msg.includes('not allowed') || msg.includes('redirect')) {
+        setError('Configuratiefout: redirect URL niet toegestaan. Neem contact op met de beheerder.')
+      } else if (msg.includes('rate') || msg.includes('limit')) {
+        setError('Te veel pogingen. Wacht even en probeer opnieuw.')
+      } else if (msg.includes('smtp') || msg.includes('email') || msg.includes('send')) {
+        setError('E-mail kon niet worden verstuurd. Probeer het later opnieuw.')
+      } else {
+        setError(error.message)
+      }
       setLoading(false)
       return
     }
