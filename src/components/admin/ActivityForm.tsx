@@ -9,10 +9,10 @@ import type { Activity, ActivitySession } from '@/types/database'
 type Action = (prev: FormState, formData: FormData) => Promise<FormState>
 
 const INPUT =
-  'w-full px-4 py-2.5 rounded-xl border border-white/10 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors'
+  'w-full px-4 py-2.5 rounded-xl border border-white/10 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors'
 const LABEL = 'block text-sm font-semibold text-white mb-1.5'
 const SMALL_INPUT =
-  'w-full px-3 py-2 rounded-lg border border-white/5 bg-[#111] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors'
+  'w-full px-3 py-2 rounded-lg border border-white/5 bg-[#111] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors'
 
 function sessionToEuros(priceCents: number) {
   return (priceCents / 100).toFixed(2)
@@ -372,7 +372,7 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
           name="is_published"
           type="checkbox"
           defaultChecked={activity?.is_published ?? false}
-          className="w-4 h-4 accent-primary"
+          className="w-4 h-4 accent-[#9FB139]"
         />
         <label htmlFor="is_published" className="cursor-pointer">
           <span className="text-sm font-semibold text-white">Gepubliceerd</span>
@@ -391,7 +391,7 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
         <button
           type="submit"
           disabled={isPending}
-          className="flex items-center gap-2 bg-primary text-white font-semibold px-6 py-2.5 rounded-xl hover:bg-accent active:scale-[0.98] transition-all disabled:opacity-60 text-sm"
+          className="flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-6 py-2.5 rounded-[30px] hover:bg-[#8fa030] active:scale-[0.98] transition-all disabled:opacity-60 text-sm shadow-sm"
         >
           <Save className="w-4 h-4" />
           {isPending ? 'Bezig…' : activity ? 'Opslaan' : 'Activiteit aanmaken'}

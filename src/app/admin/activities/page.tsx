@@ -65,7 +65,7 @@ export default async function ActivitiesPage({
           <SendPushButton />
           <Link
             href="/admin/activities/new"
-            className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold px-4 py-2.5 rounded-xl hover:opacity-90 transition-all text-sm"
+            className="flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-4 py-2.5 rounded-[30px] hover:bg-[#8fa030] transition-all text-sm shadow-sm"
           >
             <Plus className="w-4 h-4" />
             <span className="hidden sm:inline">Nieuwe activiteit</span>

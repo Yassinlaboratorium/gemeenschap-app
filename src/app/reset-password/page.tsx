@@ -21,12 +21,12 @@ function StrengthBar({ password }: { password: string }) {
           <div
             key={i}
             className={`h-1 flex-1 rounded-full transition-all ${
-              i <= score ? colors[score] : 'bg-white/10'
+              i <= score ? colors[score] : 'bg-[#D9D9D9]'
             }`}
           />
         ))}
       </div>
-      <p className={`text-xs ${score <= 1 ? 'text-red-400' : score === 2 ? 'text-orange-400' : score === 3 ? 'text-yellow-400' : 'text-green-400'}`}>
+      <p className={`text-xs ${score <= 1 ? 'text-red-500' : score === 2 ? 'text-orange-500' : score === 3 ? 'text-amber-500' : 'text-green-600'}`}>
         {labels[score]}
       </p>
     </div>
@@ -101,30 +101,30 @@ export default function ResetPasswordPage() {
 
   if (!ready) {
     return (
-      <div className="min-h-screen bg-secondary flex flex-col items-center justify-center px-4">
+      <div className="min-h-screen bg-[#F8F8F8] flex flex-col items-center justify-center px-4">
         <div className="text-center space-y-4">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#131C31] border border-white/5 mb-2">
-            <ShieldCheck className={`w-7 h-7 text-primary ${timedOut ? '' : 'animate-pulse'}`} />
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white border border-[#D9D9D9] mb-2 shadow-sm">
+            <ShieldCheck className={`w-7 h-7 text-[#1B9193] ${timedOut ? '' : 'animate-pulse'}`} />
           </div>
           {timedOut ? (
             <>
-              <h1 className="text-xl font-extrabold text-white">Link ongeldig of verlopen</h1>
-              <p className="text-[#a0a0a0] text-sm">
+              <h1 className="text-xl font-extrabold" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#1B9193' }}>Link ongeldig of verlopen</h1>
+              <p className="text-[#414141]/55 text-sm">
                 Deze reset-link werkt niet meer.
               </p>
               <Link
                 href="/forgot-password"
-                className="inline-block bg-gradient-to-r from-primary to-accent text-white font-semibold px-6 py-2.5 rounded-xl hover:opacity-90 transition-all text-sm"
+                className="inline-block bg-[#9FB139] text-white font-semibold px-6 py-2.5 rounded-[30px] hover:bg-[#8fa030] transition-all text-sm shadow-sm"
               >
                 Nieuwe reset-link aanvragen
               </Link>
             </>
           ) : (
             <>
-              <h1 className="text-xl font-extrabold text-white">Link controleren…</h1>
-              <p className="text-[#a0a0a0] text-sm">
+              <h1 className="text-xl font-extrabold" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#1B9193' }}>Link controleren…</h1>
+              <p className="text-[#414141]/55 text-sm">
                 Geen link of verlopen?{' '}
-                <Link href="/forgot-password" className="text-primary font-semibold hover:underline">
+                <Link href="/forgot-password" className="text-[#9FB139] font-semibold hover:underline">
                   Vraag een nieuwe aan
                 </Link>
               </p>
@@ -136,20 +136,20 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-[#F8F8F8] flex flex-col items-center justify-center px-4 py-12">
       <Link href="/" className="mb-8 block">
         <Image src="/logo.png" alt="DE GEMEENSCHAP" width={160} height={34} className="h-8 w-auto" />
       </Link>
 
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-extrabold text-white">Nieuw wachtwoord</h1>
-          <p className="text-[#a0a0a0] mt-1 text-sm">Kies een sterk wachtwoord voor je account.</p>
+          <h1 className="text-2xl font-extrabold" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#1B9193' }}>Nieuw wachtwoord</h1>
+          <p className="text-[#414141]/50 mt-1 text-sm">Kies een sterk wachtwoord voor je account.</p>
         </div>
 
-        <div className="bg-[#131C31] rounded-[32px] border border-white/5 p-8 space-y-5">
+        <div className="bg-white rounded-2xl border border-[#D9D9D9] p-8 space-y-5 shadow-sm">
           {error && (
-            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-4 py-3 text-sm">
+            <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 rounded-xl px-4 py-3 text-sm">
               <AlertCircle className="w-4 h-4 shrink-0" />
               {error}
             </div>
@@ -158,11 +158,11 @@ export default function ResetPasswordPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Nieuw wachtwoord */}
             <div>
-              <label className="flex items-center gap-1 text-sm font-semibold text-white mb-1.5">
+              <label className="flex items-center gap-1 text-sm font-semibold text-[#414141] mb-1.5" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>
                 Nieuw wachtwoord
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#414141]/35 pointer-events-none" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
@@ -171,12 +171,12 @@ export default function ResetPasswordPage() {
                   onChange={e => setPassword(e.target.value)}
                   placeholder="Minimaal 6 tekens"
                   autoComplete="new-password"
-                  className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-white/5 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors"
+                  className="w-full pl-10 pr-10 py-2.5 rounded-[30px] border border-[#D9D9D9] bg-[#F8F8F8] text-[#414141] placeholder:text-[#414141]/35 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(v => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#414141]/35 hover:text-[#414141]/60 transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -186,11 +186,11 @@ export default function ResetPasswordPage() {
 
             {/* Bevestig wachtwoord */}
             <div>
-              <label className="flex items-center gap-1 text-sm font-semibold text-white mb-1.5">
+              <label className="flex items-center gap-1 text-sm font-semibold text-[#414141] mb-1.5" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>
                 Bevestig wachtwoord
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#414141]/35 pointer-events-none" />
                 <input
                   type={showConfirm ? 'text' : 'password'}
                   required
@@ -199,34 +199,34 @@ export default function ResetPasswordPage() {
                   onChange={e => setConfirm(e.target.value)}
                   placeholder="Herhaal je wachtwoord"
                   autoComplete="new-password"
-                  className={`w-full pl-10 pr-10 py-2.5 rounded-xl border bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm transition-colors ${
+                  className={`w-full pl-10 pr-10 py-2.5 rounded-[30px] border bg-[#F8F8F8] text-[#414141] placeholder:text-[#414141]/35 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 text-sm transition-colors ${
                     confirm && confirm !== password
-                      ? 'border-red-500/50 focus:border-red-500'
+                      ? 'border-red-400 focus:border-red-500'
                       : confirm && confirm === password
-                        ? 'border-green-500/50 focus:border-green-500'
-                        : 'border-white/5 focus:border-primary'
+                        ? 'border-green-400 focus:border-green-500'
+                        : 'border-[#D9D9D9] focus:border-[#9FB139]'
                   }`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirm(v => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#414141]/35 hover:text-[#414141]/60 transition-colors"
                 >
                   {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
               {confirm && confirm !== password && (
-                <p className="text-xs text-red-400 mt-1">Wachtwoorden komen niet overeen.</p>
+                <p className="text-xs text-red-500 mt-1">Wachtwoorden komen niet overeen.</p>
               )}
               {confirm && confirm === password && (
-                <p className="text-xs text-green-400 mt-1">Wachtwoorden komen overeen.</p>
+                <p className="text-xs text-green-600 mt-1">Wachtwoorden komen overeen.</p>
               )}
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-primary to-accent text-white font-semibold py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-[#9FB139] text-white font-semibold py-2.5 rounded-[30px] hover:bg-[#8fa030] active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2 shadow-sm"
             >
               <ShieldCheck className="w-4 h-4" />
               {loading ? 'Bezig...' : 'Wachtwoord wijzigen'}

@@ -53,7 +53,6 @@ export default async function DashboardPage() {
       .returns<RawSessionReg[]>(),
   ])
 
-  // Haal sessie-details op voor alle session_ids die in de inschrijvingen staan
   const allSessionIds = (sessionRegsRaw ?? []).flatMap(r => r.session_ids)
   let enrichedSessionRegs: SessionRegistrationWithDetails[] = []
 
@@ -77,9 +76,9 @@ export default async function DashboardPage() {
   const upcoming = activeRegs.filter(r => r.activities.date >= today)
 
   return (
-    <div className="min-h-screen bg-secondary flex flex-col">
+    <div className="min-h-screen bg-[#F8F8F8] flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-[#0B1020]/90 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-[#D9D9D9] px-6 py-4 flex items-center justify-between shadow-sm">
         <Link href="/">
           <Image src="/logo.png" alt="DE GEMEENSCHAP" width={130} height={28} className="h-7 w-auto" />
         </Link>
@@ -90,39 +89,39 @@ export default async function DashboardPage() {
 
         {/* ── HERO WELCOME CARD ── */}
         <div
-          className="rounded-2xl overflow-hidden relative min-h-[220px] sm:min-h-[240px]"
-          style={{ background: 'linear-gradient(135deg, #0d1827 0%, #131C31 100%)' }}
+          className="rounded-2xl overflow-hidden relative min-h-[220px] sm:min-h-[240px] shadow-sm"
+          style={{ background: 'linear-gradient(135deg, #1B9193 0%, #157a7c 60%, #0f6163 100%)' }}
         >
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{ background: 'radial-gradient(ellipse 55% 80% at 95% 15%, rgba(37,99,235,0.20), transparent)' }}
+            style={{ background: 'radial-gradient(ellipse 55% 80% at 95% 15%, rgba(255,255,255,0.08), transparent)' }}
           />
           <div
             className="absolute inset-0 pointer-events-none hidden sm:block"
-            style={{ background: 'linear-gradient(to right, #0d1827 35%, rgba(13,24,39,0.55) 58%, transparent 78%)' }}
+            style={{ background: 'linear-gradient(to right, rgba(27,145,147,0.9) 35%, rgba(27,145,147,0.55) 58%, transparent 78%)' }}
           />
           <div className="absolute bottom-0 right-0 w-[300px] sm:w-[340px] pointer-events-none hidden sm:block animate-float">
-            <YouthIllustration className="w-full h-auto opacity-70" />
+            <YouthIllustration className="w-full h-auto opacity-60" />
           </div>
           <div className="relative z-10 p-7 sm:p-8 sm:pr-4">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 rounded-2xl bg-white/8 flex items-center justify-center shrink-0 border border-white/10">
-                <User className="w-7 h-7 text-white/50" />
+              <div className="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center shrink-0 border border-white/25">
+                <User className="w-7 h-7 text-white/70" />
               </div>
               <div>
-                <p className="text-white/40 text-sm font-medium">Welkom terug</p>
-                <h1 className="text-2xl font-extrabold text-white leading-tight">Hey, {firstName}!</h1>
-                <p className="text-white/25 text-sm mt-0.5 truncate max-w-[200px]">{user.email}</p>
+                <p className="text-white/65 text-sm font-medium">Welkom terug</p>
+                <h1 className="text-2xl font-extrabold text-white leading-tight" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>Hey, {firstName}!</h1>
+                <p className="text-white/40 text-sm mt-0.5 truncate max-w-[200px]">{user.email}</p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3 max-w-[260px]">
-              <div className="bg-white/8 rounded-xl px-4 py-3 border border-white/10">
+              <div className="bg-white/15 rounded-xl px-4 py-3 border border-white/20">
                 <p className="text-2xl font-extrabold text-white">{activeRegs.length}</p>
-                <p className="text-xs text-white/40 font-medium mt-0.5">Inschrijvingen</p>
+                <p className="text-xs text-white/60 font-medium mt-0.5">Inschrijvingen</p>
               </div>
-              <div className="bg-white/8 rounded-xl px-4 py-3 border border-white/10">
+              <div className="bg-white/15 rounded-xl px-4 py-3 border border-white/20">
                 <p className="text-2xl font-extrabold text-white">{upcoming.length}</p>
-                <p className="text-xs text-white/40 font-medium mt-0.5">Komend</p>
+                <p className="text-xs text-white/60 font-medium mt-0.5">Komend</p>
               </div>
             </div>
           </div>
@@ -140,14 +139,14 @@ export default async function DashboardPage() {
         />
 
         {/* ── MIJN ACTIVITEITEN (klassiek) ── */}
-        <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden">
-          <div className="px-6 py-5 border-b border-white/5 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-              <CalendarDays className="w-5 h-5 text-primary" />
+        <div className="bg-white rounded-2xl border border-[#D9D9D9] overflow-hidden shadow-sm">
+          <div className="px-6 py-5 border-b border-[#D9D9D9] flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#9FB139]/10 flex items-center justify-center">
+              <CalendarDays className="w-5 h-5 text-[#9FB139]" />
             </div>
             <div>
-              <h2 className="font-bold text-white">Mijn activiteiten</h2>
-              <p className="text-sm text-white/40">
+              <h2 className="font-bold text-[#414141]" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#414141' }}>Mijn activiteiten</h2>
+              <p className="text-sm text-[#414141]/45">
                 {activeRegs.length === 0
                   ? 'Nog geen inschrijvingen'
                   : `${activeRegs.length} inschrijving${activeRegs.length !== 1 ? 'en' : ''}`}
@@ -157,23 +156,23 @@ export default async function DashboardPage() {
 
           {activeRegs.length === 0 ? (
             <div className="py-12 text-center space-y-4 px-6">
-              <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mx-auto">
-                <CalendarDays className="w-6 h-6 text-white/20" />
+              <div className="w-12 h-12 rounded-2xl bg-[#F8F8F8] flex items-center justify-center mx-auto border border-[#D9D9D9]">
+                <CalendarDays className="w-6 h-6 text-[#414141]/20" />
               </div>
               <div>
-                <p className="text-white/40 font-medium">Nog geen inschrijvingen</p>
-                <p className="text-white/25 text-sm">Schrijf je in voor activiteiten en ze verschijnen hier.</p>
+                <p className="text-[#414141]/50 font-medium">Nog geen inschrijvingen</p>
+                <p className="text-[#414141]/35 text-sm">Schrijf je in voor activiteiten en ze verschijnen hier.</p>
               </div>
               <Link
                 href="/activities"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold px-5 py-2.5 rounded-xl hover:opacity-90 transition-all text-sm"
+                className="inline-flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-5 py-2.5 rounded-[30px] hover:bg-[#8fa030] transition-all text-sm shadow-sm"
               >
                 Bekijk activiteiten
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           ) : (
-            <ul className="divide-y divide-white/5">
+            <ul className="divide-y divide-[#D9D9D9]">
               {activeRegs.map((reg) => {
                 const activity = reg.activities
                 const firstTag = activity.tags?.[0]
@@ -183,20 +182,20 @@ export default async function DashboardPage() {
                 const isPast = activity.date < today
 
                 return (
-                  <li key={reg.id} className={`flex items-center gap-4 px-6 py-4 transition-colors hover:bg-white/[0.02] ${isPast ? 'opacity-40' : ''}`}>
-                    <div className="w-11 h-11 rounded-xl bg-white/5 flex flex-col items-center justify-center shrink-0 leading-none border border-white/10">
-                      <span className="text-base font-extrabold text-white">{day}</span>
-                      <span className="text-[9px] font-semibold text-white/30 uppercase tracking-wider">{monthShort}</span>
+                  <li key={reg.id} className={`flex items-center gap-4 px-6 py-4 transition-colors hover:bg-[#F8F8F8] ${isPast ? 'opacity-50' : ''}`}>
+                    <div className="w-11 h-11 rounded-xl bg-[#1B9193]/8 flex flex-col items-center justify-center shrink-0 leading-none border border-[#1B9193]/15">
+                      <span className="text-base font-extrabold text-[#1B9193]">{day}</span>
+                      <span className="text-[9px] font-semibold text-[#1B9193]/50 uppercase tracking-wider">{monthShort}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-white text-sm truncate">{activity.title}</p>
-                      <div className="flex items-center gap-2 mt-0.5 text-xs text-white/30">
+                      <p className="font-semibold text-[#414141] text-sm truncate">{activity.title}</p>
+                      <div className="flex items-center gap-2 mt-0.5 text-xs text-[#414141]/40">
                         {firstTag && (
-                          <span className="text-primary/70">{firstTag}</span>
+                          <span className="text-[#9FB139]">{firstTag}</span>
                         )}
                         {startTime && (
                           <>
-                            {firstTag && <span className="text-white/10">·</span>}
+                            {firstTag && <span className="text-[#414141]/20">·</span>}
                             <span className="flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               {startTime}
@@ -207,9 +206,9 @@ export default async function DashboardPage() {
                     </div>
                     <div className="shrink-0">
                       {isPast ? (
-                        <span className="text-xs font-medium text-white/25 bg-white/5 px-2.5 py-1 rounded-full">Voorbij</span>
+                        <span className="text-xs font-medium text-[#414141]/35 bg-[#F8F8F8] border border-[#D9D9D9] px-2.5 py-1 rounded-full">Voorbij</span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-400 bg-green-500/10 border border-green-500/20 px-2.5 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
                           <CheckCircle2 className="w-3 h-3" />
                           Ingeschreven
                         </span>
@@ -222,10 +221,10 @@ export default async function DashboardPage() {
           )}
 
           {activeRegs.length > 0 && (
-            <div className="px-6 py-4 border-t border-white/5">
+            <div className="px-6 py-4 border-t border-[#D9D9D9]">
               <Link
                 href="/activities"
-                className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all hover:text-accent"
+                className="inline-flex items-center gap-2 text-[#9FB139] font-semibold text-sm hover:gap-3 transition-all hover:text-[#8fa030]"
               >
                 Meer activiteiten bekijken <ArrowRight className="w-4 h-4" />
               </Link>
@@ -235,19 +234,19 @@ export default async function DashboardPage() {
 
         {/* ── ADMIN LINK ── */}
         {profile?.is_admin && (
-          <div className="bg-[#131C31] border border-primary/20 rounded-[28px] p-6 flex items-center justify-between">
+          <div className="bg-white border border-[#1B9193]/20 rounded-2xl p-6 flex items-center justify-between shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Settings className="w-5 h-5 text-primary" />
+              <div className="w-10 h-10 rounded-xl bg-[#1B9193]/10 flex items-center justify-center">
+                <Settings className="w-5 h-5 text-[#1B9193]" />
               </div>
               <div>
-                <p className="font-bold text-white text-sm">Beheerdersmodus</p>
-                <p className="text-xs text-white/40">Activiteiten beheren en inschrijvingen bekijken</p>
+                <p className="font-bold text-[#414141] text-sm" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>Beheerdersmodus</p>
+                <p className="text-xs text-[#414141]/45">Activiteiten beheren en inschrijvingen bekijken</p>
               </div>
             </div>
             <Link
               href="/admin/activities"
-              className="bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold px-4 py-2 rounded-xl hover:opacity-90 transition-all"
+              className="bg-[#1B9193] text-white text-sm font-semibold px-4 py-2 rounded-[30px] hover:bg-[#157a7c] transition-all shadow-sm"
             >
               Naar admin
             </Link>

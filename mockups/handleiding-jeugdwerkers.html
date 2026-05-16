@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handleiding — DE GEMEENSCHAP App</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --teal:   #1B9193;
+  --teal2:  #157a7c;
+  --olive:  #9FB139;
+  --olive2: #8a9c2e;
+  --bg:     #f7f9f4;
+  --white:  #ffffff;
+  --text:   #1a1a1a;
+  --muted:  #666;
+  --border: #e2e8d8;
+  --r:      14px;
+}
+body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+a { color: var(--teal); text-decoration: none; }
+
+/* ─── PRINT HIDE ─── */
+@media print {
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  body { background: white; }
+  .cheatsheet { page-break-before: always; }
+}
+.print-only { display: none; }
+
+/* ─── HEADER ─── */
+.site-header {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal2) 100%);
+  color: white;
+  padding: 40px 5% 36px;
+  text-align: center;
+}
+.site-header .badge {
+  display: inline-block;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.25);
+  font-size: 12px; font-weight: 600;
+  padding: 5px 14px; border-radius: 100px;
+  margin-bottom: 16px;
+}
+.site-header h1 { font-size: 36px; font-weight: 900; margin-bottom: 8px; }
+.site-header p { font-size: 16px; opacity: .85; max-width: 520px; margin: 0 auto; }
+
+/* ─── NAV TABS ─── */
+.nav-tabs {
+  background: white;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  overflow-x: auto;
+  padding: 0 5%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+.nav-tab {
+  flex-shrink: 0;
+  padding: 18px 24px;
+  font-size: 14px; font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-tab:hover { color: var(--teal); }
+.nav-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+.nav-tab .tab-icon { font-size: 18px; }
+
+/* ─── SECTIONS ─── */
+.section { display: none; padding: 40px 5% 60px; max-width: 900px; margin: 0 auto; }
+.section.active { display: block; }
+
+/* ─── STEP WALKTHROUGH ─── */
+.steps-progress {
+  display: flex; align-items: center; gap: 0;
+  margin-bottom: 36px; overflow-x: auto;
+}
+.step-dot {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  flex-shrink: 0;
+}
+.step-dot-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--border); color: var(--muted);
+  font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .3s;
+}
+.step-dot.active .step-dot-circle { background: var(--teal); color: white; }
+.step-dot.done .step-dot-circle { background: var(--olive); color: white; }
+.step-dot-label { font-size: 11px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.step-dot.active .step-dot-label { color: var(--teal); }
+.step-line { flex: 1; height: 2px; background: var(--border); min-width: 24px; margin: 0 4px; margin-bottom: 24px; }
+.step-line.done { background: var(--olive); }
+
+/* ─── STEP CARD ─── */
+.step-card { display: none; }
+.step-card.active { display: block; }
+
+.screen-mock {
+  background: #1a1f2e;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,.15);
+  margin-bottom: 20px;
+  position: relative;
+}
+.screen-bar {
+  background: #0d1117;
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.screen-bar .dot { width: 10px; height: 10px; border-radius: 50%; }
+.screen-bar .dot.red { background: #ff5f57; }
+.screen-bar .dot.yellow { background: #febc2e; }
+.screen-bar .dot.green { background: #28c840; }
+.screen-url {
+  flex: 1; background: #1e2330; border-radius: 6px;
+  padding: 4px 12px; font-size: 12px; color: rgba(255,255,255,.5);
+  margin: 0 12px;
+}
+.screen-body { padding: 20px 24px; min-height: 220px; }
+
+/* admin page mock */
+.mock-admin-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,.08);
+  margin-bottom: 20px;
+}
+.mock-logo { font-size: 14px; font-weight: 800; color: white; }
+.mock-logo span { color: var(--teal); }
+.mock-btn {
+  background: linear-gradient(135deg, var(--teal), var(--olive));
+  color: white; font-size: 12px; font-weight: 700;
+  padding: 8px 16px; border-radius: 10px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  position: relative;
+}
+.mock-btn.highlight::after {
+  content: '';
+  position: absolute; inset: -4px;
+  border: 2px solid #fff;
+  border-radius: 14px;
+  animation: blink 1.2s ease-in-out infinite;
+}
+.mock-btn.highlight-red::after { border-color: #ff6b6b; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.mock-table { width: 100%; border-collapse: collapse; }
+.mock-table th { font-size: 11px; color: rgba(255,255,255,.4); font-weight: 600; text-align: left; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+.mock-table td { font-size: 12px; color: rgba(255,255,255,.75); padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+.mock-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px; }
+.mock-badge.green { background: rgba(159,177,57,.2); color: var(--olive); }
+.mock-badge.teal { background: rgba(27,145,147,.2); color: #4ecbcd; }
+.mock-badge.gray { background: rgba(255,255,255,.08); color: rgba(255,255,255,.4); }
+
+.mock-form { display: grid; gap: 12px; }
+.mock-input { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 10px 14px; color: rgba(255,255,255,.8); font-size: 13px; font-family: 'Poppins', sans-serif; }
+.mock-input.highlight { border-color: var(--olive); box-shadow: 0 0 0 3px rgba(159,177,57,.2); }
+.mock-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.4); margin-bottom: 4px; }
+.mock-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.mock-notif-phone {
+  background: #1a1f2e;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 20px;
+  padding: 16px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.mock-notif-bar {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(27,145,147,.15);
+  border: 1px solid rgba(27,145,147,.2);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.mock-notif-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--teal), var(--olive)); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.mock-notif-title { font-size: 13px; font-weight: 700; color: white; }
+.mock-notif-body { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 2px; }
+
+/* ─── ARROW CALLOUT ─── */
+.callout {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: white; border: 2px solid var(--teal);
+  border-radius: var(--r); padding: 16px 20px;
+  margin-bottom: 16px;
+}
+.callout-arrow { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+.callout-text { font-size: 15px; font-weight: 600; color: var(--text); }
+.callout-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+/* ─── STEP NAVIGATION ─── */
+.step-nav { display: flex; gap: 12px; margin-top: 24px; align-items: center; }
+.btn-next {
+  background: linear-gradient(135deg, var(--teal), var(--olive));
+  color: white; font-size: 14px; font-weight: 700;
+  padding: 12px 28px; border-radius: 12px; border: none;
+  cursor: pointer; display: flex; align-items: center; gap: 8px;
+  transition: opacity .2s;
+}
+.btn-next:hover { opacity: .9; }
+.btn-next:disabled { opacity: .3; cursor: default; }
+.btn-prev {
+  background: white; color: var(--muted); font-size: 14px; font-weight: 700;
+  padding: 12px 22px; border-radius: 12px; border: 2px solid var(--border);
+  cursor: pointer; transition: border-color .2s, color .2s;
+}
+.btn-prev:hover { border-color: var(--teal); color: var(--teal); }
+.btn-prev:disabled { opacity: .3; cursor: default; }
+.step-counter { font-size: 13px; color: var(--muted); font-weight: 600; margin-left: auto; }
+
+/* ─── CHEATSHEET ─── */
+.cheatsheet {
+  background: white;
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 40px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+.cheatsheet-header { text-align: center; margin-bottom: 32px; }
+.cheatsheet-header h2 { font-size: 26px; font-weight: 900; color: var(--teal); }
+.cheatsheet-header p { font-size: 14px; color: var(--muted); margin-top: 4px; }
+.cheatsheet-url {
+  background: var(--bg); border: 2px solid var(--teal);
+  border-radius: 12px; padding: 14px 20px;
+  text-align: center; margin-bottom: 28px;
+  font-size: 18px; font-weight: 800; color: var(--teal);
+}
+
+.cheatsheet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.cheat-item {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 18px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.cheat-icon { font-size: 28px; flex-shrink: 0; }
+.cheat-title { font-size: 13px; font-weight: 800; color: var(--text); }
+.cheat-path { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+.cheat-path strong { color: var(--teal); }
+
+.qr-row { display: flex; align-items: center; gap: 24px; background: var(--teal); border-radius: 14px; padding: 20px 24px; color: white; }
+.qr-box { width: 80px; height: 80px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; color: var(--muted); text-align: center; padding: 8px; }
+.qr-text h3 { font-size: 16px; font-weight: 800; }
+.qr-text p { font-size: 13px; opacity: .85; margin-top: 4px; }
+
+.print-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: white; border: 2px solid var(--border);
+  color: var(--text); font-size: 13px; font-weight: 700;
+  padding: 10px 20px; border-radius: 10px; cursor: pointer;
+  margin: 20px auto 0; width: fit-content;
+  transition: border-color .2s;
+}
+.print-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+/* ─── FAQ ─── */
+.faq-list { display: grid; gap: 10px; }
+.faq-item {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
+  transition: border-color .2s;
+}
+.faq-item:hover { border-color: var(--teal); }
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px; cursor: pointer;
+  font-size: 15px; font-weight: 700; color: var(--text);
+  gap: 16px;
+}
+.faq-q-left { display: flex; align-items: center; gap: 14px; }
+.faq-num { width: 28px; height: 28px; background: var(--bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--teal); flex-shrink: 0; }
+.faq-icon { font-size: 20px; transition: transform .3s; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a { display: none; padding: 0 22px 18px 64px; font-size: 14px; color: var(--muted); line-height: 1.7; }
+.faq-item.open .faq-a { display: block; }
+
+/* ─── SECTION TITLE ─── */
+.section-title { margin-bottom: 28px; }
+.section-title h2 { font-size: 26px; font-weight: 900; margin-bottom: 6px; }
+.section-title p { font-size: 14px; color: var(--muted); }
+.pill { display: inline-block; background: rgba(27,145,147,.1); color: var(--teal); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 100px; margin-bottom: 10px; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 600px) {
+  .site-header h1 { font-size: 26px; }
+  .mock-row { grid-template-columns: 1fr; }
+  .cheatsheet-grid { grid-template-columns: 1fr; }
+  .cheatsheet { padding: 24px; }
+  .section { padding: 24px 4% 48px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ HEADER -->
+<header class="site-header no-print">
+  <div class="badge">📱 Jeugdwerkers handleiding</div>
+  <h1>DE GEMEENSCHAP App</h1>
+  <p>Alles wat je nodig hebt om de app te beheren — stap voor stap uitgelegd.</p>
+</header>
+
+<!-- ═══════════════════════════════════════════════ TABS -->
+<div class="nav-tabs no-print" id="navTabs">
+  <div class="nav-tab active" onclick="showSection('activiteit')" data-tab="activiteit">
+    <span class="tab-icon">➕</span> Activiteit aanmaken
+  </div>
+  <div class="nav-tab" onclick="showSection('inschrijvingen')" data-tab="inschrijvingen">
+    <span class="tab-icon">📋</span> Inschrijvingen bekijken
+  </div>
+  <div class="nav-tab" onclick="showSection('push')" data-tab="push">
+    <span class="tab-icon">🔔</span> Push notificatie sturen
+  </div>
+  <div class="nav-tab" onclick="showSection('cheatsheet')" data-tab="cheatsheet">
+    <span class="tab-icon">🗒️</span> Spiekbriefje
+  </div>
+  <div class="nav-tab" onclick="showSection('faq')" data-tab="faq">
+    <span class="tab-icon">❓</span> FAQ
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ TAB 1: ACTIVITEIT -->
+<section class="section active" id="section-activiteit">
+  <div class="section-title">
+    <span class="pill">Taak 1</span>
+    <h2>Activiteit aanmaken</h2>
+    <p>Volg de stappen om een nieuwe activiteit zichtbaar te maken voor ouders en jongeren.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="steps-progress" id="progress-activiteit">
+    <div class="step-dot active" id="dot-a-1"><div class="step-dot-circle">1</div><div class="step-dot-label">Admin panel</div></div>
+    <div class="step-line" id="line-a-1"></div>
+    <div class="step-dot" id="dot-a-2"><div class="step-dot-circle">2</div><div class="step-dot-label">Klik knop</div></div>
+    <div class="step-line" id="line-a-2"></div>
+    <div class="step-dot" id="dot-a-3"><div class="step-dot-circle">3</div><div class="step-dot-label">Vul in</div></div>
+    <div class="step-line" id="line-a-3"></div>
+    <div class="step-dot" id="dot-a-4"><div class="step-dot-circle">4</div><div class="step-dot-label">Aanmaken</div></div>
+    <div class="step-line" id="line-a-4"></div>
+    <div class="step-dot" id="dot-a-5"><div class="step-dot-circle">✓</div><div class="step-dot-label">Klaar!</div></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step-card active" id="step-a-1">
+    <div class="callout">
+      <div class="callout-arrow">👆</div>
+      <div>
+        <div class="callout-text">Ga naar het admin-paneel via de navigatiebalk bovenaan.</div>
+        <div class="callout-sub">URL: gemeenschap-app.vercel.app/admin/activities</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+        <div class="screen-url">gemeenschap-app.vercel.app/admin/activities</div>
+      </div>
+      <div class="screen-body">
+        <div class="mock-admin-header">
+          <div class="mock-logo">DE <span>GEMEENSCHAP</span> <span style="font-size:10px;background:rgba(27,145,147,.15);color:#4ecbcd;padding:2px 8px;border-radius:100px;margin-left:6px;">Admin</span></div>
+          <div style="display:flex;gap:8px;">
+            <div style="font-size:12px;color:rgba(255,255,255,.4);padding:8px 14px;background:rgba(255,255,255,.05);border-radius:8px;">Activiteiten</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.4);padding:8px 14px;background:rgba(255,255,255,.05);border-radius:8px;">Analytics</div>
+          </div>
+        </div>
+        <div style="font-size:20px;font-weight:800;color:white;margin-bottom:16px;">Activiteiten</div>
+        <div style="color:rgba(255,255,255,.35);font-size:13px;text-align:center;padding:40px 0;">
+          Je bent ingelogd als admin. 👋<br>Ga naar de volgende stap om een activiteit aan te maken.
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" disabled onclick="prevStep('a')">← Vorige</button>
+      <button class="btn-next" onclick="nextStep('a', 2)">Volgende stap →</button>
+      <span class="step-counter">Stap 1 van 5</span>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-card" id="step-a-2">
+    <div class="callout">
+      <div class="callout-arrow">👆</div>
+      <div>
+        <div class="callout-text">Klik op de knop <strong>"+ Nieuwe activiteit"</strong> rechtsboven.</div>
+        <div class="callout-sub">De knop heeft een groen-blauwe kleur — je kan hem niet missen.</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+        <div class="screen-url">gemeenschap-app.vercel.app/admin/activities</div>
+      </div>
+      <div class="screen-body">
+        <div class="mock-admin-header">
+          <div class="mock-logo">DE <span>GEMEENSCHAP</span> <span style="font-size:10px;background:rgba(27,145,147,.15);color:#4ecbcd;padding:2px 8px;border-radius:100px;margin-left:6px;">Admin</span></div>
+          <div class="mock-btn highlight">➕ Nieuwe activiteit</div>
+        </div>
+        <table class="mock-table">
+          <tr><th>Naam</th><th>Datum</th><th>Status</th><th></th></tr>
+          <tr><td>Kookworkshop mei</td><td>22/05/2026</td><td><span class="mock-badge green">Actief</span></td><td style="color:rgba(255,255,255,.3);font-size:11px;">bewerken</td></tr>
+          <tr><td>FIFA Toernooi</td><td>28/05/2026</td><td><span class="mock-badge teal">Binnenkort</span></td><td style="color:rgba(255,255,255,.3);font-size:11px;">bewerken</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" onclick="prevStep('a')">← Vorige</button>
+      <button class="btn-next" onclick="nextStep('a', 3)">Volgende stap →</button>
+      <span class="step-counter">Stap 2 van 5</span>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step-card" id="step-a-3">
+    <div class="callout">
+      <div class="callout-arrow">✏️</div>
+      <div>
+        <div class="callout-text">Vul de details in: naam, datum, locatie, beschrijving en prijs.</div>
+        <div class="callout-sub">Alle velden met * zijn verplicht. Kies "Gratis" als er geen kostprijs is.</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+        <div class="screen-url">gemeenschap-app.vercel.app/admin/activities/new</div>
+      </div>
+      <div class="screen-body">
+        <div style="font-size:16px;font-weight:800;color:white;margin-bottom:16px;">Nieuwe activiteit</div>
+        <div class="mock-form">
+          <div>
+            <div class="mock-label">Naam *</div>
+            <div class="mock-input highlight">Zomerkamp 2026</div>
+          </div>
+          <div class="mock-row">
+            <div>
+              <div class="mock-label">Datum *</div>
+              <div class="mock-input">14/07/2026</div>
+            </div>
+            <div>
+              <div class="mock-label">Locatie *</div>
+              <div class="mock-input">Sportpark Sint-Niklaas</div>
+            </div>
+          </div>
+          <div class="mock-row">
+            <div>
+              <div class="mock-label">Prijs (€)</div>
+              <div class="mock-input">25</div>
+            </div>
+            <div>
+              <div class="mock-label">Max. deelnemers</div>
+              <div class="mock-input">30</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" onclick="prevStep('a')">← Vorige</button>
+      <button class="btn-next" onclick="nextStep('a', 4)">Volgende stap →</button>
+      <span class="step-counter">Stap 3 van 5</span>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step-card" id="step-a-4">
+    <div class="callout">
+      <div class="callout-arrow">👆</div>
+      <div>
+        <div class="callout-text">Scroll naar beneden en klik op de grote <strong>"Activiteit aanmaken"</strong> knop.</div>
+        <div class="callout-sub">De activiteit is daarna meteen zichtbaar voor alle gebruikers.</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+        <div class="screen-url">gemeenschap-app.vercel.app/admin/activities/new</div>
+      </div>
+      <div class="screen-body">
+        <div style="font-size:16px;font-weight:800;color:white;margin-bottom:16px;">Nieuwe activiteit</div>
+        <div style="color:rgba(255,255,255,.35);font-size:12px;margin-bottom:20px;">[... rest van het formulier ...]</div>
+        <div style="display:flex;gap:10px;">
+          <div class="mock-btn highlight" style="flex:1;justify-content:center;font-size:14px;padding:12px;">✓ Activiteit aanmaken</div>
+          <div style="padding:12px 16px;background:rgba(255,255,255,.05);border-radius:10px;font-size:12px;color:rgba(255,255,255,.4);">Annuleren</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" onclick="prevStep('a')">← Vorige</button>
+      <button class="btn-next" onclick="nextStep('a', 5)">Volgende stap →</button>
+      <span class="step-counter">Stap 4 van 5</span>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step-card" id="step-a-5">
+    <div class="callout" style="border-color:var(--olive);background:#f9fdf0;">
+      <div class="callout-arrow">🎉</div>
+      <div>
+        <div class="callout-text" style="color:var(--olive2);">De activiteit staat nu online! Ouders en jongeren kunnen zich inschrijven.</div>
+        <div class="callout-sub">Je kan de activiteit altijd bewerken via het potlood-icoon in de lijst.</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+        <div class="screen-url">gemeenschap-app.vercel.app/activities</div>
+      </div>
+      <div class="screen-body">
+        <div style="font-size:16px;font-weight:800;color:white;margin-bottom:16px;">Komende activiteiten</div>
+        <div style="background:rgba(159,177,57,.1);border:1px solid rgba(159,177,57,.3);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+          <div style="font-size:24px;">⛺</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:white;">Zomerkamp 2026</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.45);">📅 14 jul 2026 · 📍 Sportpark Sint-Niklaas · €25</div>
+          </div>
+          <div class="mock-badge green" style="margin-left:auto;">Nieuw ✨</div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+          <div style="font-size:24px;">🥗</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:white;">Kookworkshop mei</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.45);">📅 22 mei 2026 · Gratis</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" onclick="prevStep('a')">← Vorige</button>
+      <button class="btn-next" disabled>Voltooid! ✓</button>
+      <span class="step-counter">Stap 5 van 5</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ TAB 2: INSCHRIJVINGEN -->
+<section class="section" id="section-inschrijvingen">
+  <div class="section-title">
+    <span class="pill">Taak 2</span>
+    <h2>Inschrijvingen bekijken</h2>
+    <p>Bekijk wie zich heeft ingeschreven en exporteer de lijst naar Excel.</p>
+  </div>
+
+  <div class="steps-progress">
+    <div class="step-dot active" id="dot-i-1"><div class="step-dot-circle">1</div><div class="step-dot-label">Activiteit</div></div>
+    <div class="step-line" id="line-i-1"></div>
+    <div class="step-dot" id="dot-i-2"><div class="step-dot-circle">2</div><div class="step-dot-label">Inschrijvingen</div></div>
+    <div class="step-line" id="line-i-2"></div>
+    <div class="step-dot" id="dot-i-3"><div class="step-dot-circle">3</div><div class="step-dot-label">Exporteer</div></div>
+  </div>
+
+  <div class="step-card active" id="step-i-1">
+    <div class="callout">
+      <div class="callout-arrow">👆</div>
+      <div>
+        <div class="callout-text">Ga naar <strong>Admin → Activiteiten</strong> en klik op de naam van de activiteit.</div>
+        <div class="callout-sub">Of klik op het "inschrijvingen"-icoon naast de activiteit in de lijst.</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="screen-url">gemeenschap-app.vercel.app/admin/activities</div></div>
+      <div class="screen-body">
+        <div class="mock-admin-header"><div class="mock-logo">DE <span>GEMEENSCHAP</span></div></div>
+        <table class="mock-table">
+          <tr><th>Naam</th><th>Datum</th><th>Ingeschreven</th><th>Actie</th></tr>
+          <tr>
+            <td style="font-weight:600;color:white;">Zomerkamp 2026</td>
+            <td>14/07/2026</td>
+            <td><span style="color:#4ecbcd;font-weight:700;">12 / 30</span></td>
+            <td>
+              <span style="font-size:11px;color:rgba(255,255,255,.3);margin-right:8px;">bewerken</span>
+              <span style="font-size:11px;color:#9FB139;font-weight:700;cursor:pointer;text-decoration:underline;">👥 inschrijvingen</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Kookworkshop mei</td>
+            <td>22/05/2026</td>
+            <td><span style="color:#4ecbcd;font-weight:700;">8 / 20</span></td>
+            <td><span style="font-size:11px;color:rgba(255,255,255,.3);">bewerken · inschrijvingen</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" disabled>← Vorige</button>
+      <button class="btn-next" onclick="nextStep('i', 2)">Volgende stap →</button>
+      <span class="step-counter">Stap 1 van 3</span>
+    </div>
+  </div>
+
+  <div class="step-card" id="step-i-2">
+    <div class="callout">
+      <div class="callout-arrow">📋</div>
+      <div>
+        <div class="callout-text">Je ziet nu de volledige deelnemerslijst met naam, leeftijd en contactinfo.</div>
+        <div class="callout-sub">De lijst toont alle inschrijvingen inclusief betalingsstatus.</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="screen-url">…/admin/activities/5/registrations</div></div>
+      <div class="screen-body">
+        <div style="font-size:15px;font-weight:800;color:white;margin-bottom:4px;">Inschrijvingen — Zomerkamp 2026</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:16px;">12 deelnemers</div>
+        <table class="mock-table">
+          <tr><th>Naam</th><th>Leeftijd</th><th>Ouder</th><th>Betaling</th></tr>
+          <tr><td style="color:white;">Ahmed B.</td><td>14 jr</td><td>ahmed.papa@gmail.com</td><td><span class="mock-badge green">Betaald</span></td></tr>
+          <tr><td style="color:white;">Sara V.</td><td>12 jr</td><td>sara.mama@live.be</td><td><span class="mock-badge teal">Gratis</span></td></tr>
+          <tr><td style="color:white;">Yannick D.</td><td>15 jr</td><td>—</td><td><span class="mock-badge gray">In afwachting</span></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" onclick="prevStep('i')">← Vorige</button>
+      <button class="btn-next" onclick="nextStep('i', 3)">Volgende stap →</button>
+      <span class="step-counter">Stap 2 van 3</span>
+    </div>
+  </div>
+
+  <div class="step-card" id="step-i-3">
+    <div class="callout">
+      <div class="callout-arrow">💾</div>
+      <div>
+        <div class="callout-text">Klik op <strong>"Exporteer Excel"</strong> om de lijst te downloaden als .xlsx bestand.</div>
+        <div class="callout-sub">Je kan ook exporteren als PDF of direct afdrukken via de printknop.</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="screen-url">…/admin/activities/5/registrations</div></div>
+      <div class="screen-body">
+        <div style="font-size:15px;font-weight:800;color:white;margin-bottom:16px;">Inschrijvingen — Zomerkamp 2026</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+          <div class="mock-btn highlight">📊 Exporteer Excel</div>
+          <div style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);font-size:12px;font-weight:700;padding:8px 14px;border-radius:10px;">📄 PDF</div>
+          <div style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);font-size:12px;font-weight:700;padding:8px 14px;border-radius:10px;">🖨️ Afdrukken</div>
+        </div>
+        <div style="background:rgba(159,177,57,.08);border:1px solid rgba(159,177,57,.2);border-radius:10px;padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);">
+          ✓ <strong style="color:#9FB139;">zomerkamp_2026_inschrijvingen.xlsx</strong> wordt gedownload…
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" onclick="prevStep('i')">← Vorige</button>
+      <button class="btn-next" disabled>Voltooid! ✓</button>
+      <span class="step-counter">Stap 3 van 3</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ TAB 3: PUSH -->
+<section class="section" id="section-push">
+  <div class="section-title">
+    <span class="pill">Taak 3</span>
+    <h2>Push notificatie sturen</h2>
+    <p>Stuur een bericht naar alle gebruikers die de app op hun telefoon hebben.</p>
+  </div>
+
+  <div class="steps-progress">
+    <div class="step-dot active" id="dot-p-1"><div class="step-dot-circle">1</div><div class="step-dot-label">Open panel</div></div>
+    <div class="step-line" id="line-p-1"></div>
+    <div class="step-dot" id="dot-p-2"><div class="step-dot-circle">2</div><div class="step-dot-label">Schrijf bericht</div></div>
+    <div class="step-line" id="line-p-2"></div>
+    <div class="step-dot" id="dot-p-3"><div class="step-dot-circle">3</div><div class="step-dot-label">Verzonden!</div></div>
+  </div>
+
+  <div class="step-card active" id="step-p-1">
+    <div class="callout">
+      <div class="callout-arrow">🔔</div>
+      <div>
+        <div class="callout-text">Ga naar <strong>Admin → Activiteiten</strong> en klik op <strong>"Push sturen"</strong>.</div>
+        <div class="callout-sub">Je vindt de knop bovenaan de pagina naast "Nieuwe activiteit".</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="screen-url">gemeenschap-app.vercel.app/admin/activities</div></div>
+      <div class="screen-body">
+        <div class="mock-admin-header">
+          <div class="mock-logo">DE <span>GEMEENSCHAP</span></div>
+          <div style="display:flex;gap:8px;">
+            <div class="mock-btn highlight-red" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);">🔔 Push sturen</div>
+            <div class="mock-btn">➕ Nieuwe activiteit</div>
+          </div>
+        </div>
+        <table class="mock-table">
+          <tr><th>Naam</th><th>Datum</th><th>Status</th></tr>
+          <tr><td>Zomerkamp 2026</td><td>14/07/2026</td><td><span class="mock-badge green">Actief</span></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" disabled>← Vorige</button>
+      <button class="btn-next" onclick="nextStep('p', 2)">Volgende stap →</button>
+      <span class="step-counter">Stap 1 van 3</span>
+    </div>
+  </div>
+
+  <div class="step-card" id="step-p-2">
+    <div class="callout">
+      <div class="callout-arrow">✏️</div>
+      <div>
+        <div class="callout-text">Typ een korte <strong>titel</strong> en een <strong>bericht</strong> (max. 160 tekens) en klik "Verzenden".</div>
+        <div class="callout-sub">Tip: wees concreet en duidelijk — bijv. "Zomerkamp: nog 5 plaatsen vrij!"</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="screen-url">gemeenschap-app.vercel.app/admin/activities</div></div>
+      <div class="screen-body" style="display:flex;align-items:center;justify-content:center;">
+        <div style="background:#1a2540;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:20px;width:100%;max-width:360px;">
+          <div style="font-weight:800;color:white;margin-bottom:14px;display:flex;align-items:center;gap:8px;"><span>🔔</span> Push notificatie</div>
+          <div class="mock-form" style="gap:10px;">
+            <div>
+              <div class="mock-label">Titel</div>
+              <div class="mock-input highlight">Zomerkamp: nog 5 plaatsen!</div>
+            </div>
+            <div>
+              <div class="mock-label">Bericht</div>
+              <div class="mock-input highlight" style="min-height:60px;">Schrijf je nu in voor het zomerkamp van 14 juli. Snel, want er zijn nog maar 5 plaatsen vrij!</div>
+            </div>
+          </div>
+          <div class="mock-btn highlight" style="width:100%;justify-content:center;margin-top:14px;font-size:13px;">📨 Verzenden naar alle subscribers</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" onclick="prevStep('p')">← Vorige</button>
+      <button class="btn-next" onclick="nextStep('p', 3)">Volgende stap →</button>
+      <span class="step-counter">Stap 2 van 3</span>
+    </div>
+  </div>
+
+  <div class="step-card" id="step-p-3">
+    <div class="callout" style="border-color:var(--olive);background:#f9fdf0;">
+      <div class="callout-arrow">📱</div>
+      <div>
+        <div class="callout-text" style="color:var(--olive2);">Het bericht is verstuurd! Alle gebruikers zien dit op hun telefoon verschijnen.</div>
+        <div class="callout-sub">Ook als de app gesloten is, ontvangen ze de notificatie — mits ze toestemming gaven.</div>
+      </div>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><div class="screen-url">📱 Telefoon van gebruiker</div></div>
+      <div class="screen-body" style="display:flex;align-items:center;justify-content:center;padding:30px 20px;">
+        <div class="mock-notif-phone">
+          <div style="font-size:11px;color:rgba(255,255,255,.3);margin-bottom:12px;text-align:center;">Vergrendelscherm</div>
+          <div class="mock-notif-bar">
+            <div class="mock-notif-icon">🏘️</div>
+            <div>
+              <div class="mock-notif-title">Zomerkamp: nog 5 plaatsen!</div>
+              <div class="mock-notif-body">Schrijf je nu in voor het zomerkamp van 14 juli…</div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.2);margin-top:10px;text-align:center;">DE GEMEENSCHAP · zojuist</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-prev" onclick="prevStep('p')">← Vorige</button>
+      <button class="btn-next" disabled>Voltooid! ✓</button>
+      <span class="step-counter">Stap 3 van 3</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ TAB 4: CHEATSHEET -->
+<section class="section" id="section-cheatsheet">
+  <div class="section-title">
+    <span class="pill">Spiekbriefje</span>
+    <h2>Snel overzicht — printbaar</h2>
+    <p>Print dit blad en hang het op bij de computer in het jeugdhuis.</p>
+  </div>
+
+  <div class="cheatsheet" id="cheatsheet-print">
+    <div class="cheatsheet-header">
+      <h2>🏘️ DE GEMEENSCHAP App</h2>
+      <p>Snel overzicht voor jeugdwerkers · vzw Sint-Niklaas</p>
+    </div>
+
+    <div class="cheatsheet-url">
+      🌐 gemeenschap-app.vercel.app
+    </div>
+
+    <div class="cheatsheet-grid">
+      <div class="cheat-item">
+        <div class="cheat-icon">➕</div>
+        <div>
+          <div class="cheat-title">Activiteit aanmaken</div>
+          <div class="cheat-path">Admin → Activiteiten<br>→ <strong>"+ Nieuwe activiteit"</strong></div>
+        </div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-icon">👥</div>
+        <div>
+          <div class="cheat-title">Inschrijvingen bekijken</div>
+          <div class="cheat-path">Admin → Activiteiten<br>→ <strong>klik op "inschrijvingen"</strong></div>
+        </div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-icon">🔔</div>
+        <div>
+          <div class="cheat-title">Push notificatie sturen</div>
+          <div class="cheat-path">Admin → Activiteiten<br>→ <strong>"Push sturen"</strong> (rechtsboven)</div>
+        </div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-icon">📊</div>
+        <div>
+          <div class="cheat-title">Excel exporteren</div>
+          <div class="cheat-path">Inschrijvingen pagina<br>→ <strong>"Exporteer Excel"</strong></div>
+        </div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-icon">✏️</div>
+        <div>
+          <div class="cheat-title">Activiteit bewerken</div>
+          <div class="cheat-path">Admin → Activiteiten<br>→ <strong>potlood-icoon</strong> naast naam</div>
+        </div>
+      </div>
+      <div class="cheat-item">
+        <div class="cheat-icon">📈</div>
+        <div>
+          <div class="cheat-title">Analytics & statistieken</div>
+          <div class="cheat-path">Admin → <strong>Analytics</strong><br>(bovenste navigatiebalk)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qr-row">
+      <div class="qr-box">
+        <!-- Simple QR-like pattern -->
+        <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="20" height="20" rx="2" fill="none" stroke="#1B9193" stroke-width="2.5"/>
+          <rect x="9" y="9" width="10" height="10" rx="1" fill="#1B9193"/>
+          <rect x="36" y="4" width="20" height="20" rx="2" fill="none" stroke="#1B9193" stroke-width="2.5"/>
+          <rect x="41" y="9" width="10" height="10" rx="1" fill="#1B9193"/>
+          <rect x="4" y="36" width="20" height="20" rx="2" fill="none" stroke="#1B9193" stroke-width="2.5"/>
+          <rect x="9" y="41" width="10" height="10" rx="1" fill="#1B9193"/>
+          <rect x="28" y="28" width="5" height="5" fill="#9FB139"/>
+          <rect x="35" y="28" width="5" height="5" fill="#9FB139"/>
+          <rect x="42" y="28" width="5" height="5" fill="#9FB139"/>
+          <rect x="49" y="28" width="5" height="5" fill="#9FB139"/>
+          <rect x="28" y="35" width="5" height="5" fill="#9FB139"/>
+          <rect x="35" y="42" width="5" height="5" fill="#9FB139"/>
+          <rect x="42" y="49" width="5" height="5" fill="#9FB139"/>
+          <rect x="49" y="49" width="5" height="5" fill="#9FB139"/>
+        </svg>
+      </div>
+      <div class="qr-text">
+        <h3>Scan om de app te openen</h3>
+        <p>gemeenschap-app.vercel.app<br>Werkt op Android en iPhone (Safari)</p>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;padding:14px 18px;background:#f0f7f7;border-radius:12px;font-size:13px;color:var(--muted);display:flex;gap:20px;flex-wrap:wrap;">
+      <span>📧 <strong>Support:</strong> info@degemeenschap.be</span>
+      <span>🌐 <strong>Website:</strong> degemeenschap.be</span>
+    </div>
+  </div>
+
+  <button class="print-btn no-print" onclick="window.print()">
+    🖨️ Afdrukken / Opslaan als PDF
+  </button>
+</section>
+
+<!-- ═══════════════════════════════════════════════ TAB 5: FAQ -->
+<section class="section" id="section-faq">
+  <div class="section-title">
+    <span class="pill">FAQ</span>
+    <h2>Veelgestelde vragen</h2>
+    <p>Klik op een vraag om het antwoord te zien.</p>
+  </div>
+
+  <div class="faq-list">
+    <div class="faq-item open" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <div class="faq-q-left">
+          <div class="faq-num">1</div>
+          <span>Ik zie de "Nieuwe activiteit" knop niet — wat doe ik?</span>
+        </div>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        Je bent waarschijnlijk niet ingelogd als admin. Log uit en log opnieuw in met een admin-account. Als je geen admin-rechten hebt, vraag het dan aan de verantwoordelijke.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <div class="faq-q-left">
+          <div class="faq-num">2</div>
+          <span>Een ouder zegt dat ze de activiteit niet ziet op de website.</span>
+        </div>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        Controleer of de activiteit een datum in de <strong>toekomst</strong> heeft — afgelopen activiteiten worden automatisch verborgen. Controleer ook of de activiteit correct is aangemaakt (ga naar Admin → Activiteiten en kijk of ze in de lijst staat).
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <div class="faq-q-left">
+          <div class="faq-num">3</div>
+          <span>Push notificaties worden niet ontvangen. Wat is er mis?</span>
+        </div>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        De gebruiker moet eerst <strong>toestemming hebben gegeven</strong> voor notificaties. Dit gebeurt via het belletje-icoontje in de app. Als ze dat nog niet gedaan hebben, of als ze het hebben uitgeschakeld in hun telefooninstellingen, ontvangen ze geen berichten.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <div class="faq-q-left">
+          <div class="faq-num">4</div>
+          <span>Hoe verwijder ik een activiteit?</span>
+        </div>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        Ga naar Admin → Activiteiten, klik op het <strong>vuilbak-icoon</strong> naast de activiteit en bevestig de verwijdering. Let op: alle inschrijvingen worden ook verwijderd — exporteer ze eerst als dat nodig is.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <div class="faq-q-left">
+          <div class="faq-num">5</div>
+          <span>Kan ik een activiteit aanmaken met meerdere sessies (bijv. elke week)?</span>
+        </div>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">
+        Ja! Bij het aanmaken van een activiteit kies je het type <strong>"Sessie-gebaseerd"</strong>. Dan kan je meerdere data en uren toevoegen. Deelnemers schrijven zich dan in voor individuele sessies of voor alle sessies tegelijk.
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ─── TAB SWITCHING ───
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.querySelector('[data-tab="' + id + '"]').classList.add('active');
+}
+
+// ─── STEP NAVIGATION ───
+const stepState = { a: 1, i: 1, p: 1 };
+
+function nextStep(prefix, to) {
+  goToStep(prefix, to);
+}
+function prevStep(prefix) {
+  goToStep(prefix, stepState[prefix] - 1);
+}
+
+function goToStep(prefix, to) {
+  const from = stepState[prefix];
+  // hide current step card
+  const old = document.getElementById('step-' + prefix + '-' + from);
+  if (old) old.classList.remove('active');
+
+  stepState[prefix] = to;
+
+  // show new step card
+  const next = document.getElementById('step-' + prefix + '-' + to);
+  if (next) next.classList.add('active');
+
+  // update dots
+  updateDots(prefix, to);
+}
+
+function updateDots(prefix, current) {
+  let i = 1;
+  while (true) {
+    const dot = document.getElementById('dot-' + prefix + '-' + i);
+    const line = document.getElementById('line-' + prefix + '-' + i);
+    if (!dot) break;
+    dot.classList.remove('active', 'done');
+    if (i < current) {
+      dot.classList.add('done');
+      if (line) line.classList.add('done');
+    } else if (i === current) {
+      dot.classList.add('active');
+      if (line) line.classList.remove('done');
+    } else {
+      if (line) line.classList.remove('done');
+    }
+    i++;
+  }
+}
+
+// ─── FAQ ACCORDION ───
+function toggleFaq(item) {
+  item.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>

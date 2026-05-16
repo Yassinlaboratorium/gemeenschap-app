@@ -96,36 +96,34 @@ export default async function PaymentSuccessPage({
   const isPending = !paymentStatus || paymentStatus === 'pending'
 
   return (
-    <div className="min-h-screen bg-secondary flex flex-col">
+    <div className="min-h-screen bg-[#F8F8F8] flex flex-col">
       <Navbar />
 
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="max-w-md w-full space-y-6">
 
           {/* Status card */}
-          <div className={`rounded-2xl p-8 text-center space-y-4 border ${
+          <div className={`rounded-2xl p-8 text-center space-y-4 border shadow-sm ${
             isPaid
-              ? 'bg-green-500/10 border-green-500/20'
+              ? 'bg-green-50 border-green-200'
               : isFailed
-                ? 'bg-red-500/10 border-red-500/20'
-                : 'bg-[#131C31] border-white/5'
+                ? 'bg-red-50 border-red-200'
+                : 'bg-white border-[#D9D9D9]'
           }`}>
             <div className="flex justify-center">
-              {isPaid && <CheckCircle2 className="w-16 h-16 text-green-400" />}
-              {isFailed && <XCircle className="w-16 h-16 text-red-400" />}
-              {isPending && <Clock className="w-16 h-16 text-white/20 animate-pulse" />}
+              {isPaid && <CheckCircle2 className="w-16 h-16 text-green-600" />}
+              {isFailed && <XCircle className="w-16 h-16 text-red-500" />}
+              {isPending && <Clock className="w-16 h-16 text-[#414141]/20 animate-pulse" />}
             </div>
 
-            <h1 className={`text-2xl font-extrabold ${
-              isPaid ? 'text-green-400' : isFailed ? 'text-red-400' : 'text-white'
-            }`}>
+            <h1 className={`text-2xl font-extrabold`} style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: isPaid ? '#166534' : isFailed ? '#991b1b' : '#1B9193' }}>
               {isPaid && 'Betaling geslaagd!'}
               {isFailed && 'Betaling mislukt'}
               {isPending && 'Betaling wordt verwerkt…'}
             </h1>
 
             <p className={`text-sm leading-relaxed ${
-              isPaid ? 'text-green-400/70' : isFailed ? 'text-red-400/70' : 'text-white/40'
+              isPaid ? 'text-green-700/70' : isFailed ? 'text-red-600/70' : 'text-[#414141]/50'
             }`}>
               {isPaid && `Je inschrijving voor "${activity.title}" is bevestigd. Veel plezier!`}
               {isFailed && `De betaling voor "${activity.title}" is niet geslaagd. Je bent niet ingeschreven.`}
@@ -133,9 +131,9 @@ export default async function PaymentSuccessPage({
             </p>
 
             {isPaid && (
-              <div className="bg-white/5 rounded-xl px-4 py-3 text-left space-y-1 border border-white/10">
-                <div className="flex items-center gap-2 text-sm text-white/50">
-                  <CalendarDays className="w-4 h-4 shrink-0 text-white/25" />
+              <div className="bg-white rounded-xl px-4 py-3 text-left space-y-1 border border-[#D9D9D9]">
+                <div className="flex items-center gap-2 text-sm text-[#414141]/55">
+                  <CalendarDays className="w-4 h-4 shrink-0 text-[#1B9193]/50" />
                   <span>
                     {new Date(activity.date).toLocaleDateString('nl-BE', {
                       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -143,13 +141,13 @@ export default async function PaymentSuccessPage({
                   </span>
                 </div>
                 {activity.start_time && (
-                  <p className="text-sm text-white/40 pl-6">
+                  <p className="text-sm text-[#414141]/45 pl-6">
                     {activity.start_time.slice(0, 5)}
                     {activity.end_time && `–${activity.end_time.slice(0, 5)}`}
                   </p>
                 )}
                 {activity.location && (
-                  <p className="text-sm text-white/40 pl-6">{activity.location}</p>
+                  <p className="text-sm text-[#414141]/45 pl-6">{activity.location}</p>
                 )}
               </div>
             )}
@@ -159,7 +157,7 @@ export default async function PaymentSuccessPage({
           <div className="flex flex-col gap-3">
             <Link
               href="/activities"
-              className="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold px-6 py-3.5 rounded-2xl hover:bg-accent active:scale-95 transition-all"
+              className="inline-flex items-center justify-center gap-2 bg-[#9FB139] text-white font-bold px-6 py-3.5 rounded-[30px] hover:bg-[#8fa030] active:scale-95 transition-all shadow-sm"
             >
               Alle activiteiten
               <ArrowRight className="w-4 h-4" />
@@ -168,7 +166,7 @@ export default async function PaymentSuccessPage({
             {(isPaid || isPending) && (
               <Link
                 href="/dashboard"
-                className="inline-flex items-center justify-center gap-2 bg-white/8 text-white font-semibold px-6 py-3.5 rounded-2xl hover:bg-white/12 transition-colors border border-white/10"
+                className="inline-flex items-center justify-center gap-2 bg-white text-[#414141] font-semibold px-6 py-3.5 rounded-[30px] hover:bg-[#F8F8F8] transition-colors border border-[#D9D9D9] shadow-sm"
               >
                 Mijn dashboard
               </Link>
@@ -177,7 +175,7 @@ export default async function PaymentSuccessPage({
             {isFailed && (
               <Link
                 href="/activities"
-                className="inline-flex items-center justify-center gap-2 bg-white/8 text-white font-semibold px-6 py-3.5 rounded-2xl hover:bg-white/12 transition-colors border border-white/10"
+                className="inline-flex items-center justify-center gap-2 bg-white text-[#414141] font-semibold px-6 py-3.5 rounded-[30px] hover:bg-[#F8F8F8] transition-colors border border-[#D9D9D9] shadow-sm"
               >
                 Opnieuw proberen
               </Link>

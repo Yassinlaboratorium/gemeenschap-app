@@ -29,28 +29,28 @@ export default async function SessionSuccessPage({
       .single<Pick<Activity, 'title' | 'date'>>()
 
     return (
-      <div className="min-h-screen bg-secondary flex flex-col">
+      <div className="min-h-screen bg-[#F8F8F8] flex flex-col">
         <Navbar />
         <main className="flex-1 flex items-center justify-center px-4 py-16">
           <div className="max-w-md w-full space-y-6 text-center">
-            <div className="w-20 h-20 rounded-3xl bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto">
-              <CheckCircle2 className="w-10 h-10 text-green-400" />
+            <div className="w-20 h-20 rounded-3xl bg-green-50 border border-green-200 flex items-center justify-center mx-auto shadow-sm">
+              <CheckCircle2 className="w-10 h-10 text-green-600" />
             </div>
-            <h1 className="text-3xl font-extrabold text-white">Ingeschreven!</h1>
-            <p className="text-[#a0a0a0]">
+            <h1 className="text-3xl font-extrabold" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#166534' }}>Ingeschreven!</h1>
+            <p className="text-[#414141]/55">
               Je bent succesvol ingeschreven voor{' '}
-              <span className="text-white font-semibold">{activity?.title ?? 'de activiteit'}</span>.
+              <span className="text-[#414141] font-semibold">{activity?.title ?? 'de activiteit'}</span>.
             </p>
             <div className="flex flex-col gap-3">
               <Link
                 href="/activities"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-bold px-6 py-3.5 rounded-2xl hover:opacity-90 transition-all"
+                className="inline-flex items-center justify-center gap-2 bg-[#9FB139] text-white font-bold px-6 py-3.5 rounded-[30px] hover:bg-[#8fa030] transition-all shadow-sm"
               >
                 Alle activiteiten <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/dashboard"
-                className="inline-flex items-center justify-center gap-2 bg-white/8 text-white font-semibold px-6 py-3.5 rounded-2xl hover:bg-white/12 transition-colors border border-white/10"
+                className="inline-flex items-center justify-center gap-2 bg-white text-[#414141] font-semibold px-6 py-3.5 rounded-[30px] hover:bg-[#F8F8F8] transition-colors border border-[#D9D9D9] shadow-sm"
               >
                 Mijn dashboard
               </Link>
@@ -151,25 +151,25 @@ export default async function SessionSuccessPage({
   const isFailed = paymentStatus === 'failed'
 
   return (
-    <div className="min-h-screen bg-secondary flex flex-col">
+    <div className="min-h-screen bg-[#F8F8F8] flex flex-col">
       <Navbar />
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="max-w-md w-full space-y-6">
 
           {/* Status card */}
-          <div className={`rounded-2xl p-8 text-center space-y-3 border ${
-            isPaid ? 'bg-green-500/10 border-green-500/20' : isFailed ? 'bg-red-500/10 border-red-500/20' : 'bg-[#131C31] border-white/5'
+          <div className={`rounded-2xl p-8 text-center space-y-3 border shadow-sm ${
+            isPaid ? 'bg-green-50 border-green-200' : isFailed ? 'bg-red-50 border-red-200' : 'bg-white border-[#D9D9D9]'
           }`}>
-            {isPaid && <CheckCircle2 className="w-16 h-16 text-green-400 mx-auto" />}
-            {isFailed && <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center mx-auto text-3xl">✕</div>}
-            {!isPaid && !isFailed && <Clock className="w-16 h-16 text-white/20 mx-auto animate-pulse" />}
+            {isPaid && <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto" />}
+            {isFailed && <div className="w-16 h-16 rounded-full bg-red-100 border border-red-200 flex items-center justify-center mx-auto text-red-500 text-3xl font-bold">✕</div>}
+            {!isPaid && !isFailed && <Clock className="w-16 h-16 text-[#414141]/15 mx-auto animate-pulse" />}
 
-            <h1 className={`text-2xl font-extrabold ${isPaid ? 'text-green-400' : isFailed ? 'text-red-400' : 'text-white'}`}>
+            <h1 className="text-2xl font-extrabold" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: isPaid ? '#166534' : isFailed ? '#991b1b' : '#1B9193' }}>
               {isPaid ? 'Betaling geslaagd!' : isFailed ? 'Betaling mislukt' : 'Betaling wordt verwerkt…'}
             </h1>
 
             {isPaid && (
-              <p className="text-green-400/70 text-sm">
+              <p className="text-green-700/70 text-sm">
                 Totaal betaald: €{(grandTotal / 100).toFixed(2)}
               </p>
             )}
@@ -179,16 +179,16 @@ export default async function SessionSuccessPage({
           {isPaid && (
             <div className="space-y-3">
               {regs.map(reg => (
-                <div key={reg.id} className="bg-[#131C31] rounded-[28px] border border-white/5 p-5">
+                <div key={reg.id} className="bg-white rounded-2xl border border-[#D9D9D9] p-5 shadow-sm">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                      <span className="text-primary font-bold text-sm">
+                    <div className="w-9 h-9 rounded-xl bg-[#9FB139]/10 flex items-center justify-center shrink-0">
+                      <span className="text-[#9FB139] font-bold text-sm">
                         {reg.children ? reg.children.first_name[0].toUpperCase() : 'J'}
                       </span>
                     </div>
                     <div>
-                      <p className="font-bold text-white">{reg.children ? reg.children.first_name : 'Jij'}</p>
-                      <p className="text-xs text-white/40">€{(reg.total_price_cents / 100).toFixed(2)}</p>
+                      <p className="font-bold text-[#414141]">{reg.children ? reg.children.first_name : 'Jij'}</p>
+                      <p className="text-xs text-[#414141]/45">€{(reg.total_price_cents / 100).toFixed(2)}</p>
                     </div>
                   </div>
                   <div className="space-y-1.5">
@@ -196,8 +196,8 @@ export default async function SessionSuccessPage({
                       const s = sessionMap.get(sid)
                       if (!s) return null
                       return (
-                        <div key={sid} className="flex items-center gap-2 text-sm text-white/60">
-                          <CalendarDays className="w-3.5 h-3.5 shrink-0 text-white/20" />
+                        <div key={sid} className="flex items-center gap-2 text-sm text-[#414141]/55">
+                          <CalendarDays className="w-3.5 h-3.5 shrink-0 text-[#1B9193]/40" />
                           <span>
                             {s.title ?? new Date(s.session_date + 'T00:00:00').toLocaleDateString('nl-BE', { day: 'numeric', month: 'short' })}
                             {s.start_time && ` · ${s.start_time.slice(0, 5)}`}
@@ -215,14 +215,14 @@ export default async function SessionSuccessPage({
           <div className="flex flex-col gap-3">
             <Link
               href="/activities"
-              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-bold px-6 py-3.5 rounded-2xl hover:opacity-90 transition-all"
+              className="inline-flex items-center justify-center gap-2 bg-[#9FB139] text-white font-bold px-6 py-3.5 rounded-[30px] hover:bg-[#8fa030] transition-all shadow-sm"
             >
               Alle activiteiten <ArrowRight className="w-4 h-4" />
             </Link>
             {(isPaid || !isFailed) && (
               <Link
                 href="/dashboard"
-                className="inline-flex items-center justify-center gap-2 bg-white/8 text-white font-semibold px-6 py-3.5 rounded-2xl hover:bg-white/12 transition-colors border border-white/10"
+                className="inline-flex items-center justify-center gap-2 bg-white text-[#414141] font-semibold px-6 py-3.5 rounded-[30px] hover:bg-[#F8F8F8] transition-colors border border-[#D9D9D9] shadow-sm"
               >
                 Mijn dashboard
               </Link>

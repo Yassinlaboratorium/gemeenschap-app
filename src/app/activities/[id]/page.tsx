@@ -73,14 +73,14 @@ export default async function ActivityDetailPage({
   const price = Number(activity.price)
 
   return (
-    <div className="min-h-screen bg-secondary flex flex-col">
+    <div className="min-h-screen bg-[#F8F8F8] flex flex-col">
       <Navbar />
 
-      <div className="bg-[#131C31] border-b border-white/5">
+      <div className="bg-white border-b border-[#D9D9D9]">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <Link
             href="/activities"
-            className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors mb-4"
+            className="inline-flex items-center gap-1.5 text-sm text-[#414141]/45 hover:text-[#1B9193] transition-colors mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             Terug naar activiteiten
@@ -89,20 +89,20 @@ export default async function ActivityDetailPage({
           {activity.tags?.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-3">
               {activity.tags.map(tag => (
-                <span key={tag} className="text-xs font-semibold px-3 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                <span key={tag} className="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#9FB139]/10 text-[#9FB139] border border-[#9FB139]/20">
                   {tag}
                 </span>
               ))}
             </div>
           )}
 
-          <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl font-black leading-tight mb-4" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#1B9193' }}>
             {activity.title}
           </h1>
 
-          <div className="flex flex-col gap-2 text-sm text-[#a0a0a0]">
+          <div className="flex flex-col gap-2 text-sm text-[#414141]/55">
             <div className="flex items-center gap-2">
-              <CalendarDays className="w-4 h-4 shrink-0 text-white/20" />
+              <CalendarDays className="w-4 h-4 shrink-0 text-[#1B9193]/50" />
               <span>
                 {new Date(activity.date + 'T00:00:00').toLocaleDateString('nl-BE', {
                   weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -111,7 +111,7 @@ export default async function ActivityDetailPage({
             </div>
             {(activity.start_time || activity.end_time) && (
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 shrink-0 text-white/20" />
+                <Clock className="w-4 h-4 shrink-0 text-[#1B9193]/50" />
                 <span>
                   {activity.start_time?.slice(0, 5)}
                   {activity.end_time && `–${activity.end_time.slice(0, 5)}`}
@@ -120,20 +120,20 @@ export default async function ActivityDetailPage({
             )}
             {activity.location && (
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 shrink-0 text-white/20" />
+                <MapPin className="w-4 h-4 shrink-0 text-[#1B9193]/50" />
                 <span>{activity.location}</span>
               </div>
             )}
             {!hasSessions && price > 0 && (
               <div className="flex items-center gap-2">
-                <Euro className="w-4 h-4 shrink-0 text-white/20" />
-                <span className="font-semibold text-white">€{price.toFixed(2)}</span>
+                <Euro className="w-4 h-4 shrink-0 text-[#1B9193]/50" />
+                <span className="font-semibold text-[#9FB139]">€{price.toFixed(2)}</span>
               </div>
             )}
           </div>
 
           {activity.description && (
-            <p className="text-[#a0a0a0] mt-4 leading-relaxed">{activity.description}</p>
+            <p className="text-[#414141]/60 mt-4 leading-relaxed">{activity.description}</p>
           )}
         </div>
       </div>

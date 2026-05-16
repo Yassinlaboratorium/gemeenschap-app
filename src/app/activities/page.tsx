@@ -27,25 +27,23 @@ export default async function ActivitiesPage() {
   ])
 
   const allActivities = activities ?? []
-
   const allTags = [...new Set(allActivities.flatMap(a => a.tags ?? []))].sort()
-
   const count = allActivities.length
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen bg-[#F8F8F8]">
       <Navbar />
 
-      <div className="bg-[#131C31] border-b border-white/5">
+      <div className="bg-white border-b border-[#D9D9D9]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-          <div className="inline-flex items-center gap-2 bg-white/8 text-white/60 rounded-full px-4 py-1.5 text-sm font-medium mb-4 border border-white/10">
+          <div className="inline-flex items-center gap-2 bg-[#1B9193]/8 text-[#1B9193] rounded-full px-4 py-1.5 text-sm font-semibold mb-4 border border-[#1B9193]/15">
             <CalendarDays className="w-4 h-4" />
             {count} {count === 1 ? 'activiteit' : 'activiteiten'} gepland
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-black leading-tight" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#1B9193' }}>
             Activiteiten
           </h1>
-          <p className="text-[#a0a0a0] mt-2">
+          <p className="text-[#414141]/55 mt-2">
             Alle activiteiten van DE GEMEENSCHAP in Sint-Niklaas
           </p>
         </div>

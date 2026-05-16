@@ -43,7 +43,7 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#0B1020] border-t border-white/5 mt-auto">
+    <footer className="bg-[#F8F8F8] border-t border-[#D9D9D9] mt-auto">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12">
           {/* Brand */}
@@ -51,7 +51,7 @@ export function Footer() {
             <div>
               <Image src="/logo.png" alt="DE GEMEENSCHAP" width={160} height={34} className="h-8 w-auto" />
             </div>
-            <p className="text-[#a0a0a0] text-sm leading-relaxed max-w-xs">
+            <p className="text-[#414141]/60 text-sm leading-relaxed max-w-xs">
               for a collective future — jeugdhuis voor jongeren van Sint-Niklaas en omgeving.
             </p>
             {/* Socials */}
@@ -63,7 +63,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-[#a0a0a0] hover:text-primary hover:border-primary/30 hover:bg-primary/10 transition-all"
+                  className="w-9 h-9 rounded-xl bg-white border border-[#D9D9D9] flex items-center justify-center text-[#414141]/50 hover:text-[#1B9193] hover:border-[#1B9193]/30 hover:bg-[#1B9193]/5 transition-all shadow-sm"
                 >
                   <Icon />
                 </a>
@@ -73,32 +73,32 @@ export function Footer() {
 
           {/* Contact */}
           <div className="space-y-3">
-            <p className="text-xs font-bold text-white/40 uppercase tracking-widest">Contact</p>
+            <p className="text-xs font-bold text-[#414141]/40 uppercase tracking-widest" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>Contact</p>
             <div className="space-y-2.5">
               <a
                 href="mailto:info@degemeenschap.be"
-                className="flex items-center gap-2.5 text-sm text-[#a0a0a0] hover:text-primary transition-colors"
+                className="flex items-center gap-2.5 text-sm text-[#414141]/60 hover:text-[#1B9193] transition-colors"
               >
-                <Mail className="w-4 h-4 shrink-0 text-primary/60" />
+                <Mail className="w-4 h-4 shrink-0 text-[#1B9193]/60" />
                 info@degemeenschap.be
               </a>
               <a
                 href="tel:+32485573117"
-                className="flex items-center gap-2.5 text-sm text-[#a0a0a0] hover:text-primary transition-colors"
+                className="flex items-center gap-2.5 text-sm text-[#414141]/60 hover:text-[#1B9193] transition-colors"
               >
-                <Phone className="w-4 h-4 shrink-0 text-primary/60" />
+                <Phone className="w-4 h-4 shrink-0 text-[#1B9193]/60" />
                 +32 485 57 31 17
               </a>
-              <div className="flex items-center gap-2.5 text-sm text-[#a0a0a0]">
-                <MapPin className="w-4 h-4 shrink-0 text-primary/60" />
+              <div className="flex items-center gap-2.5 text-sm text-[#414141]/60">
+                <MapPin className="w-4 h-4 shrink-0 text-[#1B9193]/60" />
                 Mercatorstraat 24, Sint-Niklaas
               </div>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-white/5 mt-10 pt-6 text-center">
-          <p className="text-xs text-white/20">© {new Date().getFullYear()} DE GEMEENSCHAP vzw — Sint-Niklaas</p>
+        <div className="border-t border-[#D9D9D9] mt-10 pt-6 text-center">
+          <p className="text-xs text-[#414141]/35">© {new Date().getFullYear()} DE GEMEENSCHAP vzw — Sint-Niklaas</p>
         </div>
       </div>
     </footer>

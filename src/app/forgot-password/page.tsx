@@ -49,21 +49,21 @@ export default function ForgotPasswordPage() {
 
   if (sent) {
     return (
-      <div className="min-h-screen bg-secondary flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#F8F8F8] flex items-center justify-center px-4">
         <div className="w-full max-w-md text-center space-y-4">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary mb-2">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#9FB139] mb-2 shadow-sm">
             <CheckCircle2 className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-extrabold text-white">Check je inbox!</h1>
-          <p className="text-[#a0a0a0] text-sm leading-relaxed">
+          <h1 className="text-2xl font-extrabold" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#1B9193' }}>Check je inbox!</h1>
+          <p className="text-[#414141]/55 text-sm leading-relaxed">
             We hebben een reset-link gestuurd naar{' '}
-            <span className="text-white font-semibold">{email}</span>.
+            <span className="text-[#414141] font-semibold">{email}</span>.
             <br />
             Klik op de link in de mail om je wachtwoord te wijzigen.
           </p>
           <Link
             href="/login"
-            className="inline-block text-primary font-semibold hover:underline text-sm mt-2"
+            className="inline-block text-[#9FB139] font-semibold hover:underline text-sm mt-2"
           >
             Terug naar inloggen
           </Link>
@@ -73,22 +73,22 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-[#F8F8F8] flex flex-col items-center justify-center px-4 py-12">
       <Link href="/" className="mb-8 block">
         <Image src="/logo.png" alt="DE GEMEENSCHAP" width={160} height={34} className="h-8 w-auto" />
       </Link>
 
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-extrabold text-white">Wachtwoord vergeten?</h1>
-          <p className="text-[#a0a0a0] mt-1 text-sm">
+          <h1 className="text-2xl font-extrabold" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#1B9193' }}>Wachtwoord vergeten?</h1>
+          <p className="text-[#414141]/50 mt-1 text-sm">
             Vul je e-mailadres in en we sturen je een reset-link.
           </p>
         </div>
 
-        <div className="bg-[#131C31] rounded-[32px] border border-white/5 p-8 space-y-5">
+        <div className="bg-white rounded-2xl border border-[#D9D9D9] p-8 space-y-5 shadow-sm">
           {error && (
-            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-4 py-3 text-sm">
+            <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 rounded-xl px-4 py-3 text-sm">
               <AlertCircle className="w-4 h-4 shrink-0" />
               {error}
             </div>
@@ -109,15 +109,15 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-primary to-accent text-white font-semibold py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-[#9FB139] text-white font-semibold py-2.5 rounded-[30px] hover:bg-[#8fa030] active:scale-[0.98] transition-all disabled:opacity-60 flex items-center justify-center gap-2 mt-2 shadow-sm"
             >
               <Send className="w-4 h-4" />
               {loading ? 'Bezig...' : 'Stuur reset-link'}
             </button>
           </form>
 
-          <p className="text-center text-sm text-[#a0a0a0] pt-1">
-            <Link href="/login" className="text-primary font-semibold hover:underline">
+          <p className="text-center text-sm text-[#414141]/50 pt-1">
+            <Link href="/login" className="text-[#1B9193] font-semibold hover:underline">
               Terug naar inloggen
             </Link>
           </p>

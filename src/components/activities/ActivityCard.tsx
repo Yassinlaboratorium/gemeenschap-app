@@ -14,14 +14,14 @@ import type { ActivityWithCount, Registration } from '@/types/database'
 const MONTHS_SHORT = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec']
 
 const TAG_STYLES: Record<string, { badge: string; bar: string; dateBg: string; progress: string }> = {
-  workshop:  { badge: 'bg-accent/10 text-accent border border-accent/20',           bar: 'bg-accent',   dateBg: 'bg-accent',   progress: 'bg-accent' },
-  uitstap:   { badge: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',     bar: 'bg-blue-400', dateBg: 'bg-blue-500', progress: 'bg-blue-400' },
-  evenement: { badge: 'bg-primary/10 text-primary border border-primary/20',        bar: 'bg-primary',  dateBg: 'bg-primary',  progress: 'bg-primary' },
-  sport:     { badge: 'bg-green-500/10 text-green-400 border border-green-500/20',  bar: 'bg-green-500',dateBg: 'bg-green-600',progress: 'bg-green-500' },
-  kunst:     { badge: 'bg-purple-500/10 text-purple-400 border border-purple-500/20',bar:'bg-purple-500',dateBg:'bg-purple-600',progress:'bg-purple-500'},
-  muziek:    { badge: 'bg-pink-500/10 text-pink-400 border border-pink-500/20',     bar: 'bg-pink-500', dateBg: 'bg-pink-600', progress: 'bg-pink-500' },
+  workshop:  { badge: 'bg-[#9FB139]/10 text-[#9FB139] border border-[#9FB139]/20',    bar: 'bg-[#9FB139]',   dateBg: 'bg-[#9FB139]',   progress: 'bg-[#9FB139]' },
+  uitstap:   { badge: 'bg-blue-50 text-blue-600 border border-blue-100',              bar: 'bg-blue-500',    dateBg: 'bg-blue-500',    progress: 'bg-blue-500' },
+  evenement: { badge: 'bg-[#1B9193]/10 text-[#1B9193] border border-[#1B9193]/20',   bar: 'bg-[#1B9193]',   dateBg: 'bg-[#1B9193]',   progress: 'bg-[#1B9193]' },
+  sport:     { badge: 'bg-green-50 text-green-600 border border-green-100',           bar: 'bg-green-500',   dateBg: 'bg-green-600',   progress: 'bg-green-500' },
+  kunst:     { badge: 'bg-violet-50 text-violet-600 border border-violet-100',        bar: 'bg-violet-500',  dateBg: 'bg-violet-600',  progress: 'bg-violet-500' },
+  muziek:    { badge: 'bg-pink-50 text-pink-600 border border-pink-100',              bar: 'bg-pink-500',    dateBg: 'bg-pink-600',    progress: 'bg-pink-500' },
 }
-const DEFAULT_STYLE = { badge: 'bg-white/8 text-white/60 border border-white/10', bar: 'bg-primary', dateBg: 'bg-primary', progress: 'bg-primary' }
+const DEFAULT_STYLE = { badge: 'bg-[#1B9193]/8 text-[#1B9193] border border-[#1B9193]/15', bar: 'bg-[#1B9193]', dateBg: 'bg-[#1B9193]', progress: 'bg-[#1B9193]' }
 
 function getTagStyle(tag: string) {
   return TAG_STYLES[tag.toLowerCase()] ?? DEFAULT_STYLE
@@ -106,16 +106,16 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
   const isLoading = isPending || isRedirecting
 
   return (
-    <div className="group bg-[#131C31] rounded-[28px] border border-white/5 overflow-hidden hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/20 transition-all duration-300">
+    <div className="group bg-white rounded-2xl border border-[#D9D9D9] overflow-hidden hover:-translate-y-1 hover:shadow-md hover:border-[#1B9193]/25 transition-all duration-300">
       <div className={`h-1.5 w-full ${config.bar}`} />
 
       <div className="p-5 sm:p-7 space-y-5">
 
         {/* Badge rij */}
         <div className="flex flex-wrap items-center gap-2">
-          <div className={`${config.dateBg} text-white rounded-xl px-3 py-1.5 flex flex-col items-center leading-none min-w-[44px]`}>
-            <span className="text-lg font-extrabold leading-none">{day}</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider opacity-80 mt-0.5">{monthShort}</span>
+          <div className="bg-[#1B9193]/8 border border-[#1B9193]/15 rounded-xl px-3 py-1.5 flex flex-col items-center leading-none min-w-[44px]">
+            <span className="text-lg font-extrabold leading-none text-[#1B9193]">{day}</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[#1B9193]/50 mt-0.5">{monthShort}</span>
           </div>
 
           {activity.tags?.map(tag => (
@@ -125,27 +125,27 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
           ))}
 
           {hasSessions && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-white/5 text-white/40 border border-white/10">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-[#9FB139]/10 text-[#9FB139] border border-[#9FB139]/20">
               {activity.sessions_count} sessies
             </span>
           )}
 
           {isFull && !hasSessions && (
-            <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-red-600 text-white tracking-wide">VOL</span>
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-red-100 text-red-600 border border-red-200">VOL</span>
           )}
           {isBinaVol && !hasSessions && (
-            <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20">
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-amber-50 text-amber-600 border border-amber-200">
               Bijna vol
             </span>
           )}
           {isRegistered && !hasSessions && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-green-50 text-green-700 border border-green-200">
               <CheckCircle2 className="w-3.5 h-3.5" />
               Ingeschreven
             </span>
           )}
           {hasPendingPayment && !hasSessions && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-amber-50 text-amber-600 border border-amber-200">
               <Clock className="w-3.5 h-3.5" />
               Betaling in afwachting
             </span>
@@ -153,28 +153,28 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
         </div>
 
         {/* Titel */}
-        <h2 className="text-xl sm:text-2xl font-extrabold text-white leading-snug">
+        <h2 className="text-xl sm:text-2xl font-extrabold text-[#414141] leading-snug" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>
           {activity.title}
         </h2>
 
         {/* Meta */}
-        <div className="flex flex-col gap-2 text-sm text-[#a0a0a0]">
+        <div className="flex flex-col gap-2 text-sm text-[#414141]/55">
           {timeStr && (
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 shrink-0 text-white/20" />
+              <Clock className="w-4 h-4 shrink-0 text-[#1B9193]/50" />
               <span>{timeStr}</span>
             </div>
           )}
           {activity.location && (
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 shrink-0 text-white/20" />
+              <MapPin className="w-4 h-4 shrink-0 text-[#1B9193]/50" />
               <span>{activity.location}</span>
             </div>
           )}
           {!hasSessions && (
             <div className="flex items-center gap-2">
-              <Euro className="w-4 h-4 shrink-0 text-white/20" />
-              <span className="font-semibold text-white">
+              <Euro className="w-4 h-4 shrink-0 text-[#1B9193]/50" />
+              <span className="font-semibold text-[#9FB139]">
                 {price === 0 ? 'Gratis' : `€${price.toFixed(2)}`}
               </span>
             </div>
@@ -183,43 +183,43 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
 
         {/* Beschrijving */}
         {activity.description && (
-          <p className="text-[#a0a0a0] leading-relaxed">{activity.description}</p>
+          <p className="text-[#414141]/55 leading-relaxed">{activity.description}</p>
         )}
 
         {/* Capaciteitsbar — alleen voor non-sessie activiteiten */}
         {!hasSessions && max !== null ? (
           <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-xs text-white/30">
+            <div className="flex items-center justify-between text-xs text-[#414141]/40">
               <span className="flex items-center gap-1.5">
                 <Users className="w-3.5 h-3.5" />
-                <span className={isFull ? 'text-red-400 font-semibold' : ''}>{count}</span>
+                <span className={isFull ? 'text-red-600 font-semibold' : ''}>{count}</span>
                 <span>/ {max} plaatsen</span>
               </span>
-              <span className={isFull ? 'text-red-400 font-semibold' : isBinaVol ? 'text-orange-400 font-semibold' : ''}>
+              <span className={isFull ? 'text-red-600 font-semibold' : isBinaVol ? 'text-amber-600 font-semibold' : ''}>
                 {isFull ? 'Vol' : `${max - count} vrij`}
               </span>
             </div>
-            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-1.5 bg-[#D9D9D9] rounded-full overflow-hidden">
               <div
-                className={`h-full rounded-full transition-all duration-500 ${isFull ? 'bg-red-500' : isBinaVol ? 'bg-orange-500' : config.progress}`}
+                className={`h-full rounded-full transition-all duration-500 ${isFull ? 'bg-red-500' : isBinaVol ? 'bg-amber-500' : config.progress}`}
                 style={{ width: `${pct}%` }}
               />
             </div>
           </div>
         ) : !hasSessions ? (
-          <div className="flex items-center gap-2 text-sm text-[#a0a0a0]">
-            <Users className="w-4 h-4 shrink-0 text-white/20" />
+          <div className="flex items-center gap-2 text-sm text-[#414141]/50">
+            <Users className="w-4 h-4 shrink-0 text-[#1B9193]/40" />
             <span>{count} ingeschreven</span>
           </div>
         ) : null}
 
         {/* Actierij */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-white/[0.04]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-[#D9D9D9]">
           {message && !hasSessions ? (
             <div className={`flex items-center gap-2 text-sm rounded-xl px-4 py-2.5 flex-1 ${
               message.type === 'success'
-                ? 'bg-green-500/10 border border-green-500/20 text-green-400'
-                : 'bg-red-500/10 border border-red-500/20 text-red-400'
+                ? 'bg-green-50 border border-green-200 text-green-700'
+                : 'bg-red-50 border border-red-200 text-red-600'
             }`}>
               {message.type === 'success'
                 ? <CheckCircle2 className="w-4 h-4 shrink-0" />
@@ -227,7 +227,7 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
               {message.text}
             </div>
           ) : isRedirecting && !hasSessions ? (
-            <div className="flex items-center gap-2 text-sm rounded-xl px-4 py-2.5 flex-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400">
+            <div className="flex items-center gap-2 text-sm rounded-xl px-4 py-2.5 flex-1 bg-amber-50 border border-amber-200 text-amber-600">
               <Loader2 className="w-4 h-4 animate-spin shrink-0" />
               Je wordt doorgestuurd naar de betaalpagina…
             </div>
@@ -240,7 +240,7 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
             {hasSessions ? (
               <Link
                 href={`/activities/${activity.id}`}
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold px-5 py-2.5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all text-sm"
+                className="inline-flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-5 py-2.5 rounded-[30px] hover:bg-[#8fa030] active:scale-[0.98] transition-all text-sm shadow-sm"
               >
                 Bekijk & inschrijven
                 <ArrowRight className="w-4 h-4" />
@@ -249,14 +249,14 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
             ) : !isLoggedIn ? (
               <Link
                 href="/login"
-                className="inline-flex items-center gap-2 bg-white/8 text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-white/12 transition-colors text-sm border border-white/10"
+                className="inline-flex items-center gap-2 bg-[#F8F8F8] text-[#1B9193] font-semibold px-5 py-2.5 rounded-[30px] hover:bg-[#1B9193]/8 transition-colors text-sm border border-[#1B9193]/20"
               >
                 Inloggen om in te schrijven
               </Link>
 
             ) : isRegistered ? (
               registration?.payment_status === 'paid' ? (
-                <span className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 font-semibold px-5 py-2.5 rounded-xl text-sm border border-green-500/20 cursor-default">
+                <span className="inline-flex items-center gap-2 bg-green-50 text-green-700 font-semibold px-5 py-2.5 rounded-[30px] text-sm border border-green-200 cursor-default">
                   <CheckCircle2 className="w-4 h-4" />
                   Betaald – contact ons voor annulering
                 </span>
@@ -264,7 +264,7 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
                 <button
                   onClick={handleCancel}
                   disabled={isLoading}
-                  className="inline-flex items-center gap-2 bg-white/10 border border-white/10 text-white/70 font-semibold px-5 py-2.5 rounded-xl hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 active:scale-[0.98] transition-all disabled:opacity-50 text-sm"
+                  className="inline-flex items-center gap-2 bg-[#F8F8F8] border border-[#D9D9D9] text-[#414141]/60 font-semibold px-5 py-2.5 rounded-[30px] hover:bg-red-50 hover:text-red-600 hover:border-red-200 active:scale-[0.98] transition-all disabled:opacity-50 text-sm"
                 >
                   {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                   Annuleren
@@ -275,14 +275,14 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
               <button
                 onClick={handlePayment}
                 disabled={isLoading}
-                className="inline-flex items-center gap-2 bg-yellow-500 text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-yellow-600 active:scale-[0.98] transition-all disabled:opacity-50 text-sm"
+                className="inline-flex items-center gap-2 bg-amber-500 text-white font-semibold px-5 py-2.5 rounded-[30px] hover:bg-amber-600 active:scale-[0.98] transition-all disabled:opacity-50 text-sm shadow-sm"
               >
                 {isRedirecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
                 Betaling afronden
               </button>
 
             ) : isFull ? (
-              <button disabled className="inline-flex items-center gap-2 bg-white/5 text-white/30 font-semibold px-5 py-2.5 rounded-xl cursor-not-allowed text-sm">
+              <button disabled className="inline-flex items-center gap-2 bg-[#F8F8F8] text-[#414141]/30 font-semibold px-5 py-2.5 rounded-[30px] cursor-not-allowed text-sm border border-[#D9D9D9]">
                 Vol
               </button>
 
@@ -290,7 +290,7 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
               <button
                 onClick={handlePayment}
                 disabled={isLoading}
-                className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-accent active:scale-[0.98] transition-all disabled:opacity-50 text-sm"
+                className="inline-flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-5 py-2.5 rounded-[30px] hover:bg-[#8fa030] active:scale-[0.98] transition-all disabled:opacity-50 text-sm shadow-sm"
               >
                 {isRedirecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
                 Inschrijven + betaal €{price.toFixed(2)}
@@ -300,7 +300,7 @@ export function ActivityCard({ activity, registration, isLoggedIn }: Props) {
               <button
                 onClick={handleRegisterFree}
                 disabled={isLoading}
-                className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-accent active:scale-[0.98] transition-all disabled:opacity-50 text-sm"
+                className="inline-flex items-center gap-2 bg-[#9FB139] text-white font-semibold px-5 py-2.5 rounded-[30px] hover:bg-[#8fa030] active:scale-[0.98] transition-all disabled:opacity-50 text-sm shadow-sm"
               >
                 {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
                 Schrijf in

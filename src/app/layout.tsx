@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, Open_Sans } from "next/font/google";
 import "./globals.css";
 import { PushPermission } from "@/components/pwa/PushPermission";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
@@ -10,19 +10,25 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
+  subsets: ["latin"],
+  weight: ["400", "600"],
+});
+
 export const metadata: Metadata = {
   title: "vzw De Gemeenschap",
   description: "Activiteiten en inschrijvingen voor jongeren in Sint-Niklaas.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
     title: "DE GEMEENSCHAP",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B1020",
+  themeColor: "#1B9193",
 };
 
 export default function RootLayout({
@@ -31,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl" className={`${poppins.variable} h-full antialiased`}>
+    <html lang="nl" className={`${poppins.variable} ${openSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
           {children}
           <PushPermission />
