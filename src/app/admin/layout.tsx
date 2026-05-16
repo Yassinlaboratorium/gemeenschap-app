@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { CalendarDays, LayoutDashboard, BarChart2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
+import { HelpModal } from '@/components/admin/HelpModal'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -46,6 +47,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <LayoutDashboard className="w-4 h-4" />
             <span className="hidden sm:inline">Dashboard</span>
           </Link>
+          <HelpModal />
         </nav>
       </header>
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
