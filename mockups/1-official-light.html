@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup 1 — Official Light</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #9FB139;
+    --primary-hover: #A18A10;
+    --secondary: #1B9193;
+    --text: #414141;
+    --bg: #FFFFFF;
+    --surface: #F8F8F8;
+    --border: #D9D9D9;
+    --muted: #A7A7A7;
+    --radius: 30px;
+  }
+  body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); }
+
+  /* NAV */
+  nav { background: #fff; border-bottom: 1px solid var(--border); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .nav-logo { font-size: 20px; font-weight: 800; color: var(--secondary); }
+  .nav-logo span { color: var(--primary); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-size: 14px; font-weight: 600; color: var(--text); text-decoration: none; }
+  .nav-links a:hover { color: var(--secondary); }
+  .nav-cta { background: var(--primary); color: #fff; font-weight: 700; font-size: 14px; padding: 10px 24px; border-radius: var(--radius); text-decoration: none; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #f0f7e6 0%, #e0f5f5 100%); padding: 80px 5%; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; min-height: 520px; }
+  .hero-tag { display: inline-block; background: var(--primary); color: #fff; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: var(--radius); margin-bottom: 20px; letter-spacing: .5px; }
+  .hero h1 { font-size: 54px; font-weight: 900; line-height: 1.05; color: var(--secondary); margin-bottom: 20px; }
+  .hero h1 em { color: var(--primary); font-style: normal; }
+  .hero p { font-size: 16px; color: #666; line-height: 1.7; margin-bottom: 32px; max-width: 480px; }
+  .btn-primary { background: var(--primary); color: #fff; font-weight: 700; font-size: 15px; padding: 16px 36px; border-radius: var(--radius); text-decoration: none; display: inline-block; transition: background .2s; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-outline { background: transparent; color: var(--secondary); font-weight: 700; font-size: 15px; padding: 16px 36px; border-radius: var(--radius); text-decoration: none; display: inline-block; border: 2px solid var(--secondary); margin-left: 12px; }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-img { background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%); border-radius: 24px; height: 380px; display: flex; align-items: center; justify-content: center; }
+  .hero-img span { font-size: 80px; }
+
+  /* STATS */
+  .stats { background: var(--secondary); padding: 40px 5%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 40px; font-weight: 900; color: #fff; }
+  .stat-label { font-size: 13px; color: rgba(255,255,255,.7); font-weight: 500; margin-top: 4px; }
+
+  /* SECTION */
+  .section { padding: 72px 5%; }
+  .section-header { text-align: center; margin-bottom: 48px; }
+  .section-header h2 { font-size: 38px; font-weight: 800; color: var(--secondary); margin-bottom: 12px; }
+  .section-header p { font-size: 16px; color: var(--muted); max-width: 520px; margin: 0 auto; }
+
+  /* CARDS */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: box-shadow .2s; }
+  .card:hover { box-shadow: 0 8px 32px rgba(27,145,147,.12); }
+  .card-img { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 48px; }
+  .card-img.green { background: linear-gradient(135deg, #d4e890, #9FB139); }
+  .card-img.teal { background: linear-gradient(135deg, #a8e0e1, #1B9193); }
+  .card-img.gold { background: linear-gradient(135deg, #fde4a8, #A18A10); }
+  .card-body { padding: 20px 24px 24px; }
+  .card-tag { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 8px; }
+  .card-title { font-size: 18px; font-weight: 700; color: var(--secondary); margin-bottom: 8px; line-height: 1.3; }
+  .card-meta { font-size: 13px; color: var(--muted); margin-bottom: 16px; display: flex; gap: 12px; }
+  .card-cta { background: var(--primary); color: #fff; font-size: 13px; font-weight: 700; padding: 10px 20px; border-radius: var(--radius); text-decoration: none; display: inline-block; }
+
+  /* FOOTER */
+  footer { background: var(--secondary); color: rgba(255,255,255,.8); padding: 48px 5%; display: flex; justify-content: space-between; align-items: center; }
+  footer .logo { font-size: 18px; font-weight: 800; color: #fff; }
+  footer p { font-size: 13px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">DE <span>GEMEENSCHAP</span></div>
+  <div class="nav-links">
+    <a href="#">Activiteiten</a>
+    <a href="#">Over ons</a>
+    <a href="#">Contact</a>
+  </div>
+  <a href="#" class="nav-cta">Inloggen</a>
+</nav>
+
+<section class="hero">
+  <div>
+    <span class="hero-tag">🌱 Sint-Niklaas</span>
+    <h1>Voor een <em>collectieve</em> toekomst</h1>
+    <p>Workshops, sport, cultuur en meer voor jongeren uit Sint-Niklaas en omgeving. Schrijf je in en maak er deel van uit.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary">Bekijk activiteiten</a>
+      <a href="#" class="btn-outline">Word lid</a>
+    </div>
+  </div>
+  <div class="hero-img"><span>🏘️</span></div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">250+</div><div class="stat-label">Actieve leden</div></div>
+  <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Activiteiten/jaar</div></div>
+  <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Vrijwilligers</div></div>
+  <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Jaar actief</div></div>
+</div>
+
+<section class="section">
+  <div class="section-header">
+    <h2>Komende activiteiten</h2>
+    <p>Schrijf je tijdig in — plaatsen zijn beperkt.</p>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-img green">🥗</div>
+      <div class="card-body">
+        <div class="card-tag">Koken</div>
+        <div class="card-title">Maandelijkse kookworkshop</div>
+        <div class="card-meta"><span>📅 22 mei</span><span>📍 Jeugdhuis</span></div>
+        <a href="#" class="card-cta">Inschrijven</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img teal">⚽</div>
+      <div class="card-body">
+        <div class="card-tag">Sport</div>
+        <div class="card-title">FIFA Toernooi 2026</div>
+        <div class="card-meta"><span>📅 28 mei</span><span>📍 Sportzaal</span></div>
+        <a href="#" class="card-cta">Inschrijven</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img gold">🎨</div>
+      <div class="card-body">
+        <div class="card-tag">Kunst</div>
+        <div class="card-title">Creatieve workshop</div>
+        <div class="card-meta"><span>📅 3 jun</span><span>📍 Atelier</span></div>
+        <a href="#" class="card-cta">Inschrijven</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">DE GEMEENSCHAP</div>
+  <p>© 2026 Vzw De Gemeenschap · Sint-Niklaas</p>
+</footer>
+
+</body>
+</html>
