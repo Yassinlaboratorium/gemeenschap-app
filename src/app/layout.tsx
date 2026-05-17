@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Poppins, Open_Sans } from "next/font/google";
 import "./globals.css";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -40,6 +42,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
           {children}
           <InstallPrompt />
+          <Analytics />
+          <SpeedInsights />
         </body>
     </html>
   );
