@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins, Open_Sans } from "next/font/google";
 import "./globals.css";
-import { PushPermission } from "@/components/pwa/PushPermission";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 
 const poppins = Poppins({
@@ -40,7 +39,6 @@ export default function RootLayout({
     <html lang="nl" className={`${poppins.variable} ${openSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
           {children}
-          <PushPermission />
           <InstallPrompt />
         </body>
     </html>
