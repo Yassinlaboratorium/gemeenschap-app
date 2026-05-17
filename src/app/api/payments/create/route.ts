@@ -4,7 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { mollieClient } from '@/lib/mollie'
 import type { Activity } from '@/types/database'
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+const APP_URL = (process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000').replace(/\/$/, '')
 
 // Mollie kan localhost niet bereiken — webhook alleen meegeven in productie
 const isLocalhost = APP_URL.includes('localhost') || APP_URL.includes('127.0.0.1')

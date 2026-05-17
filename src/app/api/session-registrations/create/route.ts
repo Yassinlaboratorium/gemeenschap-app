@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { mollieClient } from '@/lib/mollie'
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+const APP_URL = (process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000').replace(/\/$/, '')
 const isLocalhost = APP_URL.includes('localhost') || APP_URL.includes('127.0.0.1')
 const WEBHOOK_URL = isLocalhost ? undefined : `${APP_URL}/api/webhooks/mollie`
 

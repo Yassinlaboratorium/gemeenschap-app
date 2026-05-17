@@ -14,7 +14,10 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url)
   const dateFrom = searchParams.get('dateFrom') ?? new Date(new Date().getFullYear(), 0, 1).toISOString()
-  const dateTo = searchParams.get('dateTo') ?? new Date().toISOString()
+  const rawDateTo = searchParams.get('dateTo')
+  const dateTo = rawDateTo
+    ? (/^\d{4}-\d{2}-\d{2}$/.test(rawDateTo) ? rawDateTo + 'T23:59:59.999Z' : rawDateTo)
+    : new Date().toISOString()
   const municipalities = searchParams.getAll('municipality')
 
   const admin = createAdminClient()
