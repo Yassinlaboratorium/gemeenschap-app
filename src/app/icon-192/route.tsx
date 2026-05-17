@@ -1,7 +1,5 @@
 import { ImageResponse } from 'next/og'
 
-export const runtime = 'edge'
-
 const LOGO_URL =
   'https://degemeenschap.be/wp-content/uploads/2024/06/LogoTransp-e1719229309956.png'
 

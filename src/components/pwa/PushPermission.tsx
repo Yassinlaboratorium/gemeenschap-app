@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Bell, BellOff, X } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 
 function urlBase64ToUint8Array(base64String: string): Uint8Array<ArrayBuffer> {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
@@ -29,6 +30,12 @@ export function PushPermission() {
 
     const key = 'push-prompt-dismissed'
     if (sessionStorage.getItem(key)) setDismissed(true)
+
+    // Geen banner tonen voor niet-ingelogde gebruikers
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) setDismissed(true)
+    })
   }, [])
 
   async function requestPermission() {
@@ -53,14 +60,21 @@ export function PushPermission() {
         keys: { p256dh: string; auth: string }
       }
 
-      await fetch('/api/push/subscribe', {
+      const res = await fetch('/api/push/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(json),
       })
 
+      if (!res.ok) {
+        console.error('[push] subscribe failed:', res.status, await res.text())
+        setState('idle')
+        return
+      }
+
       setState('granted')
-    } catch {
+    } catch (err) {
+      console.error('[push] requestPermission error:', err)
       setState('idle')
     }
   }

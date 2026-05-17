@@ -7,6 +7,7 @@ const withPWA = withPWAInit({
   cacheOnFrontEndNav: true,
   reloadOnOnline: true,
   disable: process.env.NODE_ENV === 'development',
+  customWorkerSrc: 'src/worker',
   workboxOptions: {
     disableDevLogs: true,
   },
