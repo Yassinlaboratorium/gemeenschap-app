@@ -13,7 +13,7 @@ export function SendPushButton() {
   const [error, setError] = useState<string | null>(null)
   const [clearing, setClearing] = useState(false)
 
-  const INPUT = 'w-full px-3 py-2 rounded-xl border border-white/10 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-sm transition-colors'
+  const INPUT = 'w-full px-3 py-2 rounded-xl border border-[#D9D9D9] bg-[#F8F8F8] text-[#414141] placeholder:text-[#414141]/30 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors'
 
   async function send() {
     if (!title.trim() || !body.trim()) return
@@ -57,24 +57,24 @@ export function SendPushButton() {
     <>
       <button
         onClick={() => { setOpen(true); setResult(null); setError(null) }}
-        className="flex items-center gap-2 bg-white/5 border border-white/10 text-white/60 hover:text-white hover:border-white/25 font-semibold px-4 py-2 rounded-xl text-sm transition-all"
+        className="flex items-center gap-2 bg-[#F8F8F8] border border-[#D9D9D9] text-[#414141]/55 hover:text-[#414141] hover:border-[#9FB139]/40 font-semibold px-4 py-2 rounded-xl text-sm transition-all"
       >
         <Bell className="w-4 h-4" />
         Push sturen
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-[#131C31] rounded-[28px] border border-white/10 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-white rounded-2xl border border-[#D9D9D9] shadow-2xl">
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-[#D9D9D9]">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Bell className="w-4 h-4 text-primary" />
+                <div className="w-8 h-8 rounded-xl bg-[#9FB139]/10 flex items-center justify-center">
+                  <Bell className="w-4 h-4 text-[#9FB139]" />
                 </div>
-                <p className="font-bold text-white">Push notificatie</p>
+                <p className="font-bold text-[#414141]">Push notificatie</p>
               </div>
-              <button onClick={() => setOpen(false)} className="text-white/30 hover:text-white transition-colors">
+              <button onClick={() => setOpen(false)} className="text-[#414141]/35 hover:text-[#414141] transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -82,13 +82,13 @@ export function SendPushButton() {
             {/* Body */}
             <div className="p-6 space-y-4">
               {error && (
-                <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-4 py-3 text-sm">
+                <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 rounded-xl px-4 py-3 text-sm">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   {error}
                 </div>
               )}
               {result && (
-                <div className={`rounded-xl px-4 py-3 text-sm border ${result.failed > 0 && result.sent === 0 ? 'bg-red-500/10 border-red-500/20 text-red-400' : 'bg-green-500/10 border-green-500/20 text-green-400'}`}>
+                <div className={`rounded-xl px-4 py-3 text-sm border ${result.failed > 0 && result.sent === 0 ? 'bg-red-50 border-red-200 text-red-600' : 'bg-green-50 border-green-200 text-green-700'}`}>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 shrink-0" />
                     Verzonden naar {result.sent} subscriber{result.sent !== 1 ? 's' : ''}
@@ -101,7 +101,7 @@ export function SendPushButton() {
               )}
 
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-white/40 uppercase tracking-wider">Titel</label>
+                <label className="block text-xs font-semibold text-[#414141]/50 uppercase tracking-wider">Titel</label>
                 <input
                   type="text"
                   value={title}
@@ -113,7 +113,7 @@ export function SendPushButton() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-white/40 uppercase tracking-wider">Bericht</label>
+                <label className="block text-xs font-semibold text-[#414141]/50 uppercase tracking-wider">Bericht</label>
                 <textarea
                   value={body}
                   onChange={e => setBody(e.target.value)}
@@ -121,11 +121,11 @@ export function SendPushButton() {
                   className={`${INPUT} resize-none h-20`}
                   maxLength={160}
                 />
-                <p className="text-xs text-white/20 text-right">{body.length}/160</p>
+                <p className="text-xs text-[#414141]/30 text-right">{body.length}/160</p>
               </div>
 
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-white/40 uppercase tracking-wider">Link (optioneel)</label>
+                <label className="block text-xs font-semibold text-[#414141]/50 uppercase tracking-wider">Link (optioneel)</label>
                 <input
                   type="text"
                   value={url}
@@ -138,7 +138,7 @@ export function SendPushButton() {
               <button
                 onClick={send}
                 disabled={loading || !title.trim() || !body.trim()}
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-accent text-white font-semibold py-2.5 rounded-xl hover:opacity-90 transition-all disabled:opacity-50 text-sm"
+                className="w-full flex items-center justify-center gap-2 bg-[#9FB139] text-white font-semibold py-2.5 rounded-[30px] hover:bg-[#8fa030] transition-all disabled:opacity-50 text-sm shadow-sm"
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 {loading ? 'Verzenden…' : 'Verzenden naar alle subscribers'}
@@ -147,7 +147,7 @@ export function SendPushButton() {
               <button
                 onClick={clearSubscriptions}
                 disabled={clearing}
-                className="w-full text-xs text-white/20 hover:text-red-400 transition-colors py-1"
+                className="w-full text-xs text-[#414141]/30 hover:text-red-500 transition-colors py-1"
               >
                 {clearing ? 'Verwijderen…' : 'Reset alle subscriptions (na VAPID key wissel)'}
               </button>

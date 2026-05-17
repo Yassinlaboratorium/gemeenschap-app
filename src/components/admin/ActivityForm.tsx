@@ -9,10 +9,10 @@ import type { Activity, ActivitySession } from '@/types/database'
 type Action = (prev: FormState, formData: FormData) => Promise<FormState>
 
 const INPUT =
-  'w-full px-4 py-2.5 rounded-xl border border-white/10 bg-[#1a2942] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors'
-const LABEL = 'block text-sm font-semibold text-white mb-1.5'
+  'w-full px-4 py-2.5 rounded-xl border border-[#D9D9D9] bg-[#F8F8F8] text-[#414141] placeholder:text-[#414141]/30 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors'
+const LABEL = 'block text-sm font-semibold text-[#414141] mb-1.5'
 const SMALL_INPUT =
-  'w-full px-3 py-2 rounded-lg border border-white/5 bg-[#111] text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors'
+  'w-full px-3 py-2 rounded-lg border border-[#D9D9D9] bg-[#F8F8F8] text-[#414141] placeholder:text-[#414141]/30 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors'
 
 function sessionToEuros(priceCents: number) {
   return (priceCents / 100).toFixed(2)
@@ -77,20 +77,18 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
 
   return (
     <form action={formAction} className="space-y-5">
-      {/* Hidden sessions field — altijd in sync met state */}
       <input type="hidden" name="sessions_json" value={JSON.stringify(sessions)} />
 
       {state?.error && (
-        <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl px-4 py-3 text-sm">
+        <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 rounded-xl px-4 py-3 text-sm">
           <AlertCircle className="w-4 h-4 shrink-0" />
           {state.error}
         </div>
       )}
 
-      {/* Titel */}
       <div>
         <label className={LABEL}>
-          Titel <span className="text-primary">*</span>
+          Titel <span className="text-[#9FB139]">*</span>
         </label>
         <input
           name="title"
@@ -102,7 +100,6 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
         />
       </div>
 
-      {/* Beschrijving */}
       <div>
         <label className={LABEL}>Beschrijving</label>
         <textarea
@@ -114,11 +111,10 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
         />
       </div>
 
-      {/* Tags */}
       <div>
         <label className={LABEL}>
           Tags{' '}
-          <span className="text-white/30 font-normal">(komma-gescheiden, bv. sport, zomer, outdoor)</span>
+          <span className="text-[#414141]/40 font-normal">(komma-gescheiden, bv. sport, zomer, outdoor)</span>
         </label>
         <input
           name="tags"
@@ -129,10 +125,9 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
         />
       </div>
 
-      {/* Datum */}
       <div>
         <label className={LABEL}>
-          Datum <span className="text-primary">*</span>
+          Datum <span className="text-[#9FB139]">*</span>
         </label>
         <input
           name="date"
@@ -143,7 +138,6 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
         />
       </div>
 
-      {/* Tijden */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className={LABEL}>Starttijd</label>
@@ -157,7 +151,7 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
         <div>
           <label className={LABEL}>
             Eindtijd{' '}
-            <span className="text-white/30 font-normal">(optioneel)</span>
+            <span className="text-[#414141]/40 font-normal">(optioneel)</span>
           </label>
           <input
             name="end_time"
@@ -168,7 +162,6 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
         </div>
       </div>
 
-      {/* Locatie */}
       <div>
         <label className={LABEL}>Locatie</label>
         <input
@@ -180,12 +173,11 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
         />
       </div>
 
-      {/* Max deelnemers + Prijs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className={LABEL}>
             Max. deelnemers{' '}
-            <span className="text-white/30 font-normal">(optioneel)</span>
+            <span className="text-[#414141]/40 font-normal">(optioneel)</span>
           </label>
           <input
             name="max_participants"
@@ -209,19 +201,19 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
         </div>
       </div>
 
-      {/* ── Sessies ────────────────────────────────────────────── */}
-      <div className="space-y-3 pt-2 border-t border-white/5">
+      {/* ── Sessies ── */}
+      <div className="space-y-3 pt-2 border-t border-[#D9D9D9]">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-sm font-bold text-white">Sessies</h3>
-            <p className="text-xs text-white/40 mt-0.5">
+            <h3 className="text-sm font-bold text-[#414141]" style={{ color: '#414141' }}>Sessies</h3>
+            <p className="text-xs text-[#414141]/45 mt-0.5">
               Optioneel — voor activiteiten met meerdere losse momenten
             </p>
           </div>
           <button
             type="button"
             onClick={addSession}
-            className="flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
+            className="flex items-center gap-1.5 text-sm font-semibold text-[#9FB139] hover:text-[#8fa030] transition-colors"
           >
             <Plus className="w-4 h-4" />
             Sessie toevoegen
@@ -229,24 +221,23 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
         </div>
 
         {sessions.length === 0 && (
-          <p className="text-xs text-white/25 italic">Geen sessies — activiteit is één geheel.</p>
+          <p className="text-xs text-[#414141]/35 italic">Geen sessies — activiteit is één geheel.</p>
         )}
 
         {sessions.map((s, idx) => (
-          <div key={idx} className="bg-[#111] rounded-xl border border-white/5 overflow-hidden">
-            {/* Header */}
+          <div key={idx} className="bg-[#F8F8F8] rounded-xl border border-[#D9D9D9] overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3">
               <button
                 type="button"
                 onClick={() => setExpanded(expanded === idx ? null : idx)}
-                className="flex items-center gap-2 text-sm font-semibold text-white hover:text-primary transition-colors flex-1 text-left"
+                className="flex items-center gap-2 text-sm font-semibold text-[#414141] hover:text-[#9FB139] transition-colors flex-1 text-left"
               >
                 {expanded === idx
-                  ? <ChevronUp className="w-4 h-4 text-white/40 shrink-0" />
-                  : <ChevronDown className="w-4 h-4 text-white/40 shrink-0" />}
+                  ? <ChevronUp className="w-4 h-4 text-[#414141]/40 shrink-0" />
+                  : <ChevronDown className="w-4 h-4 text-[#414141]/40 shrink-0" />}
                 {s.title || `Sessie ${idx + 1}`}
                 {s.session_date && (
-                  <span className="text-white/30 font-normal text-xs">
+                  <span className="text-[#414141]/40 font-normal text-xs">
                     — {new Date(s.session_date + 'T00:00:00').toLocaleDateString('nl-BE', { day: 'numeric', month: 'short' })}
                     {s.price_euros && Number(s.price_euros) > 0 && ` · €${Number(s.price_euros).toFixed(2)}`}
                   </span>
@@ -255,19 +246,17 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
               <button
                 type="button"
                 onClick={() => removeSession(idx)}
-                className="ml-2 text-white/20 hover:text-red-400 transition-colors"
+                className="ml-2 text-[#414141]/25 hover:text-red-500 transition-colors"
                 title="Sessie verwijderen"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Body */}
             {expanded === idx && (
-              <div className="px-4 pb-4 space-y-3 border-t border-white/5 pt-3">
-                {/* Titel */}
+              <div className="px-4 pb-4 space-y-3 border-t border-[#D9D9D9] pt-3">
                 <div>
-                  <label className="text-xs font-semibold text-white/60 mb-1 block">Sessietitel</label>
+                  <label className="text-xs font-semibold text-[#414141]/60 mb-1 block">Sessietitel</label>
                   <input
                     type="text"
                     value={s.title}
@@ -277,11 +266,10 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
                   />
                 </div>
 
-                {/* Datum + tijden */}
                 <div className="grid grid-cols-3 gap-2">
                   <div>
-                    <label className="text-xs font-semibold text-white/60 mb-1 block">
-                      Datum <span className="text-primary">*</span>
+                    <label className="text-xs font-semibold text-[#414141]/60 mb-1 block">
+                      Datum <span className="text-[#9FB139]">*</span>
                     </label>
                     <input
                       type="date"
@@ -291,7 +279,7 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-semibold text-white/60 mb-1 block">Van</label>
+                    <label className="text-xs font-semibold text-[#414141]/60 mb-1 block">Van</label>
                     <input
                       type="time"
                       value={s.start_time}
@@ -300,7 +288,7 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-semibold text-white/60 mb-1 block">Tot</label>
+                    <label className="text-xs font-semibold text-[#414141]/60 mb-1 block">Tot</label>
                     <input
                       type="time"
                       value={s.end_time}
@@ -310,10 +298,9 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
                   </div>
                 </div>
 
-                {/* Prijs + max deelnemers */}
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-xs font-semibold text-white/60 mb-1 block">Prijs (€)</label>
+                    <label className="text-xs font-semibold text-[#414141]/60 mb-1 block">Prijs (€)</label>
                     <input
                       type="number"
                       min="0"
@@ -324,7 +311,7 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-semibold text-white/60 mb-1 block">Max. deelnemers</label>
+                    <label className="text-xs font-semibold text-[#414141]/60 mb-1 block">Max. deelnemers</label>
                     <input
                       type="number"
                       min="1"
@@ -336,9 +323,8 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
                   </div>
                 </div>
 
-                {/* Locatie */}
                 <div>
-                  <label className="text-xs font-semibold text-white/60 mb-1 block">Locatie</label>
+                  <label className="text-xs font-semibold text-[#414141]/60 mb-1 block">Locatie</label>
                   <input
                     type="text"
                     value={s.location}
@@ -348,9 +334,8 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
                   />
                 </div>
 
-                {/* Beschrijving */}
                 <div>
-                  <label className="text-xs font-semibold text-white/60 mb-1 block">Beschrijving</label>
+                  <label className="text-xs font-semibold text-[#414141]/60 mb-1 block">Beschrijving</label>
                   <textarea
                     rows={2}
                     value={s.description}
@@ -366,7 +351,7 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
       </div>
 
       {/* Gepubliceerd */}
-      <div className="flex items-center gap-3 bg-[#1a2942] rounded-xl border border-white/10 px-4 py-3">
+      <div className="flex items-center gap-3 bg-[#F8F8F8] rounded-xl border border-[#D9D9D9] px-4 py-3">
         <input
           id="is_published"
           name="is_published"
@@ -375,16 +360,16 @@ export function ActivityForm({ action, activity, initialSessions }: Props) {
           className="w-4 h-4 accent-[#9FB139]"
         />
         <label htmlFor="is_published" className="cursor-pointer">
-          <span className="text-sm font-semibold text-white">Gepubliceerd</span>
-          <span className="block text-xs text-white/40">Zichtbaar voor alle bezoekers</span>
+          <span className="text-sm font-semibold text-[#414141]">Gepubliceerd</span>
+          <span className="block text-xs text-[#414141]/45">Zichtbaar voor alle bezoekers</span>
         </label>
       </div>
 
       {/* Acties */}
-      <div className="flex items-center justify-between pt-2 border-t border-white/5">
+      <div className="flex items-center justify-between pt-2 border-t border-[#D9D9D9]">
         <Link
           href="/admin/activities"
-          className="text-sm font-semibold text-white/40 hover:text-white transition-colors"
+          className="text-sm font-semibold text-[#414141]/45 hover:text-[#414141] transition-colors"
         >
           Annuleren
         </Link>

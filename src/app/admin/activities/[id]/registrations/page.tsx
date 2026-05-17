@@ -9,10 +9,10 @@ type RegistrationRow = Registration & { profiles: Profile }
 type SessionRegRow = SessionRegistration & { children: Child & { profiles?: Profile } }
 
 const PAYMENT_CONFIG = {
-  paid:      { label: 'Betaald',        icon: CheckCircle2, badge: 'bg-green-500/10 text-green-400 border border-green-500/20' },
-  pending:   { label: 'In afwachting',  icon: Clock,        badge: 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' },
-  failed:    { label: 'Mislukt',        icon: XCircle,      badge: 'bg-red-500/10 text-red-400 border border-red-500/20' },
-  cancelled: { label: 'Geannuleerd',    icon: XCircle,      badge: 'bg-white/5 text-white/30 border border-white/10' },
+  paid:      { label: 'Betaald',        icon: CheckCircle2, badge: 'bg-green-50 text-green-700 border border-green-200' },
+  pending:   { label: 'In afwachting',  icon: Clock,        badge: 'bg-yellow-50 text-yellow-700 border border-yellow-200' },
+  failed:    { label: 'Mislukt',        icon: XCircle,      badge: 'bg-red-50 text-red-600 border border-red-200' },
+  cancelled: { label: 'Geannuleerd',    icon: XCircle,      badge: 'bg-[#F8F8F8] text-[#414141]/45 border border-[#D9D9D9]' },
 } as const
 
 export default async function RegistrationsPage({
@@ -54,14 +54,12 @@ export default async function RegistrationsPage({
   const hasSessions = (sessions?.length ?? 0) > 0
   const sessionMap = new Map((sessions ?? []).map(s => [s.id, s]))
 
-  // Ouder-profielen voor sessie-inschrijvingen
   const parentIds = [...new Set((sessionRegs ?? []).map(r => r.user_id))]
   const { data: parentProfiles } = parentIds.length > 0
     ? await supabase.from('profiles').select('id, full_name, municipality, neighborhood').in('id', parentIds)
     : { data: [] }
   const parentMap = new Map((parentProfiles ?? []).map(p => [p.id, p]))
 
-  // ── Filter ──────────────────────────────────────────────────
   const filteredRegs = (allRegs ?? []).filter(r => {
     if (!filter || filter === 'all') return true
     if (filter === 'betaald') return r.payment_status === 'paid'
@@ -77,7 +75,6 @@ export default async function RegistrationsPage({
     return true
   })
 
-  // ── Stats ────────────────────────────────────────────────────
   const isPaid = Number(activity.price) > 0 || hasSessions
   const activeCount = (allRegs ?? []).filter(r => r.status !== 'cancelled').length
   const paidCount = (allRegs ?? []).filter(r => r.payment_status === 'paid').length
@@ -89,7 +86,6 @@ export default async function RegistrationsPage({
     .filter(r => r.payment_status === 'paid')
     .reduce((sum, r) => sum + r.total_price_cents, 0)
 
-  // ── Export data ──────────────────────────────────────────────
   const exportData = hasSessions
     ? filteredSessionRegs.map(reg => {
         const parent = parentMap.get(reg.user_id)
@@ -124,14 +120,14 @@ export default async function RegistrationsPage({
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <Link href="/admin/activities" className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors mb-3">
+        <Link href="/admin/activities" className="inline-flex items-center gap-1.5 text-sm text-[#414141]/45 hover:text-[#1B9193] transition-colors mb-3">
           <ArrowLeft className="w-4 h-4" />
           Terug naar activiteiten
         </Link>
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-extrabold text-white">{activity.title}</h1>
-            <p className="text-white/40 text-sm mt-0.5">
+            <h1 className="text-2xl font-extrabold" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#1B9193' }}>{activity.title}</h1>
+            <p className="text-[#414141]/45 text-sm mt-0.5">
               {activity.date ? new Date(activity.date).toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' }) : ''}
               {activity.start_time && ` · ${activity.start_time.slice(0, 5)}`}
             </p>
@@ -144,34 +140,34 @@ export default async function RegistrationsPage({
       {hasSessions ? (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { icon: Users, iconBg: 'bg-white/5', iconColor: 'text-white/40', value: sessionRegs?.length ?? 0, label: 'Inschrijvingen' },
-            { icon: CheckCircle2, iconBg: 'bg-green-500/10', iconColor: 'text-green-400', value: sessionPaidCount, label: 'Betaald' },
-            { icon: Clock, iconBg: 'bg-yellow-500/10', iconColor: 'text-yellow-400', value: sessionPendingCount, label: 'Onbetaald' },
-            { icon: Euro, iconBg: 'bg-primary/10', iconColor: 'text-primary', value: `€${(sessionTotalRevenue / 100).toFixed(2)}`, label: 'Ontvangen' },
+            { icon: Users, iconBg: 'bg-[#F8F8F8]', iconColor: 'text-[#414141]/45', value: sessionRegs?.length ?? 0, label: 'Inschrijvingen' },
+            { icon: CheckCircle2, iconBg: 'bg-green-50', iconColor: 'text-green-600', value: sessionPaidCount, label: 'Betaald' },
+            { icon: Clock, iconBg: 'bg-yellow-50', iconColor: 'text-yellow-600', value: sessionPendingCount, label: 'Onbetaald' },
+            { icon: Euro, iconBg: 'bg-[#9FB139]/10', iconColor: 'text-[#9FB139]', value: `€${(sessionTotalRevenue / 100).toFixed(2)}`, label: 'Ontvangen' },
           ].map(({ icon: Icon, iconBg, iconColor, value, label }) => (
-            <div key={label} className="bg-[#131C31] rounded-[24px] border border-white/5 p-4">
-              <div className={`w-8 h-8 rounded-lg ${iconBg} flex items-center justify-center mb-2`}>
+            <div key={label} className="bg-white rounded-2xl border border-[#D9D9D9] p-4 shadow-sm">
+              <div className={`w-8 h-8 rounded-lg ${iconBg} flex items-center justify-center mb-2 border border-[#D9D9D9]`}>
                 <Icon className={`w-4 h-4 ${iconColor}`} />
               </div>
-              <p className="text-xl font-extrabold text-white">{value}</p>
-              <p className="text-xs text-white/40 font-medium">{label}</p>
+              <p className="text-xl font-extrabold text-[#414141]">{value}</p>
+              <p className="text-xs text-[#414141]/45 font-medium">{label}</p>
             </div>
           ))}
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { icon: Users, iconBg: 'bg-white/5', iconColor: 'text-white/40', value: activeCount, label: 'Actief ingeschreven', show: true },
-            { icon: CheckCircle2, iconBg: 'bg-green-500/10', iconColor: 'text-green-400', value: paidCount, label: 'Betaald', show: isPaid },
-            { icon: Clock, iconBg: 'bg-yellow-500/10', iconColor: 'text-yellow-400', value: pendingCount, label: 'Onbetaald', show: isPaid },
-            { icon: AlertCircle, iconBg: 'bg-red-500/10', iconColor: 'text-red-400', value: cancelledCount, label: 'Geannuleerd', show: !isPaid },
+            { icon: Users, iconBg: 'bg-[#F8F8F8]', iconColor: 'text-[#414141]/45', value: activeCount, label: 'Actief ingeschreven', show: true },
+            { icon: CheckCircle2, iconBg: 'bg-green-50', iconColor: 'text-green-600', value: paidCount, label: 'Betaald', show: isPaid },
+            { icon: Clock, iconBg: 'bg-yellow-50', iconColor: 'text-yellow-600', value: pendingCount, label: 'Onbetaald', show: isPaid },
+            { icon: AlertCircle, iconBg: 'bg-red-50', iconColor: 'text-red-500', value: cancelledCount, label: 'Geannuleerd', show: !isPaid },
           ].filter(s => s.show).map(({ icon: Icon, iconBg, iconColor, value, label }) => (
-            <div key={label} className="bg-[#131C31] rounded-[24px] border border-white/5 p-4">
-              <div className={`w-8 h-8 rounded-lg ${iconBg} flex items-center justify-center mb-2`}>
+            <div key={label} className="bg-white rounded-2xl border border-[#D9D9D9] p-4 shadow-sm">
+              <div className={`w-8 h-8 rounded-lg ${iconBg} flex items-center justify-center mb-2 border border-[#D9D9D9]`}>
                 <Icon className={`w-4 h-4 ${iconColor}`} />
               </div>
-              <p className="text-xl font-extrabold text-white">{value}</p>
-              <p className="text-xs text-white/40 font-medium">{label}</p>
+              <p className="text-xl font-extrabold text-[#414141]">{value}</p>
+              <p className="text-xs text-[#414141]/45 font-medium">{label}</p>
             </div>
           ))}
         </div>
@@ -190,8 +186,8 @@ export default async function RegistrationsPage({
             href={`/admin/activities/${id}/registrations?filter=${key}`}
             className={`text-sm font-semibold px-4 py-2 rounded-xl border transition-colors ${
               (filter ?? 'all') === key
-                ? 'bg-gradient-to-r from-primary to-accent text-white border-primary'
-                : 'bg-[#131C31] text-white/50 border-white/5 hover:border-white/20 hover:text-white'
+                ? 'bg-[#9FB139] text-white border-[#9FB139]'
+                : 'bg-white text-[#414141]/55 border-[#D9D9D9] hover:border-[#9FB139]/40 hover:text-[#414141]'
             }`}
           >
             {label}
@@ -204,10 +200,10 @@ export default async function RegistrationsPage({
         filteredSessionRegs.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-x-auto">
+          <div className="bg-white rounded-2xl border border-[#D9D9D9] overflow-x-auto shadow-sm">
             <table className="w-full text-sm min-w-[700px]">
               <thead>
-                <tr className="border-b border-white/5 text-xs text-white/30 font-semibold uppercase tracking-wide">
+                <tr className="border-b border-[#D9D9D9] text-xs text-[#414141]/45 font-semibold uppercase tracking-wide bg-[#F8F8F8]">
                   <th className="text-left px-5 py-3">Kind</th>
                   <th className="text-left px-5 py-3">Ouder</th>
                   <th className="text-left px-5 py-3">Gemeente</th>
@@ -217,37 +213,37 @@ export default async function RegistrationsPage({
                   <th className="text-left px-5 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-[#D9D9D9]">
                 {filteredSessionRegs.map(reg => {
                   const paymentCfg = reg.payment_status ? PAYMENT_CONFIG[reg.payment_status] : null
                   const PayIcon = paymentCfg?.icon
                   const parent = parentMap.get(reg.user_id)
                   const mun = reg.children.municipality ?? parent?.municipality ?? '—'
                   return (
-                    <tr key={reg.id}>
-                      <td className="px-5 py-3.5 font-semibold text-white">
+                    <tr key={reg.id} className="hover:bg-[#F8F8F8] transition-colors">
+                      <td className="px-5 py-3.5 font-semibold text-[#414141]">
                         {reg.children.first_name}
                         {reg.children.birth_date && (
-                          <span className="block text-xs text-white/30 font-normal">
+                          <span className="block text-xs text-[#414141]/40 font-normal">
                             {new Date(reg.children.birth_date).toLocaleDateString('nl-BE')}
                           </span>
                         )}
                       </td>
-                      <td className="px-5 py-3.5 text-white/60">{parent?.full_name ?? '—'}</td>
-                      <td className="px-5 py-3.5 text-white/60">
+                      <td className="px-5 py-3.5 text-[#414141]/60">{parent?.full_name ?? '—'}</td>
+                      <td className="px-5 py-3.5 text-[#414141]/60">
                         {mun}
                         {reg.children.neighborhood && (
-                          <span className="block text-xs text-white/30">{reg.children.neighborhood}</span>
+                          <span className="block text-xs text-[#414141]/40">{reg.children.neighborhood}</span>
                         )}
                       </td>
-                      <td className="px-5 py-3.5 text-white/60">{reg.children.school ?? '—'}</td>
+                      <td className="px-5 py-3.5 text-[#414141]/60">{reg.children.school ?? '—'}</td>
                       <td className="px-5 py-3.5">
                         <div className="space-y-1">
                           {reg.session_ids.map(sid => {
                             const s = sessionMap.get(sid)
                             if (!s) return null
                             return (
-                              <div key={sid} className="text-xs text-white/60">
+                              <div key={sid} className="text-xs text-[#414141]/60">
                                 {s.title ?? new Date(s.session_date + 'T00:00:00').toLocaleDateString('nl-BE', { day: 'numeric', month: 'short' })}
                                 {s.start_time && ` · ${s.start_time.slice(0, 5)}`}
                               </div>
@@ -255,14 +251,14 @@ export default async function RegistrationsPage({
                           })}
                         </div>
                       </td>
-                      <td className="px-5 py-3.5 text-white font-semibold">€{(reg.total_price_cents / 100).toFixed(2)}</td>
+                      <td className="px-5 py-3.5 text-[#414141] font-semibold">€{(reg.total_price_cents / 100).toFixed(2)}</td>
                       <td className="px-5 py-3.5">
                         {paymentCfg && PayIcon ? (
                           <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${paymentCfg.badge}`}>
                             <PayIcon className="w-3.5 h-3.5" />
                             {paymentCfg.label}
                           </span>
-                        ) : <span className="text-white/20 text-xs">—</span>}
+                        ) : <span className="text-[#414141]/30 text-xs">—</span>}
                       </td>
                     </tr>
                   )
@@ -278,10 +274,10 @@ export default async function RegistrationsPage({
         filteredRegs.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="bg-[#131C31] rounded-[28px] border border-white/5 overflow-x-auto">
+          <div className="bg-white rounded-2xl border border-[#D9D9D9] overflow-x-auto shadow-sm">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/5 text-xs text-white/30 font-semibold uppercase tracking-wide">
+                <tr className="border-b border-[#D9D9D9] text-xs text-[#414141]/45 font-semibold uppercase tracking-wide bg-[#F8F8F8]">
                   <th className="text-left px-5 py-3">Naam</th>
                   <th className="text-left px-5 py-3">Gemeente</th>
                   <th className="text-left px-5 py-3">Datum</th>
@@ -289,20 +285,20 @@ export default async function RegistrationsPage({
                   <th className="text-left px-5 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-[#D9D9D9]">
                 {filteredRegs.map(reg => {
                   const paymentCfg = reg.payment_status ? PAYMENT_CONFIG[reg.payment_status] : null
                   const PayIcon = paymentCfg?.icon
                   return (
-                    <tr key={reg.id} className={reg.status === 'cancelled' ? 'opacity-40' : ''}>
-                      <td className="px-5 py-3.5 font-semibold text-white">{reg.profiles?.full_name ?? '—'}</td>
-                      <td className="px-5 py-3.5 text-white/60">
+                    <tr key={reg.id} className={`hover:bg-[#F8F8F8] transition-colors ${reg.status === 'cancelled' ? 'opacity-40' : ''}`}>
+                      <td className="px-5 py-3.5 font-semibold text-[#414141]">{reg.profiles?.full_name ?? '—'}</td>
+                      <td className="px-5 py-3.5 text-[#414141]/60">
                         {reg.profiles?.municipality ?? '—'}
                         {reg.profiles?.neighborhood && (
-                          <span className="block text-xs text-white/30">{reg.profiles.neighborhood}</span>
+                          <span className="block text-xs text-[#414141]/40">{reg.profiles.neighborhood}</span>
                         )}
                       </td>
-                      <td className="px-5 py-3.5 text-white/40">{new Date(reg.created_at).toLocaleDateString('nl-BE', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                      <td className="px-5 py-3.5 text-[#414141]/45">{new Date(reg.created_at).toLocaleDateString('nl-BE', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
                       {isPaid && (
                         <td className="px-5 py-3.5">
                           {paymentCfg && PayIcon ? (
@@ -310,14 +306,14 @@ export default async function RegistrationsPage({
                               <PayIcon className="w-3.5 h-3.5" />
                               {paymentCfg.label}
                             </span>
-                          ) : <span className="text-white/20 text-xs">—</span>}
+                          ) : <span className="text-[#414141]/30 text-xs">—</span>}
                         </td>
                       )}
                       <td className="px-5 py-3.5">
                         <span className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full ${
-                          reg.status === 'confirmed' ? 'bg-green-500/10 text-green-400 border border-green-500/20'
-                          : reg.status === 'pending' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
-                          : 'bg-white/5 text-white/30 border border-white/10'
+                          reg.status === 'confirmed' ? 'bg-green-50 text-green-700 border border-green-200'
+                          : reg.status === 'pending' ? 'bg-yellow-50 text-yellow-700 border border-yellow-200'
+                          : 'bg-[#F8F8F8] text-[#414141]/45 border border-[#D9D9D9]'
                         }`}>
                           {reg.status === 'confirmed' ? 'Bevestigd' : reg.status === 'pending' ? 'In afwachting' : 'Geannuleerd'}
                         </span>
@@ -336,9 +332,9 @@ export default async function RegistrationsPage({
 
 function EmptyState() {
   return (
-    <div className="bg-[#131C31] rounded-[28px] border border-white/5 py-14 text-center space-y-2">
-      <Users className="w-8 h-8 text-white/20 mx-auto" />
-      <p className="text-white/40 font-medium text-sm">Geen inschrijvingen gevonden</p>
+    <div className="bg-white rounded-2xl border border-[#D9D9D9] py-14 text-center space-y-2 shadow-sm">
+      <Users className="w-8 h-8 text-[#414141]/20 mx-auto" />
+      <p className="text-[#414141]/45 font-medium text-sm">Geen inschrijvingen gevonden</p>
     </div>
   )
 }
