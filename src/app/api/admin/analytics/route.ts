@@ -35,10 +35,12 @@ export async function GET(request: NextRequest) {
   }
 
   // ── Fetch raw registrations (classic) ────────────────────
+  // Filter on status='confirmed' (not payment_status) because free registrations
+  // have payment_status=NULL — they are inserted directly as confirmed with no payment flow.
   let regQuery = admin
     .from('registrations')
     .select('id, user_id, activity_id, created_at, payment_status, paid_at, profiles!registrations_user_id_fkey(municipality, neighborhood, birth_date)')
-    .in('payment_status', ['paid'])
+    .eq('status', 'confirmed')
     .gte('created_at', dateFrom)
     .lte('created_at', dateTo)
 
