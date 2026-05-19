@@ -90,11 +90,11 @@ export default async function RegistrationsPage({
     ? filteredSessionRegs.map(reg => {
         const parent = parentMap.get(reg.user_id)
         return {
-          kind: reg.children.first_name,
-          geboortedatum: reg.children.birth_date ?? '—',
-          school: reg.children.school ?? '—',
-          gemeente_kind: reg.children.municipality ?? '—',
-          wijk_kind: reg.children.neighborhood ?? '—',
+          kind: reg.children?.first_name ?? 'Jij (jongere)',
+          geboortedatum: reg.children?.birth_date ?? '—',
+          school: reg.children?.school ?? '—',
+          gemeente_kind: reg.children?.municipality ?? '—',
+          wijk_kind: reg.children?.neighborhood ?? '—',
           ouder: parent?.full_name ?? '—',
           gemeente_ouder: parent?.municipality ?? '—',
           sessies: reg.session_ids
@@ -218,12 +218,12 @@ export default async function RegistrationsPage({
                   const paymentCfg = reg.payment_status ? PAYMENT_CONFIG[reg.payment_status] : null
                   const PayIcon = paymentCfg?.icon
                   const parent = parentMap.get(reg.user_id)
-                  const mun = reg.children.municipality ?? parent?.municipality ?? '—'
+                  const mun = reg.children?.municipality ?? parent?.municipality ?? '—'
                   return (
                     <tr key={reg.id} className="hover:bg-[#F8F8F8] transition-colors">
                       <td className="px-5 py-3.5 font-semibold text-[#414141]">
-                        {reg.children.first_name}
-                        {reg.children.birth_date && (
+                        {reg.children?.first_name ?? <span className="text-[#414141]/45 font-normal italic">Jongere</span>}
+                        {reg.children?.birth_date && (
                           <span className="block text-xs text-[#414141]/40 font-normal">
                             {new Date(reg.children.birth_date).toLocaleDateString('nl-BE')}
                           </span>
@@ -232,11 +232,11 @@ export default async function RegistrationsPage({
                       <td className="px-5 py-3.5 text-[#414141]/60">{parent?.full_name ?? '—'}</td>
                       <td className="px-5 py-3.5 text-[#414141]/60">
                         {mun}
-                        {reg.children.neighborhood && (
+                        {reg.children?.neighborhood && (
                           <span className="block text-xs text-[#414141]/40">{reg.children.neighborhood}</span>
                         )}
                       </td>
-                      <td className="px-5 py-3.5 text-[#414141]/60">{reg.children.school ?? '—'}</td>
+                      <td className="px-5 py-3.5 text-[#414141]/60">{reg.children?.school ?? '—'}</td>
                       <td className="px-5 py-3.5">
                         <div className="space-y-1">
                           {reg.session_ids.map(sid => {
