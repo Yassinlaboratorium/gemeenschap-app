@@ -23,39 +23,50 @@ export async function GET(request: NextRequest) {
   const admin = createAdminClient()
 
   // ── Fetch raw session_registrations ──────────────────────
-  let srQuery = admin
+  const srQuery = admin
     .from('session_registrations')
-    .select('id, user_id, child_id, activity_id, created_at, payment_status, paid_at, total_price_cents, children(first_name, birth_date, gender, school, municipality, neighborhood, postal_code), profiles!session_registrations_user_id_fkey(municipality, neighborhood)')
+    .select('id, user_id, child_id, activity_id, created_at, payment_status, paid_at, total_price_cents, children(first_name, birth_date, gender, school, municipality, neighborhood, postal_code), profiles(municipality, neighborhood)')
     .in('payment_status', ['paid'])
     .gte('created_at', dateFrom)
     .lte('created_at', dateTo)
 
-  if (municipalities.length > 0) {
-    srQuery = srQuery.in('children.municipality', municipalities)
-  }
-
   // ── Fetch raw registrations (classic) ────────────────────
   // Filter on status='confirmed' (not payment_status) because free registrations
   // have payment_status=NULL — they are inserted directly as confirmed with no payment flow.
-  let regQuery = admin
+  const regQuery = admin
     .from('registrations')
-    .select('id, user_id, activity_id, created_at, payment_status, paid_at, profiles!registrations_user_id_fkey(municipality, neighborhood, birth_date)')
+    .select('id, user_id, activity_id, created_at, payment_status, paid_at, profiles(municipality, neighborhood, birth_date)')
     .eq('status', 'confirmed')
     .gte('created_at', dateFrom)
     .lte('created_at', dateTo)
 
-  if (municipalities.length > 0) {
-    regQuery = regQuery.in('profiles.municipality', municipalities)
-  }
-
-  const [{ data: sessionRegs }, { data: classicRegs }, { data: activities }] = await Promise.all([
+  const [srResult, regResult, actsResult] = await Promise.all([
     srQuery,
     regQuery,
     admin.from('activities').select('id, title, tags, date').eq('is_published', true),
   ])
 
-  const sr = (sessionRegs ?? []) as Array<Record<string, unknown>>
-  const cr = (classicRegs ?? []) as Array<Record<string, unknown>>
+  if (srResult.error) console.error('[analytics] session_registrations query failed:', srResult.error)
+  if (regResult.error) console.error('[analytics] registrations query failed:', regResult.error)
+  if (actsResult.error) console.error('[analytics] activities query failed:', actsResult.error)
+
+  const rawSr = (srResult.data ?? []) as Array<Record<string, unknown>>
+  const rawCr = (regResult.data ?? []) as Array<Record<string, unknown>>
+  const { data: activities } = actsResult
+
+  const sr = municipalities.length > 0
+    ? rawSr.filter(r => {
+        const c = r.children as Record<string, unknown> | null
+        return c?.municipality != null && municipalities.includes(c.municipality as string)
+      })
+    : rawSr
+
+  const cr = municipalities.length > 0
+    ? rawCr.filter(r => {
+        const p = r.profiles as Record<string, unknown> | null
+        return p?.municipality != null && municipalities.includes(p.municipality as string)
+      })
+    : rawCr
   const acts = (activities ?? []) as Array<{ id: string; title: string; tags: string[]; date: string }>
   const actMap = new Map(acts.map(a => [a.id, a]))
 
