@@ -22,133 +22,147 @@ export async function GET(request: NextRequest) {
 
   const admin = createAdminClient()
 
-  // ── Fetch raw session_registrations ──────────────────────
-  const srQuery = admin
-    .from('session_registrations')
-    .select('id, user_id, child_id, activity_id, created_at, payment_status, paid_at, total_price_cents, children(first_name, birth_date, gender, school, municipality, neighborhood, postal_code), profiles(municipality, neighborhood)')
-    .in('payment_status', ['paid'])
-    .gte('created_at', dateFrom)
-    .lte('created_at', dateTo)
-
-  // ── Fetch raw registrations (classic) ────────────────────
-  // Filter on status='confirmed' (not payment_status) because free registrations
-  // have payment_status=NULL — they are inserted directly as confirmed with no payment flow.
-  const regQuery = admin
-    .from('registrations')
-    .select('id, user_id, activity_id, created_at, payment_status, paid_at, profiles(municipality, neighborhood, birth_date)')
-    .eq('status', 'confirmed')
-    .gte('created_at', dateFrom)
-    .lte('created_at', dateTo)
-
+  // ── Fetch registrations — NO embedded profile join (can fail silently via auth.users FK) ──
   const [srResult, regResult, actsResult] = await Promise.all([
-    srQuery,
-    regQuery,
+    admin
+      .from('session_registrations')
+      .select('id, user_id, child_id, activity_id, created_at, payment_status, paid_at, total_price_cents, children(first_name, birth_date, gender, school, municipality, neighborhood, postal_code)')
+      .in('payment_status', ['paid'])
+      .gte('created_at', dateFrom)
+      .lte('created_at', dateTo),
+
+    // Count all non-cancelled classic registrations (includes paid + pending + confirmed + free)
+    admin
+      .from('registrations')
+      .select('id, user_id, activity_id, created_at, payment_status, status')
+      .neq('status', 'cancelled')
+      .gte('created_at', dateFrom)
+      .lte('created_at', dateTo),
+
     admin.from('activities').select('id, title, tags, date').eq('is_published', true),
   ])
 
-  if (srResult.error) console.error('[analytics] session_registrations query failed:', srResult.error)
-  if (regResult.error) console.error('[analytics] registrations query failed:', regResult.error)
-  if (actsResult.error) console.error('[analytics] activities query failed:', actsResult.error)
+  if (srResult.error) console.error('[analytics] session_registrations failed:', srResult.error)
+  if (regResult.error) console.error('[analytics] registrations failed:', regResult.error)
+  if (actsResult.error) console.error('[analytics] activities failed:', actsResult.error)
+
+  console.log(`[analytics] sr=${srResult.data?.length ?? 'null'} cr=${regResult.data?.length ?? 'null'} acts=${actsResult.data?.length ?? 'null'} dateFrom=${dateFrom} dateTo=${dateTo}`)
 
   const rawSr = (srResult.data ?? []) as Array<Record<string, unknown>>
   const rawCr = (regResult.data ?? []) as Array<Record<string, unknown>>
-  const { data: activities } = actsResult
+  const acts = (actsResult.data ?? []) as Array<{ id: string; title: string; tags: string[]; date: string }>
+  const actMap = new Map(acts.map(a => [a.id, a]))
 
+  // ── Fetch profiles separately (avoids cross-schema FK join issues) ────────
+  const allUserIds = new Set([
+    ...rawSr.map(r => r.user_id as string),
+    ...rawCr.map(r => r.user_id as string),
+  ])
+  const userIdList = [...allUserIds]
+
+  const { data: profilesList, error: profErr } = userIdList.length > 0
+    ? await admin.from('profiles').select('id, municipality, neighborhood, birth_date').in('id', userIdList)
+    : { data: [], error: null }
+
+  if (profErr) console.error('[analytics] profiles fetch failed:', profErr)
+
+  const profileMap = new Map<string, { municipality: string | null; neighborhood: string | null; birth_date: string | null }>(
+    (profilesList ?? []).map(p => [p.id, { municipality: p.municipality, neighborhood: p.neighborhood, birth_date: p.birth_date }])
+  )
+
+  // ── Municipality filter (JS-side after fetch) ─────────────────────────────
   const sr = municipalities.length > 0
     ? rawSr.filter(r => {
         const c = r.children as Record<string, unknown> | null
-        return c?.municipality != null && municipalities.includes(c.municipality as string)
+        const mun = (c?.municipality as string | null) ?? profileMap.get(r.user_id as string)?.municipality ?? null
+        return mun != null && municipalities.includes(mun)
       })
     : rawSr
 
   const cr = municipalities.length > 0
     ? rawCr.filter(r => {
-        const p = r.profiles as Record<string, unknown> | null
-        return p?.municipality != null && municipalities.includes(p.municipality as string)
+        const mun = profileMap.get(r.user_id as string)?.municipality ?? null
+        return mun != null && municipalities.includes(mun)
       })
     : rawCr
-  const acts = (activities ?? []) as Array<{ id: string; title: string; tags: string[]; date: string }>
-  const actMap = new Map(acts.map(a => [a.id, a]))
 
-  // ── Metrics ───────────────────────────────────────────────
-  const allUserIds = new Set([
+  // ── Metrics ───────────────────────────────────────────────────────────────
+  const participantIds = new Set([
     ...sr.map(r => r.user_id as string),
     ...cr.map(r => r.user_id as string),
   ])
-  const totalParticipants = allUserIds.size
+  const totalParticipants  = participantIds.size
   const totalRegistrations = sr.length + cr.length
-
-  const activityIds = new Set([
-    ...sr.map(r => r.activity_id as string),
-    ...cr.map(r => r.activity_id as string),
-  ])
-  const totalActivities = activityIds.size
+  const totalActivities    = acts.length   // total published activities
 
   const totalRevenueCents = sr.reduce((s, r) => s + ((r.total_price_cents as number) ?? 0), 0)
 
-  // Average age from children
-  const ages: number[] = sr
-    .map(r => (r.children as Record<string, unknown> | null)?.birth_date as string | null)
-    .filter(Boolean)
-    .map(bd => {
-      const diff = Date.now() - new Date(bd!).getTime()
-      return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25))
-    })
-    .filter(a => a >= 0 && a <= 25)
-
+  // Average age: children for session regs, profile birth_date for classic regs
+  const ages: number[] = []
+  for (const r of sr) {
+    const c = r.children as Record<string, unknown> | null
+    const bd = c?.birth_date as string | null
+    if (bd) {
+      const age = Math.floor((Date.now() - new Date(bd).getTime()) / (1000 * 60 * 60 * 24 * 365.25))
+      if (age >= 0 && age <= 25) ages.push(age)
+    }
+  }
+  for (const r of cr) {
+    const bd = profileMap.get(r.user_id as string)?.birth_date ?? null
+    if (bd) {
+      const age = Math.floor((Date.now() - new Date(bd).getTime()) / (1000 * 60 * 60 * 24 * 365.25))
+      if (age >= 0 && age <= 99) ages.push(age)
+    }
+  }
   const avgAge = ages.length > 0 ? Math.round(ages.reduce((a, b) => a + b, 0) / ages.length) : null
 
   // Top municipality
   const munCount: Record<string, number> = {}
   for (const r of sr) {
     const c = r.children as Record<string, unknown> | null
-    const mun = (c?.municipality as string) ?? (r.profiles as Record<string, unknown> | null)?.municipality as string ?? 'Onbekend'
+    const mun = (c?.municipality as string | null) ?? profileMap.get(r.user_id as string)?.municipality ?? 'Onbekend'
     munCount[mun] = (munCount[mun] ?? 0) + 1
   }
   for (const r of cr) {
-    const mun = (r.profiles as Record<string, unknown> | null)?.municipality as string ?? 'Onbekend'
+    const mun = profileMap.get(r.user_id as string)?.municipality ?? 'Onbekend'
     munCount[mun] = (munCount[mun] ?? 0) + 1
   }
   const topMunicipality = Object.entries(munCount).sort((a, b) => b[1] - a[1])[0]?.[0] ?? null
 
-  // ── Participants over time ────────────────────────────────
+  // ── Participants over time ─────────────────────────────────────────────────
   const currentYear = new Date(dateFrom).getFullYear()
   const lastYear = currentYear - 1
   const monthMap: Record<string, { thisYear: number; lastYear: number }> = {}
   for (let m = 1; m <= 12; m++) {
-    const key = String(m).padStart(2, '0')
-    monthMap[key] = { thisYear: 0, lastYear: 0 }
+    monthMap[String(m).padStart(2, '0')] = { thisYear: 0, lastYear: 0 }
   }
-
-  const allRegs = [
-    ...sr.map(r => ({ created_at: r.created_at as string, user_id: r.user_id as string })),
-    ...cr.map(r => ({ created_at: r.created_at as string, user_id: r.user_id as string })),
-  ]
-
-  for (const r of allRegs) {
-    const d = new Date(r.created_at)
+  for (const r of [...sr, ...cr]) {
+    const d = new Date(r.created_at as string)
     const month = String(d.getMonth() + 1).padStart(2, '0')
     if (d.getFullYear() === currentYear && monthMap[month]) monthMap[month].thisYear++
     if (d.getFullYear() === lastYear && monthMap[month]) monthMap[month].lastYear++
   }
-
   const MONTH_NAMES = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec']
   const participantsOverTime = Object.entries(monthMap).map(([key, val]) => ({
     month: MONTH_NAMES[parseInt(key, 10) - 1],
     ...val,
   }))
 
-  // ── By municipality ───────────────────────────────────────
-  const total = Object.values(munCount).reduce((a, b) => a + b, 0) || 1
+  // ── By municipality ───────────────────────────────────────────────────────
+  const munTotal = Object.values(munCount).reduce((a, b) => a + b, 0) || 1
   const byMunicipality = Object.entries(munCount)
     .sort((a, b) => b[1] - a[1])
-    .map(([municipality, count]) => ({ municipality, count, pct: Math.round((count / total) * 100) }))
+    .map(([municipality, count]) => ({ municipality, count, pct: Math.round((count / munTotal) * 100) }))
 
-  // ── By neighborhood ───────────────────────────────────────
+  // ── By neighborhood ───────────────────────────────────────────────────────
   const neighCount: Record<string, number> = {}
   for (const r of sr) {
     const c = r.children as Record<string, unknown> | null
-    const n = (c?.neighborhood as string) ?? (r.profiles as Record<string, unknown> | null)?.neighborhood as string
+    const n = (c?.neighborhood as string | null) ?? profileMap.get(r.user_id as string)?.neighborhood ?? null
+    if (n) neighCount[n] = (neighCount[n] ?? 0) + 1
+  }
+  for (const r of cr) {
+    const n = profileMap.get(r.user_id as string)?.neighborhood ?? null
     if (n) neighCount[n] = (neighCount[n] ?? 0) + 1
   }
   const byNeighborhood = Object.entries(neighCount)
@@ -156,15 +170,14 @@ export async function GET(request: NextRequest) {
     .slice(0, 10)
     .map(([neighborhood, count]) => ({ neighborhood, count }))
 
-  // ── By age group ─────────────────────────────────────────
+  // ── By age group ──────────────────────────────────────────────────────────
   const ageGroups = [
-    { label: '0–5', min: 0, max: 5 },
-    { label: '6–11', min: 6, max: 11 },
+    { label: '0–5',   min: 0,  max: 5  },
+    { label: '6–11',  min: 6,  max: 11 },
     { label: '12–15', min: 12, max: 15 },
     { label: '16–17', min: 16, max: 17 },
-    { label: '18+', min: 18, max: 99 },
+    { label: '18+',   min: 18, max: 99 },
   ]
-
   const byAge = ageGroups.map(grp => {
     const counts = { male: 0, female: 0, other: 0 }
     for (const r of sr) {
@@ -181,7 +194,7 @@ export async function GET(request: NextRequest) {
     return { group: grp.label, ...counts }
   })
 
-  // ── By tag ───────────────────────────────────────────────
+  // ── By tag ────────────────────────────────────────────────────────────────
   const tagCount: Record<string, number> = {}
   for (const r of [...sr, ...cr]) {
     const act = actMap.get(r.activity_id as string)
@@ -196,20 +209,22 @@ export async function GET(request: NextRequest) {
     tag, count, pct: Math.round((count / tagTotal) * 100),
   }))
   const overigCount = sortedTags.slice(5).reduce((s, [, c]) => s + c, 0)
-  const byTag = overigCount > 0 ? [...top5, { tag: 'Overig', count: overigCount, pct: Math.round((overigCount / tagTotal) * 100) }] : top5
+  const byTag = overigCount > 0
+    ? [...top5, { tag: 'Overig', count: overigCount, pct: Math.round((overigCount / tagTotal) * 100) }]
+    : top5
 
-  // ── Repeat vs new ─────────────────────────────────────────
+  // ── Repeat vs new ─────────────────────────────────────────────────────────
   const prevDateFrom = new Date(new Date(dateFrom).getTime() - (new Date(dateTo).getTime() - new Date(dateFrom).getTime())).toISOString()
   const { data: prevRegs } = await admin
     .from('registrations')
     .select('user_id')
-    .in('payment_status', ['paid'])
+    .neq('status', 'cancelled')
     .gte('created_at', prevDateFrom)
     .lt('created_at', dateFrom)
 
-  const prevUsers = new Set((prevRegs ?? []).map(r => r.user_id))
+  const prevUsers = new Set((prevRegs ?? []).map(r => r.user_id as string))
   let repeatCount = 0; let newCount = 0
-  for (const uid of allUserIds) {
+  for (const uid of participantIds) {
     if (prevUsers.has(uid)) repeatCount++
     else newCount++
   }
@@ -218,7 +233,7 @@ export async function GET(request: NextRequest) {
     { type: 'Terugkerend', count: repeatCount },
   ]
 
-  // ── Top schools ───────────────────────────────────────────
+  // ── Top schools ───────────────────────────────────────────────────────────
   const schoolCount: Record<string, number> = {}
   for (const r of sr) {
     const c = r.children as Record<string, unknown> | null
@@ -229,7 +244,7 @@ export async function GET(request: NextRequest) {
     .slice(0, 10)
     .map(([school, count]) => ({ school, count }))
 
-  // ── Revenue by month ─────────────────────────────────────
+  // ── Revenue by month ──────────────────────────────────────────────────────
   const revByMonth: Record<string, Record<string, number>> = {}
   for (let m = 1; m <= 12; m++) {
     revByMonth[String(m).padStart(2, '0')] = {}
