@@ -64,7 +64,7 @@ export default async function ActivityDetailPage({
     ])
 
     accountType = profileRes.data?.account_type ?? null
-    if (accountType !== 'youth') {
+    if (accountType !== 'deelnemer') {
       children = childrenRes.data ?? []
     }
     registration = regRes.data ?? undefined

@@ -213,7 +213,7 @@ export function SessionPicker({ activity, sessions, children, isLoggedIn, accoun
   // ── Niet ingelogd ──────────────────────────────────────────
   if (!isLoggedIn) return <NotLoggedIn sessions={sessions} />
 
-  const isYouth = accountType === 'youth'
+  const isYouth = accountType === 'deelnemer'
 
   return isYouth ? (
     <YouthPicker activity={activity} sessions={sessions} />

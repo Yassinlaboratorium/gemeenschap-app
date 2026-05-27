@@ -1,6 +1,6 @@
 export type RegistrationStatus = "pending" | "confirmed" | "cancelled";
 export type PaymentStatus = "pending" | "paid" | "failed" | "cancelled";
-export type AccountType = "parent" | "youth";
+export type AccountType = "parent" | "deelnemer" | "academy_parent";
 export type Gender = "male" | "female" | "other" | "prefer_not_to_say";
 
 export interface Profile {

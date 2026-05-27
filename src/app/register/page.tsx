@@ -4,12 +4,31 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Mail, Lock, User, Calendar, Phone, UserPlus, AlertCircle, MapPin, Users, Baby } from 'lucide-react'
+import { Mail, Lock, User, Calendar, Phone, UserPlus, AlertCircle, MapPin, Users, UserCheck, Trophy, ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { FormInput } from '@/components/ui/FormInput'
 import type { AccountType } from '@/types/database'
 
 const INPUT = 'w-full px-3 py-2 rounded-[30px] border border-[#D9D9D9] bg-[#F8F8F8] text-[#414141] placeholder:text-[#414141]/35 focus:outline-none focus:ring-2 focus:ring-[#9FB139]/30 focus:border-[#9FB139] text-sm transition-colors'
+
+const ACCOUNT_OPTS = [
+  {
+    value: 'parent' as AccountType,
+    icon: Users,
+    emoji: '👨‍👧‍👦',
+    label: 'Ouder / Voogd',
+    desc: 'Ik schrijf mijn kinderen in voor activiteiten',
+    color: '#1B9193',
+  },
+  {
+    value: 'deelnemer' as AccountType,
+    icon: UserCheck,
+    emoji: '🙋',
+    label: 'Deelnemer',
+    desc: 'Ik schrijf mezelf in voor activiteiten',
+    color: '#9FB139',
+  },
+]
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -74,7 +93,7 @@ export default function RegisterPage() {
         full_name: form.name.trim(),
         birth_date: form.birthDate || null,
         phone: form.phone.trim() || null,
-        account_type: form.accountType || 'youth',
+        account_type: form.accountType || 'deelnemer',
         postal_code: form.postalCode || null,
         municipality: form.municipality || null,
         neighborhood: form.neighborhood.trim() || null,
@@ -95,6 +114,23 @@ export default function RegisterPage() {
           <h1 className="text-2xl font-extrabold" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)', color: '#1B9193' }}>Account aanmaken</h1>
           <p className="text-[#414141]/50 mt-1 text-sm">Word lid en schrijf je in voor activiteiten</p>
         </div>
+
+        {/* Kids Academy banner */}
+        <Link
+          href="/academy/register"
+          className="flex items-center gap-4 bg-gradient-to-r from-[#1B9193]/10 to-[#9FB139]/10 border border-[#1B9193]/25 rounded-2xl px-5 py-4 mb-4 hover:border-[#1B9193]/50 transition-all group"
+        >
+          <div className="w-10 h-10 rounded-xl bg-[#1B9193]/15 flex items-center justify-center shrink-0">
+            <Trophy className="w-5 h-5 text-[#1B9193]" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-bold text-[#414141] text-sm" style={{ fontFamily: 'var(--font-poppins, Poppins, sans-serif)' }}>
+              ⚽ Kids Academy inschrijving?
+            </p>
+            <p className="text-xs text-[#414141]/50">Futsal voor de jeugd bij De Gemeenschap — apart formulier</p>
+          </div>
+          <ArrowRight className="w-4 h-4 text-[#1B9193]/60 group-hover:text-[#1B9193] transition-colors shrink-0" />
+        </Link>
 
         <div className="bg-white rounded-2xl border border-[#D9D9D9] p-8 space-y-5 shadow-sm">
           {error && (
@@ -119,21 +155,18 @@ export default function RegisterPage() {
                 Wat voor account? <span className="text-red-500">*</span>
               </label>
               <div className="grid grid-cols-2 gap-3">
-                {[
-                  { value: 'parent', icon: Users, label: 'Ik ben ouder', desc: 'Kinderen inschrijven' },
-                  { value: 'youth', icon: Baby, label: 'Ik ben jongere', desc: 'Mezelf inschrijven' },
-                ].map(opt => (
+                {ACCOUNT_OPTS.map(opt => (
                   <button
                     key={opt.value}
                     type="button"
-                    onClick={() => setForm(prev => ({ ...prev, accountType: opt.value as AccountType }))}
+                    onClick={() => setForm(prev => ({ ...prev, accountType: opt.value }))}
                     className={`flex flex-col items-center gap-2 px-4 py-4 rounded-2xl border text-center transition-all ${
                       form.accountType === opt.value
                         ? 'bg-[#9FB139]/8 border-[#9FB139] text-[#414141]'
                         : 'bg-[#F8F8F8] border-[#D9D9D9] text-[#414141]/50 hover:border-[#9FB139]/40'
                     }`}
                   >
-                    <opt.icon className={`w-5 h-5 ${form.accountType === opt.value ? 'text-[#9FB139]' : 'text-[#414141]/35'}`} />
+                    <span className="text-xl">{opt.emoji}</span>
                     <div>
                       <p className="text-xs font-bold">{opt.label}</p>
                       <p className="text-[10px] opacity-60">{opt.desc}</p>
@@ -155,7 +188,7 @@ export default function RegisterPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-[#414141]/55 mb-1">Gemeente</label>
-                  <input type="text" value={form.municipality} onChange={set('municipality')} placeholder="bv. Sint-Niklaas, Beveren, Temse..." className={INPUT} />
+                  <input type="text" value={form.municipality} onChange={set('municipality')} placeholder="bv. Sint-Niklaas, Beveren..." className={INPUT} />
                 </div>
               </div>
               <div>
