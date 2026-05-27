@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { CalendarDays, LayoutDashboard, LogIn, UserPlus } from 'lucide-react'
+import { CalendarDays, LayoutDashboard, LogIn, UserPlus, Trophy } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export async function Navbar() {
@@ -27,6 +27,13 @@ export async function Navbar() {
         >
           <CalendarDays className="w-4 h-4" />
           <span className="hidden sm:inline">Activiteiten</span>
+        </Link>
+        <Link
+          href="/academy"
+          className="flex items-center gap-1.5 text-sm text-[#414141]/70 hover:text-[#1B9193] px-3 py-2 rounded-lg hover:bg-[#1B9193]/5 transition-colors font-semibold"
+        >
+          <Trophy className="w-4 h-4" />
+          <span className="hidden sm:inline">Academy</span>
         </Link>
 
         {user ? (
