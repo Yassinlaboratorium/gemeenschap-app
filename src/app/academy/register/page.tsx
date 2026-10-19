@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -32,7 +32,7 @@ const STEPS = [
 const INPUT = 'w-full px-4 py-2.5 rounded-xl border border-[#D9D9D9] bg-[#F8F8F8] text-[#414141] placeholder:text-[#414141]/35 focus:outline-none focus:ring-2 focus:ring-[#1B9193]/30 focus:border-[#1B9193] text-sm transition-colors'
 const LABEL = 'block text-xs font-semibold text-[#414141]/60 mb-1'
 
-export default function AcademyRegisterPage() {
+function AcademyRegisterForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const preselectedTeam = searchParams.get('team')
@@ -480,5 +480,19 @@ export default function AcademyRegisterPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function AcademyRegisterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      }
+    >
+      <AcademyRegisterForm />
+    </Suspense>
   )
 }
