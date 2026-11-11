@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .claude/settings.local.json
+
+# supabase CLI lokale state (bevat project-ref en pooler-URL)
+supabase/.temp/
