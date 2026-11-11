@@ -92,13 +92,18 @@ export async function POST(request: NextRequest) {
   }
 
   // 6. Inschrijving aanmaken of heractiveren
+  // Via de admin client: gebruikers hebben zelf geen schrijfrechten op
+  // `registrations`. De server heeft hierboven gebruiker, activiteit en prijs
+  // al gecontroleerd.
+  const admin = createAdminClient()
   let registrationId: string
 
   if (existing) {
-    const { data: updated, error } = await supabase
+    const { data: updated, error } = await admin
       .from('registrations')
       .update({ status: 'pending', payment_status: 'pending', mollie_payment_id: null, paid_at: null })
       .eq('id', existing.id)
+      .eq('user_id', user.id)
       .select('id')
       .single()
     if (error || !updated) {
@@ -106,12 +111,15 @@ export async function POST(request: NextRequest) {
     }
     registrationId = updated.id
   } else {
-    const { data: inserted, error } = await supabase
+    const { data: inserted, error } = await admin
       .from('registrations')
       .insert({ activity_id: activityId, user_id: user.id, status: 'pending', payment_status: 'pending' })
       .select('id')
       .single()
     if (error || !inserted) {
+      if (error?.message.includes('volzet')) {
+        return NextResponse.json({ error: 'Deze activiteit is helaas vol.' }, { status: 409 })
+      }
       return NextResponse.json({ error: 'Inschrijving aanmaken mislukt.' }, { status: 500 })
     }
     registrationId = inserted.id
@@ -129,7 +137,7 @@ export async function POST(request: NextRequest) {
     })
   } catch (err) {
     // Rol de inschrijving terug als Mollie faalt
-    await supabase
+    await admin
       .from('registrations')
       .update({ status: 'cancelled', payment_status: 'failed' })
       .eq('id', registrationId)
@@ -137,8 +145,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Betaling aanmaken mislukt. Probeer opnieuw.' }, { status: 500 })
   }
 
-  // 8. Mollie payment ID opslaan — gebruik admin client want user RLS blokkeert UPDATE
-  const { error: saveIdError } = await createAdminClient()
+  // 8. Mollie payment ID opslaan
+  const { error: saveIdError } = await admin
     .from('registrations')
     .update({ mollie_payment_id: payment.id })
     .eq('id', registrationId)

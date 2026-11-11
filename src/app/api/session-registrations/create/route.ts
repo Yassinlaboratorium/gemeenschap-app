@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
   // Betaald — maak registraties aan (pending)
   const insertedIds: string[] = []
   for (const reg of enriched) {
-    const { data: inserted, error } = await supabase
+    const { data: inserted, error } = await adminClient
       .from('session_registrations')
       .insert({
         activity_id: activityId, user_id: user.id, child_id: reg.child_id,
@@ -219,7 +219,7 @@ async function handleYouth(
   }
 
   // Betaald
-  const { data: inserted, error } = await supabase
+  const { data: inserted, error } = await adminClient
     .from('session_registrations')
     .insert({
       activity_id: activityId, user_id: userId, child_id: null,
